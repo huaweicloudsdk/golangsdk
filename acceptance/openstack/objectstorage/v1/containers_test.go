@@ -6,11 +6,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/objectstorage/v1/containers"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/objectstorage/v1/containers"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 // numContainers is the number of containers to create for testing.
@@ -25,7 +25,7 @@ func TestContainers(t *testing.T) {
 	// Create a slice of random container names.
 	cNames := make([]string, numContainers)
 	for i := 0; i < numContainers; i++ {
-		cNames[i] = tools.RandomString("gophercloud-test-container-", 8)
+		cNames[i] = tools.RandomString("golangsdk-test-container-", 8)
 	}
 
 	// Create numContainers containers.
@@ -43,7 +43,7 @@ func TestContainers(t *testing.T) {
 
 	// List the numContainer names that were just created. To just list those,
 	// the 'prefix' parameter is used.
-	err = containers.List(client, &containers.ListOpts{Full: true, Prefix: "gophercloud-test-container-"}).EachPage(func(page pagination.Page) (bool, error) {
+	err = containers.List(client, &containers.ListOpts{Full: true, Prefix: "golangsdk-test-container-"}).EachPage(func(page pagination.Page) (bool, error) {
 		containerList, err := containers.ExtractInfo(page)
 		th.AssertNoErr(t, err)
 
@@ -57,7 +57,7 @@ func TestContainers(t *testing.T) {
 	th.AssertNoErr(t, err)
 
 	// List the info for the numContainer containers that were created.
-	err = containers.List(client, &containers.ListOpts{Full: false, Prefix: "gophercloud-test-container-"}).EachPage(func(page pagination.Page) (bool, error) {
+	err = containers.List(client, &containers.ListOpts{Full: false, Prefix: "golangsdk-test-container-"}).EachPage(func(page pagination.Page) (bool, error) {
 		containerList, err := containers.ExtractNames(page)
 		th.AssertNoErr(t, err)
 		for _, n := range containerList {
@@ -106,7 +106,7 @@ func TestListAllContainers(t *testing.T) {
 	// Create a slice of random container names.
 	cNames := make([]string, numContainers)
 	for i := 0; i < numContainers; i++ {
-		cNames[i] = tools.RandomString("gophercloud-test-container-", 8)
+		cNames[i] = tools.RandomString("golangsdk-test-container-", 8)
 	}
 
 	// Create numContainers containers.
@@ -124,7 +124,7 @@ func TestListAllContainers(t *testing.T) {
 
 	// List all the numContainer names that were just created. To just list those,
 	// the 'prefix' parameter is used.
-	allPages, err := containers.List(client, &containers.ListOpts{Full: true, Limit: 5, Prefix: "gophercloud-test-container-"}).AllPages()
+	allPages, err := containers.List(client, &containers.ListOpts{Full: true, Limit: 5, Prefix: "golangsdk-test-container-"}).AllPages()
 	th.AssertNoErr(t, err)
 	containerInfoList, err := containers.ExtractInfo(allPages)
 	th.AssertNoErr(t, err)
@@ -135,7 +135,7 @@ func TestListAllContainers(t *testing.T) {
 	th.AssertEquals(t, numContainers, len(containerInfoList))
 
 	// List the info for all the numContainer containers that were created.
-	allPages, err = containers.List(client, &containers.ListOpts{Full: false, Limit: 2, Prefix: "gophercloud-test-container-"}).AllPages()
+	allPages, err = containers.List(client, &containers.ListOpts{Full: false, Limit: 2, Prefix: "golangsdk-test-container-"}).AllPages()
 	th.AssertNoErr(t, err)
 	containerNamesList, err := containers.ExtractNames(allPages)
 	th.AssertNoErr(t, err)

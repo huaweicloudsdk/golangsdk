@@ -1,8 +1,8 @@
 package pools
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Pool represents a logical set of devices, such as web servers, that you
@@ -67,13 +67,13 @@ type PoolPage struct {
 // to do this, it needs to construct the next page's URL.
 func (r PoolPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"pools_links"`
+		Links []golangsdk.Link `json:"pools_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // IsEmpty checks whether a PoolPage struct is empty.
@@ -94,7 +94,7 @@ func ExtractPools(r pagination.Page) ([]Pool, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts a router.
@@ -127,7 +127,7 @@ type UpdateResult struct {
 // DeleteResult represents the result of a delete operation. Call its
 // ExtractErr method to interpret it as a Pool.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // AssociateResult represents the result of an association operation. Call its Extract

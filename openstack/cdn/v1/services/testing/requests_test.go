@@ -3,11 +3,11 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/cdn/v1/services"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/cdn/v1/services"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 func TestList(t *testing.T) {
@@ -82,7 +82,7 @@ func TestList(t *testing.T) {
 				FlavorID: "asia",
 				Status:   "deployed",
 				Errors:   []services.Error{},
-				Links: []gophercloud.Link{
+				Links: []golangsdk.Link{
 					{
 						Href: "https://www.poppycdn.io/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0",
 						Rel:  "self",
@@ -132,16 +132,16 @@ func TestList(t *testing.T) {
 				Restrictions: []services.Restriction{},
 				FlavorID:     "europe",
 				Status:       "deployed",
-				Links: []gophercloud.Link{
-					gophercloud.Link{
+				Links: []golangsdk.Link{
+					golangsdk.Link{
 						Href: "https://www.poppycdn.io/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f1",
 						Rel:  "self",
 					},
-					gophercloud.Link{
+					golangsdk.Link{
 						Href: "myothersite.com.poppycdn.net",
 						Rel:  "access_url",
 					},
-					gophercloud.Link{
+					golangsdk.Link{
 						Href: "https://www.poppycdn.io/v1.0/flavors/europe",
 						Rel:  "flavor",
 					},
@@ -271,7 +271,7 @@ func TestGet(t *testing.T) {
 		FlavorID: "cdn",
 		Status:   "deployed",
 		Errors:   []services.Error{},
-		Links: []gophercloud.Link{
+		Links: []golangsdk.Link{
 			{
 				Href: "https://global.cdn.api.rackspacecloud.com/v1.0/110011/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0",
 				Rel:  "self",

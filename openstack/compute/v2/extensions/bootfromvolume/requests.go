@@ -1,8 +1,8 @@
 package bootfromvolume
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/servers"
 )
 
 type (
@@ -85,7 +85,7 @@ func (opts CreateOptsExt) ToServerCreateMap() (map[string]interface{}, error) {
 	}
 
 	if len(opts.BlockDevice) == 0 {
-		err := gophercloud.ErrMissingInput{}
+		err := golangsdk.ErrMissingInput{}
 		err.Argument = "bootfromvolume.CreateOptsExt.BlockDevice"
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (opts CreateOptsExt) ToServerCreateMap() (map[string]interface{}, error) {
 	blockDevice := make([]map[string]interface{}, len(opts.BlockDevice))
 
 	for i, bd := range opts.BlockDevice {
-		b, err := gophercloud.BuildRequestBody(bd, "")
+		b, err := golangsdk.BuildRequestBody(bd, "")
 		if err != nil {
 			return nil, err
 		}
@@ -107,13 +107,13 @@ func (opts CreateOptsExt) ToServerCreateMap() (map[string]interface{}, error) {
 }
 
 // Create requests the creation of a server from the given block device mapping.
-func Create(client *gophercloud.ServiceClient, opts servers.CreateOptsBuilder) (r servers.CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts servers.CreateOptsBuilder) (r servers.CreateResult) {
 	b, err := opts.ToServerCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 202},
 	})
 	return

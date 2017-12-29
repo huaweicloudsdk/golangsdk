@@ -1,12 +1,12 @@
 package apiversions
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListVersions lists all the Neutron API versions available to end-users
-func ListVersions(c *gophercloud.ServiceClient) pagination.Pager {
+func ListVersions(c *golangsdk.ServiceClient) pagination.Pager {
 	return pagination.NewPager(c, apiVersionsURL(c), func(r pagination.PageResult) pagination.Page {
 		return APIVersionPage{pagination.SinglePageBase(r)}
 	})

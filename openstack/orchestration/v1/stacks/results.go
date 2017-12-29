@@ -4,19 +4,19 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // CreatedStack represents the object extracted from a Create operation.
 type CreatedStack struct {
 	ID    string             `json:"id"`
-	Links []gophercloud.Link `json:"links"`
+	Links []golangsdk.Link `json:"links"`
 }
 
 // CreateResult represents the result of a Create operation.
 type CreateResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a CreatedStack object and is called after a
@@ -51,7 +51,7 @@ type ListedStack struct {
 	CreationTime time.Time          `json:"-"`
 	Description  string             `json:"description"`
 	ID           string             `json:"id"`
-	Links        []gophercloud.Link `json:"links"`
+	Links        []golangsdk.Link `json:"links"`
 	Name         string             `json:"stack_name"`
 	Status       string             `json:"stack_status"`
 	StatusReason string             `json:"stack_status_reason"`
@@ -63,8 +63,8 @@ func (r *ListedStack) UnmarshalJSON(b []byte) error {
 	type tmp ListedStack
 	var s struct {
 		tmp
-		CreationTime gophercloud.JSONRFC3339NoZ `json:"creation_time"`
-		UpdatedTime  gophercloud.JSONRFC3339NoZ `json:"updated_time"`
+		CreationTime golangsdk.JSONRFC3339NoZ `json:"creation_time"`
+		UpdatedTime  golangsdk.JSONRFC3339NoZ `json:"updated_time"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -95,7 +95,7 @@ type RetrievedStack struct {
 	Description         string                   `json:"description"`
 	DisableRollback     bool                     `json:"disable_rollback"`
 	ID                  string                   `json:"id"`
-	Links               []gophercloud.Link       `json:"links"`
+	Links               []golangsdk.Link       `json:"links"`
 	NotificationTopics  []interface{}            `json:"notification_topics"`
 	Outputs             []map[string]interface{} `json:"outputs"`
 	Parameters          map[string]string        `json:"parameters"`
@@ -112,8 +112,8 @@ func (r *RetrievedStack) UnmarshalJSON(b []byte) error {
 	type tmp RetrievedStack
 	var s struct {
 		tmp
-		CreationTime gophercloud.JSONRFC3339NoZ `json:"creation_time"`
-		UpdatedTime  gophercloud.JSONRFC3339NoZ `json:"updated_time"`
+		CreationTime golangsdk.JSONRFC3339NoZ `json:"creation_time"`
+		UpdatedTime  golangsdk.JSONRFC3339NoZ `json:"updated_time"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -129,7 +129,7 @@ func (r *RetrievedStack) UnmarshalJSON(b []byte) error {
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a RetrievedStack object and is called after a
@@ -144,12 +144,12 @@ func (r GetResult) Extract() (*RetrievedStack, error) {
 
 // UpdateResult represents the result of a Update operation.
 type UpdateResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DeleteResult represents the result of a Delete operation.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // PreviewedStack represents the result of a Preview operation.
@@ -159,7 +159,7 @@ type PreviewedStack struct {
 	Description         string             `json:"description"`
 	DisableRollback     bool               `json:"disable_rollback"`
 	ID                  string             `json:"id"`
-	Links               []gophercloud.Link `json:"links"`
+	Links               []golangsdk.Link `json:"links"`
 	Name                string             `json:"stack_name"`
 	NotificationTopics  []interface{}      `json:"notification_topics"`
 	Parameters          map[string]string  `json:"parameters"`
@@ -173,8 +173,8 @@ func (r *PreviewedStack) UnmarshalJSON(b []byte) error {
 	type tmp PreviewedStack
 	var s struct {
 		tmp
-		CreationTime gophercloud.JSONRFC3339NoZ `json:"creation_time"`
-		UpdatedTime  gophercloud.JSONRFC3339NoZ `json:"updated_time"`
+		CreationTime golangsdk.JSONRFC3339NoZ `json:"creation_time"`
+		UpdatedTime  golangsdk.JSONRFC3339NoZ `json:"updated_time"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -190,7 +190,7 @@ func (r *PreviewedStack) UnmarshalJSON(b []byte) error {
 
 // PreviewResult represents the result of a Preview operation.
 type PreviewResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a PreviewedStack object and is called after a
@@ -219,7 +219,7 @@ type AbandonedStack struct {
 
 // AbandonResult represents the result of an Abandon operation.
 type AbandonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to an AbandonedStack object and is called after an

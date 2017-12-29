@@ -5,12 +5,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/listeners"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/loadbalancers"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/monitors"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas_v2/pools"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas_v2/listeners"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas_v2/loadbalancers"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas_v2/monitors"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas_v2/pools"
 )
 
 const loadbalancerActiveTimeoutSeconds = 300
@@ -19,7 +19,7 @@ const loadbalancerDeleteTimeoutSeconds = 300
 // CreateListener will create a listener for a given load balancer on a random
 // port with a random name. An error will be returned if the listener could not
 // be created.
-func CreateListener(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalancers.LoadBalancer) (*listeners.Listener, error) {
+func CreateListener(t *testing.T, client *golangsdk.ServiceClient, lb *loadbalancers.LoadBalancer) (*listeners.Listener, error) {
 	listenerName := tools.RandomString("TESTACCT-", 8)
 	listenerPort := tools.RandomInt(1, 100)
 
@@ -48,7 +48,7 @@ func CreateListener(t *testing.T, client *gophercloud.ServiceClient, lb *loadbal
 
 // CreateLoadBalancer will create a load balancer with a random name on a given
 // subnet. An error will be returned if the loadbalancer could not be created.
-func CreateLoadBalancer(t *testing.T, client *gophercloud.ServiceClient, subnetID string) (*loadbalancers.LoadBalancer, error) {
+func CreateLoadBalancer(t *testing.T, client *golangsdk.ServiceClient, subnetID string) (*loadbalancers.LoadBalancer, error) {
 	lbName := tools.RandomString("TESTACCT-", 8)
 
 	t.Logf("Attempting to create loadbalancer %s on subnet %s", lbName, subnetID)
@@ -56,7 +56,7 @@ func CreateLoadBalancer(t *testing.T, client *gophercloud.ServiceClient, subnetI
 	createOpts := loadbalancers.CreateOpts{
 		Name:         lbName,
 		VipSubnetID:  subnetID,
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 	}
 
 	lb, err := loadbalancers.Create(client, createOpts).Extract()
@@ -78,7 +78,7 @@ func CreateLoadBalancer(t *testing.T, client *gophercloud.ServiceClient, subnetI
 
 // CreateMember will create a member with a random name, port, address, and
 // weight. An error will be returned if the member could not be created.
-func CreateMember(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalancers.LoadBalancer, pool *pools.Pool, subnetID, subnetCIDR string) (*pools.Member, error) {
+func CreateMember(t *testing.T, client *golangsdk.ServiceClient, lb *loadbalancers.LoadBalancer, pool *pools.Pool, subnetID, subnetCIDR string) (*pools.Member, error) {
 	memberName := tools.RandomString("TESTACCT-", 8)
 	memberPort := tools.RandomInt(100, 1000)
 	memberWeight := tools.RandomInt(1, 10)
@@ -115,7 +115,7 @@ func CreateMember(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalan
 
 // CreateMonitor will create a monitor with a random name for a specific pool.
 // An error will be returned if the monitor could not be created.
-func CreateMonitor(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalancers.LoadBalancer, pool *pools.Pool) (*monitors.Monitor, error) {
+func CreateMonitor(t *testing.T, client *golangsdk.ServiceClient, lb *loadbalancers.LoadBalancer, pool *pools.Pool) (*monitors.Monitor, error) {
 	monitorName := tools.RandomString("TESTACCT-", 8)
 
 	t.Logf("Attempting to create monitor %s", monitorName)
@@ -146,7 +146,7 @@ func CreateMonitor(t *testing.T, client *gophercloud.ServiceClient, lb *loadbala
 // CreatePool will create a pool with a random name with a specified listener
 // and loadbalancer. An error will be returned if the pool could not be
 // created.
-func CreatePool(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalancers.LoadBalancer) (*pools.Pool, error) {
+func CreatePool(t *testing.T, client *golangsdk.ServiceClient, lb *loadbalancers.LoadBalancer) (*pools.Pool, error) {
 	poolName := tools.RandomString("TESTACCT-", 8)
 
 	t.Logf("Attempting to create pool %s", poolName)
@@ -175,7 +175,7 @@ func CreatePool(t *testing.T, client *gophercloud.ServiceClient, lb *loadbalance
 // DeleteListener will delete a specified listener. A fatal error will occur if
 // the listener could not be deleted. This works best when used as a deferred
 // function.
-func DeleteListener(t *testing.T, client *gophercloud.ServiceClient, lbID, listenerID string) {
+func DeleteListener(t *testing.T, client *golangsdk.ServiceClient, lbID, listenerID string) {
 	t.Logf("Attempting to delete listener %s", listenerID)
 
 	if err := listeners.Delete(client, listenerID).ExtractErr(); err != nil {
@@ -192,7 +192,7 @@ func DeleteListener(t *testing.T, client *gophercloud.ServiceClient, lbID, liste
 // DeleteMember will delete a specified member. A fatal error will occur if the
 // member could not be deleted. This works best when used as a deferred
 // function.
-func DeleteMember(t *testing.T, client *gophercloud.ServiceClient, lbID, poolID, memberID string) {
+func DeleteMember(t *testing.T, client *golangsdk.ServiceClient, lbID, poolID, memberID string) {
 	t.Logf("Attempting to delete member %s", memberID)
 
 	if err := pools.DeleteMember(client, poolID, memberID).ExtractErr(); err != nil {
@@ -209,7 +209,7 @@ func DeleteMember(t *testing.T, client *gophercloud.ServiceClient, lbID, poolID,
 // DeleteLoadBalancer will delete a specified loadbalancer. A fatal error will
 // occur if the loadbalancer could not be deleted. This works best when used
 // as a deferred function.
-func DeleteLoadBalancer(t *testing.T, client *gophercloud.ServiceClient, lbID string) {
+func DeleteLoadBalancer(t *testing.T, client *golangsdk.ServiceClient, lbID string) {
 	t.Logf("Attempting to delete loadbalancer %s", lbID)
 
 	if err := loadbalancers.Delete(client, lbID).ExtractErr(); err != nil {
@@ -228,7 +228,7 @@ func DeleteLoadBalancer(t *testing.T, client *gophercloud.ServiceClient, lbID st
 // DeleteMonitor will delete a specified monitor. A fatal error will occur if
 // the monitor could not be deleted. This works best when used as a deferred
 // function.
-func DeleteMonitor(t *testing.T, client *gophercloud.ServiceClient, lbID, monitorID string) {
+func DeleteMonitor(t *testing.T, client *golangsdk.ServiceClient, lbID, monitorID string) {
 	t.Logf("Attempting to delete monitor %s", monitorID)
 
 	if err := monitors.Delete(client, monitorID).ExtractErr(); err != nil {
@@ -244,7 +244,7 @@ func DeleteMonitor(t *testing.T, client *gophercloud.ServiceClient, lbID, monito
 
 // DeletePool will delete a specified pool. A fatal error will occur if the
 // pool could not be deleted. This works best when used as a deferred function.
-func DeletePool(t *testing.T, client *gophercloud.ServiceClient, lbID, poolID string) {
+func DeletePool(t *testing.T, client *golangsdk.ServiceClient, lbID, poolID string) {
 	t.Logf("Attempting to delete pool %s", poolID)
 
 	if err := pools.Delete(client, poolID).ExtractErr(); err != nil {
@@ -259,11 +259,11 @@ func DeletePool(t *testing.T, client *gophercloud.ServiceClient, lbID, poolID st
 }
 
 // WaitForLoadBalancerState will wait until a loadbalancer reaches a given state.
-func WaitForLoadBalancerState(client *gophercloud.ServiceClient, lbID, status string, secs int) error {
-	return gophercloud.WaitFor(secs, func() (bool, error) {
+func WaitForLoadBalancerState(client *golangsdk.ServiceClient, lbID, status string, secs int) error {
+	return golangsdk.WaitFor(secs, func() (bool, error) {
 		current, err := loadbalancers.Get(client, lbID).Extract()
 		if err != nil {
-			if httpStatus, ok := err.(gophercloud.ErrDefault404); ok {
+			if httpStatus, ok := err.(golangsdk.ErrDefault404); ok {
 				if httpStatus.Actual == 404 {
 					if status == "DELETED" {
 						return true, nil

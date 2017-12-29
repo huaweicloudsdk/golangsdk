@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/members"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/monitors"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/pools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/vips"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/members"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/monitors"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/pools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/vips"
 )
 
 // CreateMember will create a load balancer member in a specified pool on a
 // random port. An error will be returned if the member could not be created.
-func CreateMember(t *testing.T, client *gophercloud.ServiceClient, poolID string) (*members.Member, error) {
+func CreateMember(t *testing.T, client *golangsdk.ServiceClient, poolID string) (*members.Member, error) {
 	protocolPort := tools.RandomInt(100, 1000)
 	address := tools.RandomInt(2, 200)
 	t.Logf("Attempting to create member in port %d", protocolPort)
@@ -37,7 +37,7 @@ func CreateMember(t *testing.T, client *gophercloud.ServiceClient, poolID string
 
 // CreateMonitor will create a monitor with a random name for a specific pool.
 // An error will be returned if the monitor could not be created.
-func CreateMonitor(t *testing.T, client *gophercloud.ServiceClient) (*monitors.Monitor, error) {
+func CreateMonitor(t *testing.T, client *golangsdk.ServiceClient) (*monitors.Monitor, error) {
 	t.Logf("Attempting to create monitor.")
 
 	createOpts := monitors.CreateOpts{
@@ -45,7 +45,7 @@ func CreateMonitor(t *testing.T, client *gophercloud.ServiceClient) (*monitors.M
 		Delay:        90,
 		Timeout:      60,
 		MaxRetries:   10,
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 	}
 
 	monitor, err := monitors.Create(client, createOpts).Extract()
@@ -60,7 +60,7 @@ func CreateMonitor(t *testing.T, client *gophercloud.ServiceClient) (*monitors.M
 
 // CreatePool will create a pool with a random name. An error will be returned
 // if the pool could not be deleted.
-func CreatePool(t *testing.T, client *gophercloud.ServiceClient, subnetID string) (*pools.Pool, error) {
+func CreatePool(t *testing.T, client *golangsdk.ServiceClient, subnetID string) (*pools.Pool, error) {
 	poolName := tools.RandomString("TESTACCT-", 8)
 
 	t.Logf("Attempting to create pool %s", poolName)
@@ -85,7 +85,7 @@ func CreatePool(t *testing.T, client *gophercloud.ServiceClient, subnetID string
 // CreateVIP will create a vip with a random name and a random port in a
 // specified subnet and pool. An error will be returned if the vip could
 // not be created.
-func CreateVIP(t *testing.T, client *gophercloud.ServiceClient, subnetID, poolID string) (*vips.VirtualIP, error) {
+func CreateVIP(t *testing.T, client *golangsdk.ServiceClient, subnetID, poolID string) (*vips.VirtualIP, error) {
 	vipName := tools.RandomString("TESTACCT-", 8)
 	vipPort := tools.RandomInt(100, 10000)
 
@@ -112,7 +112,7 @@ func CreateVIP(t *testing.T, client *gophercloud.ServiceClient, subnetID, poolID
 // DeleteMember will delete a specified member. A fatal error will occur if
 // the member could not be deleted. This works best when used as a deferred
 // function.
-func DeleteMember(t *testing.T, client *gophercloud.ServiceClient, memberID string) {
+func DeleteMember(t *testing.T, client *golangsdk.ServiceClient, memberID string) {
 	t.Logf("Attempting to delete member %s", memberID)
 
 	if err := members.Delete(client, memberID).ExtractErr(); err != nil {
@@ -125,7 +125,7 @@ func DeleteMember(t *testing.T, client *gophercloud.ServiceClient, memberID stri
 // DeleteMonitor will delete a specified monitor. A fatal error will occur if
 // the monitor could not be deleted. This works best when used as a deferred
 // function.
-func DeleteMonitor(t *testing.T, client *gophercloud.ServiceClient, monitorID string) {
+func DeleteMonitor(t *testing.T, client *golangsdk.ServiceClient, monitorID string) {
 	t.Logf("Attempting to delete monitor %s", monitorID)
 
 	if err := monitors.Delete(client, monitorID).ExtractErr(); err != nil {
@@ -137,7 +137,7 @@ func DeleteMonitor(t *testing.T, client *gophercloud.ServiceClient, monitorID st
 
 // DeletePool will delete a specified pool. A fatal error will occur if the
 // pool could not be deleted. This works best when used as a deferred function.
-func DeletePool(t *testing.T, client *gophercloud.ServiceClient, poolID string) {
+func DeletePool(t *testing.T, client *golangsdk.ServiceClient, poolID string) {
 	t.Logf("Attempting to delete pool %s", poolID)
 
 	if err := pools.Delete(client, poolID).ExtractErr(); err != nil {
@@ -149,7 +149,7 @@ func DeletePool(t *testing.T, client *gophercloud.ServiceClient, poolID string) 
 
 // DeleteVIP will delete a specified vip. A fatal error will occur if the vip
 // could not be deleted. This works best when used as a deferred function.
-func DeleteVIP(t *testing.T, client *gophercloud.ServiceClient, vipID string) {
+func DeleteVIP(t *testing.T, client *golangsdk.ServiceClient, vipID string) {
 	t.Logf("Attempting to delete vip %s", vipID)
 
 	if err := vips.Delete(client, vipID).ExtractErr(); err != nil {

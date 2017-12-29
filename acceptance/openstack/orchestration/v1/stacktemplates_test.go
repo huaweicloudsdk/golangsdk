@@ -5,10 +5,10 @@ package v1
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stacks"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stacktemplates"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/stacks"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/stacktemplates"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestStackTemplates(t *testing.T) {
@@ -31,7 +31,7 @@ func TestStackTemplates(t *testing.T) {
 		th.AssertNoErr(t, err)
 		t.Logf("Deleted stack (%s)", stackName)
 	}()
-	err = gophercloud.WaitFor(60, func() (bool, error) {
+	err = golangsdk.WaitFor(60, func() (bool, error) {
 		getStack, err := stacks.Get(client, stackName, stack.ID).Extract()
 		if err != nil {
 			return false, err

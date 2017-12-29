@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	fake "github.com/gophercloud/gophercloud/openstack/networking/v2/common"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/members"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	fake "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/common"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/members"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestList(t *testing.T) {
@@ -217,7 +217,7 @@ func TestUpdate(t *testing.T) {
     `)
 	})
 
-	options := members.UpdateOpts{AdminStateUp: gophercloud.Disabled}
+	options := members.UpdateOpts{AdminStateUp: golangsdk.Disabled}
 
 	_, err := members.Update(fake.ServiceClient(), "332abe93-f488-41ba-870b-2ac66be7f853", options).Extract()
 	th.AssertNoErr(t, err)

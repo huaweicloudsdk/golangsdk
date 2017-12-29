@@ -5,11 +5,11 @@ package lbaas
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	networking "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/members"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	networking "github.com/huaweicloudsdk/golangsdk/acceptance/openstack/networking/v2"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/members"
 )
 
 func TestMembersList(t *testing.T) {
@@ -66,7 +66,7 @@ func TestMembersCRUD(t *testing.T) {
 	tools.PrintResource(t, member)
 
 	updateOpts := members.UpdateOpts{
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 	}
 
 	_, err = members.Update(client, member.ID, updateOpts).Extract()

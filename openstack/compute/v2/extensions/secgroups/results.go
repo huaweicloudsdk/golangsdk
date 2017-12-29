@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // SecurityGroup represents a security group.
@@ -144,7 +144,7 @@ func ExtractSecurityGroups(r pagination.Page) ([]SecurityGroup, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // CreateResult represents the result of a create operation. Call its Extract
@@ -177,7 +177,7 @@ func (r commonResult) Extract() (*SecurityGroup, error) {
 // CreateRuleResult represents the result when adding rules to a security group.
 // Call its Extract method to interpret the result as a Rule.
 type CreateRuleResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will extract a Rule struct from a CreateRuleResult.
@@ -192,23 +192,23 @@ func (r CreateRuleResult) Extract() (*Rule, error) {
 // DeleteResult is the response from delete operation. Call its ExtractErr
 // method to determine if the request succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DeleteRuleResult is the response from a DeleteRule operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type DeleteRuleResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // AddServerResult is the response from an AddServer operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type AddServerResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // RemoveServerResult is the response from a RemoveServer operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type RemoveServerResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

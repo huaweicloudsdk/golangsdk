@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/volumeactions"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/extensions/volumeactions"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 func TestAttach(t *testing.T) {
@@ -115,7 +115,7 @@ func TestInitializeConnection(t *testing.T) {
 		IP:        "127.0.0.1",
 		Host:      "stack",
 		Initiator: "iqn.1994-05.com.redhat:17cf566367d2",
-		Multipath: gophercloud.Disabled,
+		Multipath: golangsdk.Disabled,
 		Platform:  "x86_64",
 		OSType:    "linux2",
 	}
@@ -133,7 +133,7 @@ func TestTerminateConnection(t *testing.T) {
 		IP:        "127.0.0.1",
 		Host:      "stack",
 		Initiator: "iqn.1994-05.com.redhat:17cf566367d2",
-		Multipath: gophercloud.Enabled,
+		Multipath: golangsdk.Enabled,
 		Platform:  "x86_64",
 		OSType:    "linux2",
 	}

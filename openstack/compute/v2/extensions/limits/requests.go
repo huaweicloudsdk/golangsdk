@@ -1,7 +1,7 @@
 package limits
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // GetOptsBuilder allows extensions to add additional parameters to the
@@ -18,12 +18,12 @@ type GetOpts struct {
 
 // ToLimitsQuery formats a GetOpts into a query string.
 func (opts GetOpts) ToLimitsQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // Get returns the limits about the currently scoped tenant.
-func Get(client *gophercloud.ServiceClient, opts GetOptsBuilder) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, opts GetOptsBuilder) (r GetResult) {
 	url := getURL(client)
 	if opts != nil {
 		query, err := opts.ToLimitsQuery()

@@ -1,7 +1,7 @@
 package evacuate
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // EvacuateOptsBuilder allows extensions to add additional parameters to the
@@ -24,17 +24,17 @@ type EvacuateOpts struct {
 
 // ToServerGroupCreateMap constructs a request body from CreateOpts.
 func (opts EvacuateOpts) ToEvacuateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "evacuate")
+	return golangsdk.BuildRequestBody(opts, "evacuate")
 }
 
 // Evacuate will Evacuate a failed instance to another host.
-func Evacuate(client *gophercloud.ServiceClient, id string, opts EvacuateOptsBuilder) (r EvacuateResult) {
+func Evacuate(client *golangsdk.ServiceClient, id string, opts EvacuateOptsBuilder) (r EvacuateResult) {
 	b, err := opts.ToEvacuateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return

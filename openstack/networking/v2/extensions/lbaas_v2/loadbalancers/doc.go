@@ -26,7 +26,7 @@ Example to Create a Load Balancer
 
 	createOpts := loadbalancers.CreateOpts{
 		Name:         "db_lb",
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 		VipSubnetID:  "9cedb85d-0759-4898-8a4b-fa5a5ea10086",
 		VipAddress:   "10.30.176.48",
 		Flavor:       "medium",

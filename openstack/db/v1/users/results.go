@@ -1,9 +1,9 @@
 package users
 
 import (
-	"github.com/gophercloud/gophercloud"
-	db "github.com/gophercloud/gophercloud/openstack/db/v1/databases"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	db "github.com/huaweicloudsdk/golangsdk/openstack/db/v1/databases"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // User represents a database user
@@ -20,12 +20,12 @@ type User struct {
 
 // CreateResult represents the result of a create operation.
 type CreateResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DeleteResult represents the result of a delete operation.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // UserPage represents a single page of a paginated user collection.
@@ -42,13 +42,13 @@ func (page UserPage) IsEmpty() (bool, error) {
 // NextPageURL will retrieve the next page URL.
 func (page UserPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"users_links"`
+		Links []golangsdk.Link `json:"users_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractUsers will convert a generic pagination struct into a more

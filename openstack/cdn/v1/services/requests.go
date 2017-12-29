@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -23,14 +23,14 @@ type ListOpts struct {
 
 // ToCDNServiceListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToCDNServiceListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List returns a Pager which allows you to iterate over a collection of
 // CDN services. It accepts a ListOpts struct, which allows for pagination via
 // marker and limit.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
 	if opts != nil {
 		query, err := opts.ToCDNServiceListQuery()
@@ -77,12 +77,12 @@ type CreateOpts struct {
 
 // ToCDNServiceCreateMap casts a CreateOpts struct to a map.
 func (opts CreateOpts) ToCDNServiceCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "")
+	return golangsdk.BuildRequestBody(opts, "")
 }
 
 // Create accepts a CreateOpts struct and creates a new CDN service using the
 // values provided.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToCDNServiceCreateMap()
 	if err != nil {
 		r.Err = err
@@ -98,7 +98,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 // example, both "96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0" and
 // "https://global.cdn.api.rackspacecloud.com/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0"
 // are valid options for idOrURL.
-func Get(c *gophercloud.ServiceClient, idOrURL string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, idOrURL string) (r GetResult) {
 	var url string
 	if strings.Contains(idOrURL, "/") {
 		url = idOrURL
@@ -247,7 +247,7 @@ type UpdateOpts []Patch
 // URL or its ID. For example, both "96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0" and
 // "https://global.cdn.api.rackspacecloud.com/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0"
 // are valid options for idOrURL.
-func Update(c *gophercloud.ServiceClient, idOrURL string, opts UpdateOpts) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, idOrURL string, opts UpdateOpts) (r UpdateResult) {
 	var url string
 	if strings.Contains(idOrURL, "/") {
 		url = idOrURL
@@ -260,7 +260,7 @@ func Update(c *gophercloud.ServiceClient, idOrURL string, opts UpdateOpts) (r Up
 		b[i] = patch.ToCDNServiceUpdateMap()
 	}
 
-	resp, err := c.Request("PATCH", url, &gophercloud.RequestOpts{
+	resp, err := c.Request("PATCH", url, &golangsdk.RequestOpts{
 		JSONBody: &b,
 		OkCodes:  []int{202},
 	})
@@ -273,7 +273,7 @@ func Update(c *gophercloud.ServiceClient, idOrURL string, opts UpdateOpts) (r Up
 // associated with it. For example, both "96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0" and
 // "https://global.cdn.api.rackspacecloud.com/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0"
 // are valid options for idOrURL.
-func Delete(c *gophercloud.ServiceClient, idOrURL string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, idOrURL string) (r DeleteResult) {
 	var url string
 	if strings.Contains(idOrURL, "/") {
 		url = idOrURL

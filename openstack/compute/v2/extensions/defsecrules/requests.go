@@ -3,12 +3,12 @@ package defsecrules
 import (
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // List will return a collection of default rules.
-func List(client *gophercloud.ServiceClient) pagination.Pager {
+func List(client *golangsdk.ServiceClient) pagination.Pager {
 	return pagination.NewPager(client, rootURL(client), func(r pagination.PageResult) pagination.Page {
 		return DefaultRulePage{pagination.SinglePageBase(r)}
 	})
@@ -41,35 +41,35 @@ type CreateOptsBuilder interface {
 // ToRuleCreateMap builds the create rule options into a serializable format.
 func (opts CreateOpts) ToRuleCreateMap() (map[string]interface{}, error) {
 	if opts.FromPort == 0 && strings.ToUpper(opts.IPProtocol) != "ICMP" {
-		return nil, gophercloud.ErrMissingInput{Argument: "FromPort"}
+		return nil, golangsdk.ErrMissingInput{Argument: "FromPort"}
 	}
 	if opts.ToPort == 0 && strings.ToUpper(opts.IPProtocol) != "ICMP" {
-		return nil, gophercloud.ErrMissingInput{Argument: "ToPort"}
+		return nil, golangsdk.ErrMissingInput{Argument: "ToPort"}
 	}
-	return gophercloud.BuildRequestBody(opts, "security_group_default_rule")
+	return golangsdk.BuildRequestBody(opts, "security_group_default_rule")
 }
 
 // Create is the operation responsible for creating a new default rule.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToRuleCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(rootURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(rootURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Get will return details for a particular default rule.
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(resourceURL(client, id), &r.Body, nil)
 	return
 }
 
 // Delete will permanently delete a rule the project's default security group.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(resourceURL(client, id), nil)
 	return
 }

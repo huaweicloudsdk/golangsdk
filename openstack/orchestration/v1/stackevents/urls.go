@@ -1,19 +1,19 @@
 package stackevents
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func findURL(c *gophercloud.ServiceClient, stackName string) string {
+func findURL(c *golangsdk.ServiceClient, stackName string) string {
 	return c.ServiceURL("stacks", stackName, "events")
 }
 
-func listURL(c *gophercloud.ServiceClient, stackName, stackID string) string {
+func listURL(c *golangsdk.ServiceClient, stackName, stackID string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "events")
 }
 
-func listResourceEventsURL(c *gophercloud.ServiceClient, stackName, stackID, resourceName string) string {
+func listResourceEventsURL(c *golangsdk.ServiceClient, stackName, stackID, resourceName string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "resources", resourceName, "events")
 }
 
-func getURL(c *gophercloud.ServiceClient, stackName, stackID, resourceName, eventID string) string {
+func getURL(c *golangsdk.ServiceClient, stackName, stackID, resourceName, eventID string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "resources", resourceName, "events", eventID)
 }

@@ -1,31 +1,31 @@
 package members
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func imageMembersURL(c *gophercloud.ServiceClient, imageID string) string {
+func imageMembersURL(c *golangsdk.ServiceClient, imageID string) string {
 	return c.ServiceURL("images", imageID, "members")
 }
 
-func listMembersURL(c *gophercloud.ServiceClient, imageID string) string {
+func listMembersURL(c *golangsdk.ServiceClient, imageID string) string {
 	return imageMembersURL(c, imageID)
 }
 
-func createMemberURL(c *gophercloud.ServiceClient, imageID string) string {
+func createMemberURL(c *golangsdk.ServiceClient, imageID string) string {
 	return imageMembersURL(c, imageID)
 }
 
-func imageMemberURL(c *gophercloud.ServiceClient, imageID string, memberID string) string {
+func imageMemberURL(c *golangsdk.ServiceClient, imageID string, memberID string) string {
 	return c.ServiceURL("images", imageID, "members", memberID)
 }
 
-func getMemberURL(c *gophercloud.ServiceClient, imageID string, memberID string) string {
+func getMemberURL(c *golangsdk.ServiceClient, imageID string, memberID string) string {
 	return imageMemberURL(c, imageID, memberID)
 }
 
-func updateMemberURL(c *gophercloud.ServiceClient, imageID string, memberID string) string {
+func updateMemberURL(c *golangsdk.ServiceClient, imageID string, memberID string) string {
 	return imageMemberURL(c, imageID, memberID)
 }
 
-func deleteMemberURL(c *gophercloud.ServiceClient, imageID string, memberID string) string {
+func deleteMemberURL(c *golangsdk.ServiceClient, imageID string, memberID string) string {
 	return imageMemberURL(c, imageID, memberID)
 }

@@ -3,8 +3,8 @@ package members
 import (
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Member represents a member of an Image.
@@ -46,7 +46,7 @@ func (r MemberPage) IsEmpty() (bool, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // CreateResult represents the result of a Create operation. Call its Extract
@@ -70,5 +70,5 @@ type UpdateResult struct {
 // DeleteResult represents the result of a Delete operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

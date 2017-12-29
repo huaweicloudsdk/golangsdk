@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	fake "github.com/gophercloud/gophercloud/openstack/networking/v2/common"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/monitors"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	fake "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/common"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/monitors"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestList(t *testing.T) {
@@ -289,7 +289,7 @@ func TestUpdate(t *testing.T) {
 		MaxRetries:    10,
 		URLPath:       "/another_check",
 		ExpectedCodes: "301",
-		AdminStateUp:  gophercloud.Enabled,
+		AdminStateUp:  golangsdk.Enabled,
 	}).Extract()
 
 	th.AssertNoErr(t, err)

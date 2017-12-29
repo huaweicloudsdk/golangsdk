@@ -1,7 +1,7 @@
 package volumeactions
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // AttachOptsBuilder allows extensions to add additional parameters to the
@@ -37,26 +37,26 @@ type AttachOpts struct {
 // ToVolumeAttachMap assembles a request body based on the contents of a
 // AttachOpts.
 func (opts AttachOpts) ToVolumeAttachMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "os-attach")
+	return golangsdk.BuildRequestBody(opts, "os-attach")
 }
 
 // Attach will attach a volume based on the values in AttachOpts.
-func Attach(client *gophercloud.ServiceClient, id string, opts AttachOptsBuilder) (r AttachResult) {
+func Attach(client *golangsdk.ServiceClient, id string, opts AttachOptsBuilder) (r AttachResult) {
 	b, err := opts.ToVolumeAttachMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
 }
 
 // BeginDetach will mark the volume as detaching.
-func BeginDetaching(client *gophercloud.ServiceClient, id string) (r BeginDetachingResult) {
+func BeginDetaching(client *golangsdk.ServiceClient, id string) (r BeginDetachingResult) {
 	b := map[string]interface{}{"os-begin_detaching": make(map[string]interface{})}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
@@ -77,35 +77,35 @@ type DetachOpts struct {
 // ToVolumeDetachMap assembles a request body based on the contents of a
 // DetachOpts.
 func (opts DetachOpts) ToVolumeDetachMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "os-detach")
+	return golangsdk.BuildRequestBody(opts, "os-detach")
 }
 
 // Detach will detach a volume based on volume ID.
-func Detach(client *gophercloud.ServiceClient, id string, opts DetachOptsBuilder) (r DetachResult) {
+func Detach(client *golangsdk.ServiceClient, id string, opts DetachOptsBuilder) (r DetachResult) {
 	b, err := opts.ToVolumeDetachMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
 }
 
 // Reserve will reserve a volume based on volume ID.
-func Reserve(client *gophercloud.ServiceClient, id string) (r ReserveResult) {
+func Reserve(client *golangsdk.ServiceClient, id string) (r ReserveResult) {
 	b := map[string]interface{}{"os-reserve": make(map[string]interface{})}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201, 202},
 	})
 	return
 }
 
 // Unreserve will unreserve a volume based on volume ID.
-func Unreserve(client *gophercloud.ServiceClient, id string) (r UnreserveResult) {
+func Unreserve(client *golangsdk.ServiceClient, id string) (r UnreserveResult) {
 	b := map[string]interface{}{"os-unreserve": make(map[string]interface{})}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201, 202},
 	})
 	return
@@ -134,18 +134,18 @@ type InitializeConnectionOpts struct {
 // ToVolumeInitializeConnectionMap assembles a request body based on the contents of a
 // InitializeConnectionOpts.
 func (opts InitializeConnectionOpts) ToVolumeInitializeConnectionMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "connector")
+	b, err := golangsdk.BuildRequestBody(opts, "connector")
 	return map[string]interface{}{"os-initialize_connection": b}, err
 }
 
 // InitializeConnection initializes an iSCSI connection by volume ID.
-func InitializeConnection(client *gophercloud.ServiceClient, id string, opts InitializeConnectionOptsBuilder) (r InitializeConnectionResult) {
+func InitializeConnection(client *golangsdk.ServiceClient, id string, opts InitializeConnectionOptsBuilder) (r InitializeConnectionResult) {
 	b, err := opts.ToVolumeInitializeConnectionMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201, 202},
 	})
 	return
@@ -172,18 +172,18 @@ type TerminateConnectionOpts struct {
 // ToVolumeTerminateConnectionMap assembles a request body based on the contents of a
 // TerminateConnectionOpts.
 func (opts TerminateConnectionOpts) ToVolumeTerminateConnectionMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "connector")
+	b, err := golangsdk.BuildRequestBody(opts, "connector")
 	return map[string]interface{}{"os-terminate_connection": b}, err
 }
 
 // TerminateConnection terminates an iSCSI connection by volume ID.
-func TerminateConnection(client *gophercloud.ServiceClient, id string, opts TerminateConnectionOptsBuilder) (r TerminateConnectionResult) {
+func TerminateConnection(client *golangsdk.ServiceClient, id string, opts TerminateConnectionOptsBuilder) (r TerminateConnectionResult) {
 	b, err := opts.ToVolumeTerminateConnectionMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
@@ -205,18 +205,18 @@ type ExtendSizeOpts struct {
 // ToVolumeExtendSizeMap assembles a request body based on the contents of an
 // ExtendSizeOpts.
 func (opts ExtendSizeOpts) ToVolumeExtendSizeMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "os-extend")
+	return golangsdk.BuildRequestBody(opts, "os-extend")
 }
 
 // ExtendSize will extend the size of the volume based on the provided information.
 // This operation does not return a response body.
-func ExtendSize(client *gophercloud.ServiceClient, id string, opts ExtendSizeOptsBuilder) (r ExtendSizeResult) {
+func ExtendSize(client *golangsdk.ServiceClient, id string, opts ExtendSizeOptsBuilder) (r ExtendSizeResult) {
 	b, err := opts.ToVolumeExtendSizeMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, nil, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, nil, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
@@ -246,24 +246,24 @@ type UploadImageOpts struct {
 // ToVolumeUploadImageMap assembles a request body based on the contents of a
 // UploadImageOpts.
 func (opts UploadImageOpts) ToVolumeUploadImageMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "os-volume_upload_image")
+	return golangsdk.BuildRequestBody(opts, "os-volume_upload_image")
 }
 
 // UploadImage will upload an image based on the values in UploadImageOptsBuilder.
-func UploadImage(client *gophercloud.ServiceClient, id string, opts UploadImageOptsBuilder) (r UploadImageResult) {
+func UploadImage(client *golangsdk.ServiceClient, id string, opts UploadImageOptsBuilder) (r UploadImageResult) {
 	b, err := opts.ToVolumeUploadImageMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(actionURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
 }
 
 // ForceDelete will delete the volume regardless of state.
-func ForceDelete(client *gophercloud.ServiceClient, id string) (r ForceDeleteResult) {
+func ForceDelete(client *golangsdk.ServiceClient, id string) (r ForceDeleteResult) {
 	_, r.Err = client.Post(actionURL(client, id), map[string]interface{}{"os-force_delete": ""}, nil, nil)
 	return
 }

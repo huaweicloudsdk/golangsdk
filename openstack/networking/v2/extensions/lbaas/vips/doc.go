@@ -27,7 +27,7 @@ Example to Create a Virtual IP
 	createOpts := vips.CreateOpts{
 		Protocol:     "HTTP",
 		Name:         "NewVip",
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 		SubnetID:     "8032909d-47a1-4715-90af-5153ffe39861",
 		PoolID:       "61b1f87a-7a21-4ad3-9dda-7f81d249944f",
 		ProtocolPort: 80,

@@ -1,25 +1,25 @@
 package keypairs
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 const resourcePath = "os-keypairs"
 
-func resourceURL(c *gophercloud.ServiceClient) string {
+func resourceURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(resourcePath)
 }
 
-func listURL(c *gophercloud.ServiceClient) string {
+func listURL(c *golangsdk.ServiceClient) string {
 	return resourceURL(c)
 }
 
-func createURL(c *gophercloud.ServiceClient) string {
+func createURL(c *golangsdk.ServiceClient) string {
 	return resourceURL(c)
 }
 
-func getURL(c *gophercloud.ServiceClient, name string) string {
+func getURL(c *golangsdk.ServiceClient, name string) string {
 	return c.ServiceURL(resourcePath, name)
 }
 
-func deleteURL(c *gophercloud.ServiceClient, name string) string {
+func deleteURL(c *golangsdk.ServiceClient, name string) string {
 	return getURL(c, name)
 }

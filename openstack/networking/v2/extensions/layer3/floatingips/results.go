@@ -1,8 +1,8 @@
 package floatingips
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // FloatingIP represents a floating IP resource. A floating IP is an external
@@ -42,7 +42,7 @@ type FloatingIP struct {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will extract a FloatingIP resource from a result.
@@ -75,7 +75,7 @@ type UpdateResult struct {
 // DeleteResult represents the result of an update operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // FloatingIPPage is the page returned by a pager when traversing over a
@@ -89,13 +89,13 @@ type FloatingIPPage struct {
 // In order to do this, it needs to construct the next page's URL.
 func (r FloatingIPPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"floatingips_links"`
+		Links []golangsdk.Link `json:"floatingips_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // IsEmpty checks whether a FloatingIPPage struct is empty.

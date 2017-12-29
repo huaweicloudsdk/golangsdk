@@ -1,8 +1,8 @@
 package pools
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -33,7 +33,7 @@ type ListOpts struct {
 
 // ToPoolListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToPoolListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
@@ -43,7 +43,7 @@ func (opts ListOpts) ToPoolListQuery() (string, error) {
 //
 // Default policy settings return only those pools that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := rootURL(c)
 	if opts != nil {
 		query, err := opts.ToPoolListQuery()
@@ -118,12 +118,12 @@ type CreateOpts struct {
 
 // ToPoolCreateMap builds a request body from CreateOpts.
 func (opts CreateOpts) ToPoolCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "pool")
+	return golangsdk.BuildRequestBody(opts, "pool")
 }
 
 // Create accepts a CreateOpts struct and uses the values to create a new
 // load balancer pool.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToPoolCreateMap()
 	if err != nil {
 		r.Err = err
@@ -134,7 +134,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 }
 
 // Get retrieves a particular pool based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
@@ -166,24 +166,24 @@ type UpdateOpts struct {
 
 // ToPoolUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToPoolUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "pool")
+	return golangsdk.BuildRequestBody(opts, "pool")
 }
 
 // Update allows pools to be updated.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToPoolUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Delete will permanently delete a particular pool based on its unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }
@@ -215,7 +215,7 @@ type ListMembersOpts struct {
 
 // ToMemberListQuery formats a ListOpts into a query string.
 func (opts ListMembersOpts) ToMembersListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
@@ -225,7 +225,7 @@ func (opts ListMembersOpts) ToMembersListQuery() (string, error) {
 //
 // Default policy settings return only those members that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func ListMembers(c *gophercloud.ServiceClient, poolID string, opts ListMembersOptsBuilder) pagination.Pager {
+func ListMembers(c *golangsdk.ServiceClient, poolID string, opts ListMembersOptsBuilder) pagination.Pager {
 	url := memberRootURL(c, poolID)
 	if opts != nil {
 		query, err := opts.ToMembersListQuery()
@@ -278,11 +278,11 @@ type CreateMemberOpts struct {
 
 // ToMemberCreateMap builds a request body from CreateMemberOpts.
 func (opts CreateMemberOpts) ToMemberCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "member")
+	return golangsdk.BuildRequestBody(opts, "member")
 }
 
 // CreateMember will create and associate a Member with a particular Pool.
-func CreateMember(c *gophercloud.ServiceClient, poolID string, opts CreateMemberOpts) (r CreateMemberResult) {
+func CreateMember(c *golangsdk.ServiceClient, poolID string, opts CreateMemberOpts) (r CreateMemberResult) {
 	b, err := opts.ToMemberCreateMap()
 	if err != nil {
 		r.Err = err
@@ -293,7 +293,7 @@ func CreateMember(c *gophercloud.ServiceClient, poolID string, opts CreateMember
 }
 
 // GetMember retrieves a particular Pool Member based on its unique ID.
-func GetMember(c *gophercloud.ServiceClient, poolID string, memberID string) (r GetMemberResult) {
+func GetMember(c *golangsdk.ServiceClient, poolID string, memberID string) (r GetMemberResult) {
 	_, r.Err = c.Get(memberResourceURL(c, poolID, memberID), &r.Body, nil)
 	return
 }
@@ -323,17 +323,17 @@ type UpdateMemberOpts struct {
 
 // ToMemberUpdateMap builds a request body from UpdateMemberOpts.
 func (opts UpdateMemberOpts) ToMemberUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "member")
+	return golangsdk.BuildRequestBody(opts, "member")
 }
 
 // Update allows Member to be updated.
-func UpdateMember(c *gophercloud.ServiceClient, poolID string, memberID string, opts UpdateMemberOptsBuilder) (r UpdateMemberResult) {
+func UpdateMember(c *golangsdk.ServiceClient, poolID string, memberID string, opts UpdateMemberOptsBuilder) (r UpdateMemberResult) {
 	b, err := opts.ToMemberUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(memberResourceURL(c, poolID, memberID), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(memberResourceURL(c, poolID, memberID), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201, 202},
 	})
 	return
@@ -341,7 +341,7 @@ func UpdateMember(c *gophercloud.ServiceClient, poolID string, memberID string, 
 
 // DisassociateMember will remove and disassociate a Member from a particular
 // Pool.
-func DeleteMember(c *gophercloud.ServiceClient, poolID string, memberID string) (r DeleteMemberResult) {
+func DeleteMember(c *golangsdk.ServiceClient, poolID string, memberID string) (r DeleteMemberResult) {
 	_, r.Err = c.Delete(memberResourceURL(c, poolID, memberID), nil)
 	return
 }

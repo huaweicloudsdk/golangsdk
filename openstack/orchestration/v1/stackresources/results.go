@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Resource represents a stack resource.
@@ -13,7 +13,7 @@ type Resource struct {
 	Attributes   map[string]interface{} `json:"attributes"`
 	CreationTime time.Time              `json:"-"`
 	Description  string                 `json:"description"`
-	Links        []gophercloud.Link     `json:"links"`
+	Links        []golangsdk.Link     `json:"links"`
 	LogicalID    string                 `json:"logical_resource_id"`
 	Name         string                 `json:"resource_name"`
 	PhysicalID   string                 `json:"physical_resource_id"`
@@ -28,8 +28,8 @@ func (r *Resource) UnmarshalJSON(b []byte) error {
 	type tmp Resource
 	var s struct {
 		tmp
-		CreationTime gophercloud.JSONRFC3339NoZ `json:"creation_time"`
-		UpdatedTime  gophercloud.JSONRFC3339NoZ `json:"updated_time"`
+		CreationTime golangsdk.JSONRFC3339NoZ `json:"creation_time"`
+		UpdatedTime  golangsdk.JSONRFC3339NoZ `json:"updated_time"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -45,7 +45,7 @@ func (r *Resource) UnmarshalJSON(b []byte) error {
 
 // FindResult represents the result of a Find operation.
 type FindResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a slice of Resource objects and is called after a
@@ -82,7 +82,7 @@ func ExtractResources(r pagination.Page) ([]Resource, error) {
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a Resource object and is called after a
@@ -97,7 +97,7 @@ func (r GetResult) Extract() (*Resource, error) {
 
 // MetadataResult represents the result of a Metadata operation.
 type MetadataResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a map object and is called after a
@@ -158,7 +158,7 @@ type TypeSchema struct {
 
 // SchemaResult represents the result of a Schema operation.
 type SchemaResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a TypeSchema object and is called after a
@@ -171,7 +171,7 @@ func (r SchemaResult) Extract() (*TypeSchema, error) {
 
 // TemplateResult represents the result of a Template operation.
 type TemplateResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns the template and is called after a

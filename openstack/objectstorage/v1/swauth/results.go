@@ -1,13 +1,13 @@
 package swauth
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // GetAuthResult contains the response from the Auth request. Call its Extract
 // method to interpret it as an AuthResult.
 type GetAuthResult struct {
-	gophercloud.HeaderResult
+	golangsdk.HeaderResult
 }
 
 // AuthResult contains the authentication information from a Swauth

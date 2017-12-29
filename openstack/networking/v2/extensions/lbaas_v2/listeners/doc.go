@@ -28,7 +28,7 @@ Example to Create a Listener
 		Protocol:               "TCP",
 		Name:                   "db",
 		LoadbalancerID:         "79e05663-7f03-45d2-a092-8b94062f22ab",
-		AdminStateUp:           gophercloud.Enabled,
+		AdminStateUp:           golangsdk.Enabled,
 		DefaultPoolID:          "41efe233-7591-43c5-9cf7-923964759f9e",
 		ProtocolPort:           3306,
 	}

@@ -1,31 +1,31 @@
 package stackresources
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func findURL(c *gophercloud.ServiceClient, stackName string) string {
+func findURL(c *golangsdk.ServiceClient, stackName string) string {
 	return c.ServiceURL("stacks", stackName, "resources")
 }
 
-func listURL(c *gophercloud.ServiceClient, stackName, stackID string) string {
+func listURL(c *golangsdk.ServiceClient, stackName, stackID string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "resources")
 }
 
-func getURL(c *gophercloud.ServiceClient, stackName, stackID, resourceName string) string {
+func getURL(c *golangsdk.ServiceClient, stackName, stackID, resourceName string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "resources", resourceName)
 }
 
-func metadataURL(c *gophercloud.ServiceClient, stackName, stackID, resourceName string) string {
+func metadataURL(c *golangsdk.ServiceClient, stackName, stackID, resourceName string) string {
 	return c.ServiceURL("stacks", stackName, stackID, "resources", resourceName, "metadata")
 }
 
-func listTypesURL(c *gophercloud.ServiceClient) string {
+func listTypesURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL("resource_types")
 }
 
-func schemaURL(c *gophercloud.ServiceClient, typeName string) string {
+func schemaURL(c *golangsdk.ServiceClient, typeName string) string {
 	return c.ServiceURL("resource_types", typeName)
 }
 
-func templateURL(c *gophercloud.ServiceClient, typeName string) string {
+func templateURL(c *golangsdk.ServiceClient, typeName string) string {
 	return c.ServiceURL("resource_types", typeName, "template")
 }

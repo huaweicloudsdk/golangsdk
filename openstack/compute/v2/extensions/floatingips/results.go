@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // A FloatingIP is an IP that can be associated with a server.
@@ -71,7 +71,7 @@ func ExtractFloatingIPs(r pagination.Page) ([]FloatingIP, error) {
 
 // FloatingIPResult is the raw result from a FloatingIP request.
 type FloatingIPResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any FloatingIP resource
@@ -99,17 +99,17 @@ type GetResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // AssociateResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type AssociateResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DisassociateResult is the response from a Delete operation. Call its
 // ExtractErr method to determine if the call succeeded or failed.
 type DisassociateResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

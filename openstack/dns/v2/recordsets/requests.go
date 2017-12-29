@@ -1,8 +1,8 @@
 package recordsets
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -36,12 +36,12 @@ type ListOpts struct {
 
 // ToRecordSetListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToRecordSetListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // ListByZone implements the recordset list request.
-func ListByZone(client *gophercloud.ServiceClient, zoneID string, opts ListOptsBuilder) pagination.Pager {
+func ListByZone(client *golangsdk.ServiceClient, zoneID string, opts ListOptsBuilder) pagination.Pager {
 	url := baseURL(client, zoneID)
 	if opts != nil {
 		query, err := opts.ToRecordSetListQuery()
@@ -56,7 +56,7 @@ func ListByZone(client *gophercloud.ServiceClient, zoneID string, opts ListOptsB
 }
 
 // Get implements the recordset Get request.
-func Get(client *gophercloud.ServiceClient, zoneID string, rrsetID string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, zoneID string, rrsetID string) (r GetResult) {
 	_, r.Err = client.Get(rrsetURL(client, zoneID, rrsetID), &r.Body, nil)
 	return
 }
@@ -88,7 +88,7 @@ type CreateOpts struct {
 
 // ToRecordSetCreateMap formats an CreateOpts structure into a request body.
 func (opts CreateOpts) ToRecordSetCreateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -97,13 +97,13 @@ func (opts CreateOpts) ToRecordSetCreateMap() (map[string]interface{}, error) {
 }
 
 // Create creates a recordset in a given zone.
-func Create(client *gophercloud.ServiceClient, zoneID string, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, zoneID string, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToRecordSetCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(baseURL(client, zoneID), &b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(baseURL(client, zoneID), &b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{201, 202},
 	})
 	return
@@ -130,7 +130,7 @@ type UpdateOpts struct {
 
 // ToRecordSetUpdateMap formats an UpdateOpts structure into a request body.
 func (opts UpdateOpts) ToRecordSetUpdateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -145,21 +145,21 @@ func (opts UpdateOpts) ToRecordSetUpdateMap() (map[string]interface{}, error) {
 }
 
 // Update updates a recordset in a given zone
-func Update(client *gophercloud.ServiceClient, zoneID string, rrsetID string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(client *golangsdk.ServiceClient, zoneID string, rrsetID string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToRecordSetUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Put(rrsetURL(client, zoneID, rrsetID), &b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Put(rrsetURL(client, zoneID, rrsetID), &b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 202},
 	})
 	return
 }
 
 // Delete removes an existing RecordSet.
-func Delete(client *gophercloud.ServiceClient, zoneID string, rrsetID string) (r DeleteResult) {
-	_, r.Err = client.Delete(rrsetURL(client, zoneID, rrsetID), &gophercloud.RequestOpts{
+func Delete(client *golangsdk.ServiceClient, zoneID string, rrsetID string) (r DeleteResult) {
+	_, r.Err = client.Delete(rrsetURL(client, zoneID, rrsetID), &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return

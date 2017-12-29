@@ -1,8 +1,8 @@
 package tenantnetworks
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // A Network represents a network that a server communicates on.
@@ -38,7 +38,7 @@ func ExtractNetworks(r pagination.Page) ([]Network, error) {
 }
 
 type NetworkResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any Network resource response

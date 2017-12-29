@@ -1,8 +1,8 @@
 package apiversions
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // APIVersion represents an API version for Cinder.
@@ -36,7 +36,7 @@ func ExtractAPIVersions(r pagination.Page) ([]APIVersion, error) {
 
 // GetResult represents the result of a get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts an API version resource.

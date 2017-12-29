@@ -1,8 +1,8 @@
 package groups
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOpts allows the filtering and sorting of paginated collections through
@@ -23,8 +23,8 @@ type ListOpts struct {
 // List returns a Pager which allows you to iterate over a collection of
 // security groups. It accepts a ListOpts struct, which allows you to filter
 // and sort the returned collection for greater efficiency.
-func List(c *gophercloud.ServiceClient, opts ListOpts) pagination.Pager {
-	q, err := gophercloud.BuildQueryString(&opts)
+func List(c *golangsdk.ServiceClient, opts ListOpts) pagination.Pager {
+	q, err := golangsdk.BuildQueryString(&opts)
 	if err != nil {
 		return pagination.Pager{Err: err}
 	}
@@ -55,12 +55,12 @@ type CreateOpts struct {
 
 // ToSecGroupCreateMap builds a request body from CreateOpts.
 func (opts CreateOpts) ToSecGroupCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "security_group")
+	return golangsdk.BuildRequestBody(opts, "security_group")
 }
 
 // Create is an operation which provisions a new security group with default
 // security group rules for the IPv4 and IPv6 ether types.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToSecGroupCreateMap()
 	if err != nil {
 		r.Err = err
@@ -88,39 +88,39 @@ type UpdateOpts struct {
 
 // ToSecGroupUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToSecGroupUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "security_group")
+	return golangsdk.BuildRequestBody(opts, "security_group")
 }
 
 // Update is an operation which updates an existing security group.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToSecGroupUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
 
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Get retrieves a particular security group based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
 
 // Delete will permanently delete a particular security group based on its
 // unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }
 
 // IDFromName is a convenience function that returns a security group's ID,
 // given its name.
-func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
+func IDFromName(client *golangsdk.ServiceClient, name string) (string, error) {
 	count := 0
 	id := ""
 	pages, err := List(client, ListOpts{}).AllPages()
@@ -142,10 +142,10 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "security group"}
+		return "", golangsdk.ErrResourceNotFound{Name: name, ResourceType: "security group"}
 	case 1:
 		return id, nil
 	default:
-		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "security group"}
+		return "", golangsdk.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "security group"}
 	}
 }

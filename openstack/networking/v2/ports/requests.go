@@ -1,8 +1,8 @@
 package ports
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -34,7 +34,7 @@ type ListOpts struct {
 
 // ToPortListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToPortListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
@@ -45,7 +45,7 @@ func (opts ListOpts) ToPortListQuery() (string, error) {
 // Default policy settings return only those ports that are owned by the tenant
 // who submits the request, unless the request is submitted by a user with
 // administrative rights.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
 	if opts != nil {
 		query, err := opts.ToPortListQuery()
@@ -60,7 +60,7 @@ func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 }
 
 // Get retrieves a specific port based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(getURL(c, id), &r.Body, nil)
 	return
 }
@@ -87,12 +87,12 @@ type CreateOpts struct {
 
 // ToPortCreateMap builds a request body from CreateOpts.
 func (opts CreateOpts) ToPortCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "port")
+	return golangsdk.BuildRequestBody(opts, "port")
 }
 
 // Create accepts a CreateOpts struct and creates a new network using the values
 // provided. You must remember to provide a NetworkID value.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToPortCreateMap()
 	if err != nil {
 		r.Err = err
@@ -121,32 +121,32 @@ type UpdateOpts struct {
 
 // ToPortUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToPortUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "port")
+	return golangsdk.BuildRequestBody(opts, "port")
 }
 
 // Update accepts a UpdateOpts struct and updates an existing port using the
 // values provided.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToPortUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(updateURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(updateURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201},
 	})
 	return
 }
 
 // Delete accepts a unique ID and deletes the port associated with it.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(deleteURL(c, id), nil)
 	return
 }
 
 // IDFromName is a convenience function that returns a port's ID,
 // given its name.
-func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
+func IDFromName(client *golangsdk.ServiceClient, name string) (string, error) {
 	count := 0
 	id := ""
 	pages, err := List(client, nil).AllPages()
@@ -168,10 +168,10 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "port"}
+		return "", golangsdk.ErrResourceNotFound{Name: name, ResourceType: "port"}
 	case 1:
 		return id, nil
 	default:
-		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "port"}
+		return "", golangsdk.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "port"}
 	}
 }

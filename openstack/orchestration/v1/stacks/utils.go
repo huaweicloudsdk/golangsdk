@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 	"gopkg.in/yaml.v2"
 )
 
@@ -60,7 +60,7 @@ func (t *TE) Fetch() error {
 
 	// get a fqdn from the URL using the baseURL of the TE. For local files,
 	// the URL's will have the `file` scheme.
-	u, err := gophercloud.NormalizePathURL(t.baseURL, t.URL)
+	u, err := golangsdk.NormalizePathURL(t.baseURL, t.URL)
 	if err != nil {
 		return err
 	}
@@ -91,7 +91,7 @@ func getBasePath() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	u, err := gophercloud.NormalizePathURL("", basePath)
+	u, err := golangsdk.NormalizePathURL("", basePath)
 	if err != nil {
 		return "", err
 	}
@@ -142,7 +142,7 @@ func toStringKeys(m interface{}) (map[string]interface{}, error) {
 		}
 		return typedMap, nil
 	default:
-		return nil, gophercloud.ErrUnexpectedType{Expected: "map[string]interface{}/map[interface{}]interface{}", Actual: fmt.Sprintf("%v", reflect.TypeOf(m))}
+		return nil, golangsdk.ErrUnexpectedType{Expected: "map[string]interface{}/map[interface{}]interface{}", Actual: fmt.Sprintf("%v", reflect.TypeOf(m))}
 	}
 }
 

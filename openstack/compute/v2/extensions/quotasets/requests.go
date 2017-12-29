@@ -1,37 +1,37 @@
 package quotasets
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // Get returns public data about a previously created QuotaSet.
-func Get(client *gophercloud.ServiceClient, tenantID string) GetResult {
+func Get(client *golangsdk.ServiceClient, tenantID string) GetResult {
 	var res GetResult
 	_, res.Err = client.Get(getURL(client, tenantID), &res.Body, nil)
 	return res
 }
 
 // GetDetail returns detailed public data about a previously created QuotaSet.
-func GetDetail(client *gophercloud.ServiceClient, tenantID string) GetDetailResult {
+func GetDetail(client *golangsdk.ServiceClient, tenantID string) GetDetailResult {
 	var res GetDetailResult
 	_, res.Err = client.Get(getDetailURL(client, tenantID), &res.Body, nil)
 	return res
 }
 
 // Updates the quotas for the given tenantID and returns the new QuotaSet.
-func Update(client *gophercloud.ServiceClient, tenantID string, opts UpdateOptsBuilder) (res UpdateResult) {
+func Update(client *golangsdk.ServiceClient, tenantID string, opts UpdateOptsBuilder) (res UpdateResult) {
 	reqBody, err := opts.ToComputeQuotaUpdateMap()
 	if err != nil {
 		res.Err = err
 		return
 	}
 
-	_, res.Err = client.Put(updateURL(client, tenantID), reqBody, &res.Body, &gophercloud.RequestOpts{OkCodes: []int{200}})
+	_, res.Err = client.Put(updateURL(client, tenantID), reqBody, &res.Body, &golangsdk.RequestOpts{OkCodes: []int{200}})
 	return res
 }
 
 // Resets the quotas for the given tenant to their default values.
-func Delete(client *gophercloud.ServiceClient, tenantID string) (res DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, tenantID string) (res DeleteResult) {
 	_, res.Err = client.Delete(deleteURL(client, tenantID), nil)
 	return
 }
@@ -97,5 +97,5 @@ type UpdateOptsBuilder interface {
 // ToComputeQuotaUpdateMap builds the update options into a serializable
 // format.
 func (opts UpdateOpts) ToComputeQuotaUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "quota_set")
+	return golangsdk.BuildRequestBody(opts, "quota_set")
 }

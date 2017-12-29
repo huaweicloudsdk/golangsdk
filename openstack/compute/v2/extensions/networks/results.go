@@ -1,8 +1,8 @@
 package networks
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // A Network represents a network in an OpenStack cloud.
@@ -23,13 +23,13 @@ type Network struct {
 	CIDRv6 string `json:"cidr_v6"`
 
 	// CreatedAt is when the network was created..
-	CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at,omitempty"`
+	CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at,omitempty"`
 
 	// Deleted shows if the network has been deleted.
 	Deleted bool `json:"deleted"`
 
 	// DeletedAt is the time when the network was deleted.
-	DeletedAt gophercloud.JSONRFC3339MilliNoZ `json:"deleted_at,omitempty"`
+	DeletedAt golangsdk.JSONRFC3339MilliNoZ `json:"deleted_at,omitempty"`
 
 	// DHCPStart is the start of the DHCP address range.
 	DHCPStart string `json:"dhcp_start"`
@@ -77,7 +77,7 @@ type Network struct {
 	RXTXBase int `json:"rxtx_base"`
 
 	// UpdatedAt is the time when the network was last updated.
-	UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at,omitempty"`
+	UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at,omitempty"`
 
 	// VLAN is the vlan this network runs on.
 	VLAN int `json:"vlan"`
@@ -113,7 +113,7 @@ func ExtractNetworks(r pagination.Page) ([]Network, error) {
 }
 
 type NetworkResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any Network resource

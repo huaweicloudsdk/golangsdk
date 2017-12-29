@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // UploadResult is the result of an upload image operation. Call its ExtractErr
 // method to determine if the request succeeded or failed.
 type UploadResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DownloadResult is the result of a download image operation. Call its Extract
 // method to gain access to the image data.
 type DownloadResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract builds images model from io.Reader

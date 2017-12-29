@@ -5,10 +5,10 @@ package v1
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stacks"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/stacks"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestStacks(t *testing.T) {
@@ -16,7 +16,7 @@ func TestStacks(t *testing.T) {
 	// See common.go in this directory for more information.
 	client := newClient(t)
 
-	stackName1 := "gophercloud-test-stack-2"
+	stackName1 := "golangsdk-test-stack-2"
 	createOpts := stacks.CreateOpts{
 		Name:     stackName1,
 		Template: template,
@@ -30,7 +30,7 @@ func TestStacks(t *testing.T) {
 		th.AssertNoErr(t, err)
 		t.Logf("Deleted stack (%s)", stackName1)
 	}()
-	err = gophercloud.WaitFor(60, func() (bool, error) {
+	err = golangsdk.WaitFor(60, func() (bool, error) {
 		getStack, err := stacks.Get(client, stackName1, stack.ID).Extract()
 		if err != nil {
 			return false, err
@@ -47,7 +47,7 @@ func TestStacks(t *testing.T) {
 	}
 	err = stacks.Update(client, stackName1, stack.ID, updateOpts).ExtractErr()
 	th.AssertNoErr(t, err)
-	err = gophercloud.WaitFor(60, func() (bool, error) {
+	err = golangsdk.WaitFor(60, func() (bool, error) {
 		getStack, err := stacks.Get(client, stackName1, stack.ID).Extract()
 		if err != nil {
 			return false, err
@@ -86,7 +86,7 @@ func TestStacksNewTemplateFormat(t *testing.T) {
 	// See common.go in this directory for more information.
 	client := newClient(t)
 
-	stackName1 := "gophercloud-test-stack-2"
+	stackName1 := "golangsdk-test-stack-2"
 	templateOpts := new(osStacks.Template)
 	templateOpts.Bin = []byte(template)
 	createOpts := osStacks.CreateOpts{
@@ -102,7 +102,7 @@ func TestStacksNewTemplateFormat(t *testing.T) {
 		th.AssertNoErr(t, err)
 		t.Logf("Deleted stack (%s)", stackName1)
 	}()
-	err = gophercloud.WaitFor(60, func() (bool, error) {
+	err = golangsdk.WaitFor(60, func() (bool, error) {
 		getStack, err := stacks.Get(client, stackName1, stack.ID).Extract()
 		if err != nil {
 			return false, err
@@ -119,7 +119,7 @@ func TestStacksNewTemplateFormat(t *testing.T) {
 	}
 	err = stacks.Update(client, stackName1, stack.ID, updateOpts).ExtractErr()
 	th.AssertNoErr(t, err)
-	err = gophercloud.WaitFor(60, func() (bool, error) {
+	err = golangsdk.WaitFor(60, func() (bool, error) {
 		getStack, err := stacks.Get(client, stackName1, stack.ID).Extract()
 		if err != nil {
 			return false, err

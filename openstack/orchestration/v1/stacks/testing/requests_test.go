@@ -3,11 +3,11 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stacks"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/stacks"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 func TestCreateStack(t *testing.T) {
@@ -30,7 +30,7 @@ func TestCreateStack(t *testing.T) {
 		Name:            "stackcreated",
 		Timeout:         60,
 		TemplateOpts:    template,
-		DisableRollback: gophercloud.Disabled,
+		DisableRollback: golangsdk.Disabled,
 	}
 	actual, err := stacks.Create(fake.ServiceClient(), createOpts).Extract()
 	th.AssertNoErr(t, err)
@@ -76,7 +76,7 @@ func TestAdoptStack(t *testing.T) {
 		Name:            "stackcreated",
 		Timeout:         60,
 		TemplateOpts:    template,
-		DisableRollback: gophercloud.Disabled,
+		DisableRollback: golangsdk.Disabled,
 	}
 	actual, err := stacks.Adopt(fake.ServiceClient(), adoptOpts).Extract()
 	th.AssertNoErr(t, err)
@@ -136,7 +136,7 @@ func TestUpdateStack(t *testing.T) {
 	updateOpts := stacks.UpdateOpts{
 		TemplateOpts: template,
 	}
-	err := stacks.Update(fake.ServiceClient(), "gophercloud-test-stack-2", "db6977b2-27aa-4775-9ae7-6213212d4ada", updateOpts).ExtractErr()
+	err := stacks.Update(fake.ServiceClient(), "golangsdk-test-stack-2", "db6977b2-27aa-4775-9ae7-6213212d4ada", updateOpts).ExtractErr()
 	th.AssertNoErr(t, err)
 }
 
@@ -145,7 +145,7 @@ func TestDeleteStack(t *testing.T) {
 	defer th.TeardownHTTP()
 	HandleDeleteSuccessfully(t)
 
-	err := stacks.Delete(fake.ServiceClient(), "gophercloud-test-stack-2", "db6977b2-27aa-4775-9ae7-6213212d4ada").ExtractErr()
+	err := stacks.Delete(fake.ServiceClient(), "golangsdk-test-stack-2", "db6977b2-27aa-4775-9ae7-6213212d4ada").ExtractErr()
 	th.AssertNoErr(t, err)
 }
 
@@ -170,7 +170,7 @@ func TestPreviewStack(t *testing.T) {
 		Name:            "stackcreated",
 		Timeout:         60,
 		TemplateOpts:    template,
-		DisableRollback: gophercloud.Disabled,
+		DisableRollback: golangsdk.Disabled,
 	}
 	actual, err := stacks.Preview(fake.ServiceClient(), previewOpts).Extract()
 	th.AssertNoErr(t, err)

@@ -3,8 +3,8 @@ package monitors
 import (
 	"fmt"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOpts allows the filtering and sorting of paginated collections through
@@ -36,8 +36,8 @@ type ListOpts struct {
 //
 // Default policy settings return only those monitors that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func List(c *gophercloud.ServiceClient, opts ListOpts) pagination.Pager {
-	q, err := gophercloud.BuildQueryString(&opts)
+func List(c *golangsdk.ServiceClient, opts ListOpts) pagination.Pager {
+	q, err := golangsdk.BuildQueryString(&opts)
 	if err != nil {
 		return pagination.Pager{Err: err}
 	}
@@ -107,23 +107,23 @@ type CreateOpts struct {
 func (opts CreateOpts) ToLBMonitorCreateMap() (map[string]interface{}, error) {
 	if opts.Type == TypeHTTP || opts.Type == TypeHTTPS {
 		if opts.URLPath == "" {
-			err := gophercloud.ErrMissingInput{}
+			err := golangsdk.ErrMissingInput{}
 			err.Argument = "monitors.CreateOpts.URLPath"
 			return nil, err
 		}
 		if opts.ExpectedCodes == "" {
-			err := gophercloud.ErrMissingInput{}
+			err := golangsdk.ErrMissingInput{}
 			err.Argument = "monitors.CreateOpts.ExpectedCodes"
 			return nil, err
 		}
 	}
 	if opts.Delay < opts.Timeout {
-		err := gophercloud.ErrInvalidInput{}
+		err := golangsdk.ErrInvalidInput{}
 		err.Argument = "monitors.CreateOpts.Delay/monitors.CreateOpts.Timeout"
 		err.Info = "Delay must be greater than or equal to timeout"
 		return nil, err
 	}
-	return gophercloud.BuildRequestBody(opts, "health_monitor")
+	return golangsdk.BuildRequestBody(opts, "health_monitor")
 }
 
 // Create is an operation which provisions a new health monitor. There are
@@ -140,7 +140,7 @@ func (opts CreateOpts) ToLBMonitorCreateMap() (map[string]interface{}, error) {
 // CreateOpts{Type: TypeHTTP, Delay: 20, Timeout: 10, MaxRetries: 3,
 //  HttpMethod: "HEAD", ExpectedCodes: "200"}
 //
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToLBMonitorCreateMap()
 	if err != nil {
 		r.Err = err
@@ -151,7 +151,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 }
 
 // Get retrieves a particular health monitor based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
@@ -197,31 +197,31 @@ type UpdateOpts struct {
 // ToLBMonitorUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToLBMonitorUpdateMap() (map[string]interface{}, error) {
 	if opts.Delay > 0 && opts.Timeout > 0 && opts.Delay < opts.Timeout {
-		err := gophercloud.ErrInvalidInput{}
+		err := golangsdk.ErrInvalidInput{}
 		err.Argument = "monitors.CreateOpts.Delay/monitors.CreateOpts.Timeout"
 		err.Value = fmt.Sprintf("%d/%d", opts.Delay, opts.Timeout)
 		err.Info = "Delay must be greater than or equal to timeout"
 		return nil, err
 	}
-	return gophercloud.BuildRequestBody(opts, "health_monitor")
+	return golangsdk.BuildRequestBody(opts, "health_monitor")
 }
 
 // Update is an operation which modifies the attributes of the specified
 // monitor.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToLBMonitorUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 202},
 	})
 	return
 }
 
 // Delete will permanently delete a particular monitor based on its unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }

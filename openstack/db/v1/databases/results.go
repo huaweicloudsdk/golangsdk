@@ -1,8 +1,8 @@
 package databases
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Database represents a Database API resource.
@@ -20,12 +20,12 @@ type Database struct {
 
 // CreateResult represents the result of a Create operation.
 type CreateResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DeleteResult represents the result of a Delete operation.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // DBPage represents a single page of a paginated DB collection.
@@ -42,13 +42,13 @@ func (page DBPage) IsEmpty() (bool, error) {
 // NextPageURL will retrieve the next page URL.
 func (page DBPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"databases_links"`
+		Links []golangsdk.Link `json:"databases_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractDBs will convert a generic pagination struct into a more

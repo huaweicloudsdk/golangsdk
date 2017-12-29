@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/securityservices"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/sharedfilesystems/v2/securityservices"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // Verifies that a security service can be created correctly
@@ -48,7 +48,7 @@ func TestCreateFails(t *testing.T) {
 	}
 
 	_, err := securityservices.Create(client.ServiceClient(), options).Extract()
-	if _, ok := err.(gophercloud.ErrMissingInput); !ok {
+	if _, ok := err.(golangsdk.ErrMissingInput); !ok {
 		t.Fatal("ErrMissingInput was expected to occur")
 	}
 }

@@ -1,7 +1,7 @@
 package resetstate
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // ServerState refers to the states usable in ResetState Action
@@ -16,7 +16,7 @@ const (
 )
 
 // ResetState will reset the state of a server
-func ResetState(client *gophercloud.ServiceClient, id string, state ServerState) (r ResetResult) {
+func ResetState(client *golangsdk.ServiceClient, id string, state ServerState) (r ResetResult) {
 	stateMap := map[string]interface{}{"state": state}
 	_, r.Err = client.Post(actionURL(client, id), map[string]interface{}{"os-resetState": stateMap}, nil, nil)
 	return

@@ -1,23 +1,23 @@
 package containers
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func listURL(c *gophercloud.ServiceClient) string {
+func listURL(c *golangsdk.ServiceClient) string {
 	return c.Endpoint
 }
 
-func createURL(c *gophercloud.ServiceClient, container string) string {
+func createURL(c *golangsdk.ServiceClient, container string) string {
 	return c.ServiceURL(container)
 }
 
-func getURL(c *gophercloud.ServiceClient, container string) string {
+func getURL(c *golangsdk.ServiceClient, container string) string {
 	return createURL(c, container)
 }
 
-func deleteURL(c *gophercloud.ServiceClient, container string) string {
+func deleteURL(c *golangsdk.ServiceClient, container string) string {
 	return createURL(c, container)
 }
 
-func updateURL(c *gophercloud.ServiceClient, container string) string {
+func updateURL(c *golangsdk.ServiceClient, container string) string {
 	return createURL(c, container)
 }

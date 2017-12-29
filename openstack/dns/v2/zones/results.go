@@ -5,12 +5,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract interprets a GetResult, CreateResult or UpdateResult as a Zone.
@@ -131,9 +131,9 @@ func (r *Zone) UnmarshalJSON(b []byte) error {
 	type tmp Zone
 	var s struct {
 		tmp
-		CreatedAt     gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt     gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
-		TransferredAt gophercloud.JSONRFC3339MilliNoZ `json:"transferred_at"`
+		CreatedAt     golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt     golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
+		TransferredAt golangsdk.JSONRFC3339MilliNoZ `json:"transferred_at"`
 		Serial        interface{}                     `json:"serial"`
 	}
 	err := json.Unmarshal(b, &s)

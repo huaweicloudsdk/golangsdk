@@ -3,7 +3,7 @@ package serviceassets
 import (
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // DeleteOptsBuilder allows extensions to add additional parameters to the Delete
@@ -23,7 +23,7 @@ type DeleteOpts struct {
 
 // ToCDNAssetDeleteParams formats a DeleteOpts into a query string.
 func (opts DeleteOpts) ToCDNAssetDeleteParams() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
@@ -31,7 +31,7 @@ func (opts DeleteOpts) ToCDNAssetDeleteParams() (string, error) {
 // it. For example, both "96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0" and
 // "https://global.cdn.api.rackspacecloud.com/v1.0/services/96737ae3-cfc1-4c72-be88-5d0e7cc9a3f0"
 // are valid options for idOrURL.
-func Delete(c *gophercloud.ServiceClient, idOrURL string, opts DeleteOptsBuilder) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, idOrURL string, opts DeleteOptsBuilder) (r DeleteResult) {
 	var url string
 	if strings.Contains(idOrURL, "/") {
 		url = idOrURL

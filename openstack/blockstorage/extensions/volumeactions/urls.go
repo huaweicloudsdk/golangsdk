@@ -1,7 +1,7 @@
 package volumeactions
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func actionURL(c *gophercloud.ServiceClient, id string) string {
+func actionURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL("volumes", id, "action")
 }

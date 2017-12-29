@@ -1,9 +1,9 @@
 package resetstate
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
-func actionURL(client *gophercloud.ServiceClient, id string) string {
+func actionURL(client *golangsdk.ServiceClient, id string) string {
 	return client.ServiceURL("servers", id, "action")
 }

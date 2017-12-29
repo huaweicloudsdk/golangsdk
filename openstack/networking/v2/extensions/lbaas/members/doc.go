@@ -40,7 +40,7 @@ Example to Update a Member
 	memberID := "46592c54-03f7-40ef-9cdf-b1fcf2775ddf"
 
 	updateOpts := members.UpdateOpts{
-		AdminStateUp: gophercloud.Disabled,
+		AdminStateUp: golangsdk.Disabled,
 	}
 
 	member, err := members.Update(networkClient, memberID, updateOpts).Extract()

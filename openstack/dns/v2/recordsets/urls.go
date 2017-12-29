@@ -1,11 +1,11 @@
 package recordsets
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func baseURL(c *gophercloud.ServiceClient, zoneID string) string {
+func baseURL(c *golangsdk.ServiceClient, zoneID string) string {
 	return c.ServiceURL("zones", zoneID, "recordsets")
 }
 
-func rrsetURL(c *gophercloud.ServiceClient, zoneID string, rrsetID string) string {
+func rrsetURL(c *golangsdk.ServiceClient, zoneID string, rrsetID string) string {
 	return c.ServiceURL("zones", zoneID, "recordsets", rrsetID)
 }

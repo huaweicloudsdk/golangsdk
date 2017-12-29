@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // GatewayInfo represents the information of an external gateway for any
@@ -77,13 +77,13 @@ type RouterPage struct {
 // to do this, it needs to construct the next page's URL.
 func (r RouterPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"routers_links"`
+		Links []golangsdk.Link `json:"routers_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // IsEmpty checks whether a RouterPage struct is empty.
@@ -104,7 +104,7 @@ func ExtractRouters(r pagination.Page) ([]Router, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts a router.
@@ -137,7 +137,7 @@ type UpdateResult struct {
 // DeleteResult represents the result of a delete operation. Call its ExtractErr
 // method to determine if the request succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // InterfaceInfo represents information about a particular router interface. As
@@ -161,7 +161,7 @@ type InterfaceInfo struct {
 // AddInterface() and RemoveInterface(). Call its Extract method to interpret
 // the result as a InterfaceInfo.
 type InterfaceResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts an information struct.

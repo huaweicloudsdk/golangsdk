@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 var template = fmt.Sprintf(`
@@ -29,14 +29,14 @@ var template = fmt.Sprintf(`
 	}
 }`, os.Getenv("OS_FLAVOR_ID"), os.Getenv("OS_IMAGE_ID"))
 
-func newClient(t *testing.T) *gophercloud.ServiceClient {
+func newClient(t *testing.T) *golangsdk.ServiceClient {
 	ao, err := openstack.AuthOptionsFromEnv()
 	th.AssertNoErr(t, err)
 
 	client, err := openstack.AuthenticatedClient(ao)
 	th.AssertNoErr(t, err)
 
-	c, err := openstack.NewOrchestrationV1(client, gophercloud.EndpointOpts{
+	c, err := openstack.NewOrchestrationV1(client, golangsdk.EndpointOpts{
 		Region: os.Getenv("OS_REGION_NAME"),
 	})
 	th.AssertNoErr(t, err)

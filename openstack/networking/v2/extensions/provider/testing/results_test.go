@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	fake "github.com/gophercloud/gophercloud/openstack/networking/v2/common"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/provider"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
-	nettest "github.com/gophercloud/gophercloud/openstack/networking/v2/networks/testing"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	fake "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/common"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/provider"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/networks"
+	nettest "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/networks/testing"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestList(t *testing.T) {
@@ -95,7 +95,7 @@ func TestCreate(t *testing.T) {
 		provider.NetworkProviderExt
 	}
 
-	options := networks.CreateOpts{Name: "private", AdminStateUp: gophercloud.Enabled}
+	options := networks.CreateOpts{Name: "private", AdminStateUp: golangsdk.Enabled}
 	err := networks.Create(fake.ServiceClient(), options).ExtractInto(&s)
 	th.AssertNoErr(t, err)
 
@@ -208,7 +208,7 @@ func TestUpdate(t *testing.T) {
 	}
 
 	iTrue := true
-	options := networks.UpdateOpts{Name: "new_network_name", AdminStateUp: gophercloud.Disabled, Shared: &iTrue}
+	options := networks.UpdateOpts{Name: "new_network_name", AdminStateUp: golangsdk.Disabled, Shared: &iTrue}
 	err := networks.Update(fake.ServiceClient(), "4e8e5957-649f-477b-9e5b-f1f75b21c03c", options).ExtractInto(&s)
 	th.AssertNoErr(t, err)
 

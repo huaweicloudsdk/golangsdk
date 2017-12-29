@@ -6,17 +6,17 @@ package extensions
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/volumeactions"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/v2/volumes"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/images"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/extensions/volumeactions"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v2/volumes"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/images"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/servers"
 )
 
 // CreateUploadImage will upload volume it as volume-baked image. An name of new image or err will be
 // returned
-func CreateUploadImage(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) (volumeactions.VolumeImage, error) {
+func CreateUploadImage(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) (volumeactions.VolumeImage, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume-backed image uploading in short mode.")
 	}
@@ -46,7 +46,7 @@ func CreateUploadImage(t *testing.T, client *gophercloud.ServiceClient, volume *
 
 // DeleteUploadedImage deletes uploaded image. An error will be returned
 // if the deletion request failed.
-func DeleteUploadedImage(t *testing.T, client *gophercloud.ServiceClient, imageName string) error {
+func DeleteUploadedImage(t *testing.T, client *golangsdk.ServiceClient, imageName string) error {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume-backed image removing in short mode.")
 	}
@@ -70,7 +70,7 @@ func DeleteUploadedImage(t *testing.T, client *gophercloud.ServiceClient, imageN
 
 // CreateVolumeAttach will attach a volume to an instance. An error will be
 // returned if the attachment failed.
-func CreateVolumeAttach(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume, server *servers.Server) error {
+func CreateVolumeAttach(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume, server *servers.Server) error {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume attachment in short mode.")
 	}
@@ -98,7 +98,7 @@ func CreateVolumeAttach(t *testing.T, client *gophercloud.ServiceClient, volume 
 
 // CreateVolumeReserve creates a volume reservation. An error will be returned
 // if the reservation failed.
-func CreateVolumeReserve(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) error {
+func CreateVolumeReserve(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) error {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume reservation in short mode.")
 	}
@@ -117,7 +117,7 @@ func CreateVolumeReserve(t *testing.T, client *gophercloud.ServiceClient, volume
 // DeleteVolumeAttach will detach a volume from an instance. A fatal error will
 // occur if the snapshot failed to be deleted. This works best when used as a
 // deferred function.
-func DeleteVolumeAttach(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) {
+func DeleteVolumeAttach(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) {
 	t.Logf("Attepting to detach volume volume: %s", volume.ID)
 
 	detachOpts := volumeactions.DetachOpts{
@@ -138,7 +138,7 @@ func DeleteVolumeAttach(t *testing.T, client *gophercloud.ServiceClient, volume 
 // DeleteVolumeReserve deletes a volume reservation. A fatal error will occur
 // if the deletion request failed. This works best when used as a deferred
 // function.
-func DeleteVolumeReserve(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) {
+func DeleteVolumeReserve(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume reservation in short mode.")
 	}
@@ -153,7 +153,7 @@ func DeleteVolumeReserve(t *testing.T, client *gophercloud.ServiceClient, volume
 }
 
 // ExtendVolumeSize will extend the size of a volume.
-func ExtendVolumeSize(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) error {
+func ExtendVolumeSize(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) error {
 	t.Logf("Attempting to extend the size of volume %s", volume.ID)
 
 	extendOpts := volumeactions.ExtendSizeOpts{

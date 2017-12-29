@@ -1,11 +1,11 @@
 package objects
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 // ErrWrongChecksum is the error when the checksum generated for an object
 // doesn't match the ETAG header.
 type ErrWrongChecksum struct {
-	gophercloud.BaseError
+	golangsdk.BaseError
 }
 
 func (e ErrWrongChecksum) Error() string {

@@ -1,11 +1,11 @@
 package flavors
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func listURL(c *gophercloud.ServiceClient) string {
+func listURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL("flavors")
 }
 
-func getURL(c *gophercloud.ServiceClient, id string) string {
+func getURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL("flavors", id)
 }

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/subnets"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestHostRoute(t *testing.T) {
@@ -45,7 +45,7 @@ func TestHostRoute(t *testing.T) {
 		t.Fatalf("%s", err)
 	}
 
-	resp := gophercloud.Result{Body: dejson}
+	resp := golangsdk.Result{Body: dejson}
 	var subnetWrapper struct {
 		Subnet subnets.Subnet `json:"subnet"`
 	}

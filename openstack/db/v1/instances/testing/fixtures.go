@@ -5,15 +5,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/datastores"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/instances"
-	"github.com/gophercloud/gophercloud/testhelper/fixture"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/datastores"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/instances"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/fixture"
 )
 
 var (
 	timestamp  = "2015-11-12T14:22:42"
-	timeVal, _ = time.Parse(gophercloud.RFC3339NoZ, timestamp)
+	timeVal, _ = time.Parse(golangsdk.RFC3339NoZ, timestamp)
 )
 
 var instance = `
@@ -116,14 +116,14 @@ var expectedInstance = instances.Instance{
 	Updated: timeVal,
 	Flavor: instances.Flavor{
 		ID: "1",
-		Links: []gophercloud.Link{
+		Links: []golangsdk.Link{
 			{Href: "https://openstack.example.com/v1.0/1234/flavors/1", Rel: "self"},
 			{Href: "https://openstack.example.com/v1.0/1234/flavors/1", Rel: "bookmark"},
 		},
 	},
 	Hostname: "e09ad9a3f73309469cf1f43d11e79549caf9acf2.openstack.example.com",
 	ID:       instanceID,
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{Href: "https://openstack.example.com/v1.0/1234/instances/1", Rel: "self"},
 	},
 	Name:   "json_rack_instance",

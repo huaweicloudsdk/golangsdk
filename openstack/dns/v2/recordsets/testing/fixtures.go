@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/dns/v2/recordsets"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/dns/v2/recordsets"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // ListByZoneOutput is a sample response to a ListByZone call.
@@ -141,7 +141,7 @@ const NextPageRequest = `
 `
 
 // FirstRecordSet is the first result in ListByZoneOutput
-var FirstRecordSetCreatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2014-10-24T19:59:44.000000")
+var FirstRecordSetCreatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2014-10-24T19:59:44.000000")
 var FirstRecordSet = recordsets.RecordSet{
 	ID:          "f7b10e9b-0cae-4a91-b162-562bc6096648",
 	Description: "This is an example record set.",
@@ -157,7 +157,7 @@ var FirstRecordSet = recordsets.RecordSet{
 	Type:        "A",
 	Status:      "PENDING",
 	Action:      "CREATE",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{
 			Rel:  "self",
 			Href: "https://127.0.0.1:9001/v2/zones/2150b1bf-dee2-4221-9d85-11f7886fb15f/recordsets/f7b10e9b-0cae-4a91-b162-562bc6096648",
@@ -166,8 +166,8 @@ var FirstRecordSet = recordsets.RecordSet{
 }
 
 // SecondRecordSet is the first result in ListByZoneOutput
-var SecondRecordSetCreatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2014-10-24T19:59:44.000000")
-var SecondRecordSetUpdatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2017-03-04T14:29:07.000000")
+var SecondRecordSetCreatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2014-10-24T19:59:44.000000")
+var SecondRecordSetUpdatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2017-03-04T14:29:07.000000")
 var SecondRecordSet = recordsets.RecordSet{
 	ID:          "7423aeaf-b354-4bd7-8aba-2e831567b478",
 	Description: "This is another example record set.",
@@ -183,7 +183,7 @@ var SecondRecordSet = recordsets.RecordSet{
 	Type:        "A",
 	Status:      "PENDING",
 	Action:      "CREATE",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{
 			Rel:  "self",
 			Href: "https://127.0.0.1:9001/v2/zones/2150b1bf-dee2-4221-9d85-11f7886fb15f/recordsets/7423aeaf-b354-4bd7-8aba-2e831567b478",
