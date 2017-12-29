@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // AvailabilityZone contains all the information associated with an OpenStack
@@ -22,7 +22,7 @@ type AvailabilityZone struct {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // ListResult contains the response body and error from a List request.
@@ -43,8 +43,8 @@ func (r *AvailabilityZone) UnmarshalJSON(b []byte) error {
 	type tmp AvailabilityZone
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {

@@ -1,8 +1,8 @@
 package volumetypes
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Volume Type contains all the information associated with an OpenStack Volume Type.
@@ -36,13 +36,13 @@ func (r VolumeTypePage) IsEmpty() (bool, error) {
 
 func (page VolumeTypePage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"volume_type_links"`
+		Links []golangsdk.Link `json:"volume_type_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractVolumeTypes extracts and returns Volumes. It is used while iterating over a volumetypes.List call.
@@ -53,7 +53,7 @@ func ExtractVolumeTypes(r pagination.Page) ([]VolumeType, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will get the Volume Type object out of the commonResult object.
@@ -85,5 +85,5 @@ type CreateResult struct {
 
 // DeleteResult contains the response body and error from a Delete request.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

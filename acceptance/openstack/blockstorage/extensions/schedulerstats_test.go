@@ -5,9 +5,9 @@ package extensions
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/schedulerstats"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/extensions/schedulerstats"
 )
 
 func TestSchedulerStatsList(t *testing.T) {

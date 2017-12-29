@@ -3,14 +3,14 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/sharenetworks"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/sharedfilesystems/v2/sharenetworks"
 )
 
 // CreateShareNetwork will create a share network with a random name. An
 // error will be returned if the share network was unable to be created.
-func CreateShareNetwork(t *testing.T, client *gophercloud.ServiceClient) (*sharenetworks.ShareNetwork, error) {
+func CreateShareNetwork(t *testing.T, client *golangsdk.ServiceClient) (*sharenetworks.ShareNetwork, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires share network creation in short mode.")
 	}
@@ -33,7 +33,7 @@ func CreateShareNetwork(t *testing.T, client *gophercloud.ServiceClient) (*share
 
 // DeleteShareNetwork will delete a share network. An error will occur if
 // the share network was unable to be deleted.
-func DeleteShareNetwork(t *testing.T, client *gophercloud.ServiceClient, shareNetwork *sharenetworks.ShareNetwork) {
+func DeleteShareNetwork(t *testing.T, client *golangsdk.ServiceClient, shareNetwork *sharenetworks.ShareNetwork) {
 	err := sharenetworks.Delete(client, shareNetwork.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Failed to delete share network %s: %v", shareNetwork.ID, err)

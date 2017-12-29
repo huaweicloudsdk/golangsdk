@@ -1,21 +1,21 @@
 package routers
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 const resourcePath = "routers"
 
-func rootURL(c *gophercloud.ServiceClient) string {
+func rootURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(resourcePath)
 }
 
-func resourceURL(c *gophercloud.ServiceClient, id string) string {
+func resourceURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL(resourcePath, id)
 }
 
-func addInterfaceURL(c *gophercloud.ServiceClient, id string) string {
+func addInterfaceURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL(resourcePath, id, "add_router_interface")
 }
 
-func removeInterfaceURL(c *gophercloud.ServiceClient, id string) string {
+func removeInterfaceURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL(resourcePath, id, "remove_router_interface")
 }

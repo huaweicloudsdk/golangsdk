@@ -3,18 +3,18 @@ package extensions
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/external"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/security/groups"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/security/rules"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/ports"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/external"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/security/groups"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/security/rules"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/networks"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/ports"
 )
 
 // CreateExternalNetwork will create an external network. An error will be
 // returned if the creation failed.
-func CreateExternalNetwork(t *testing.T, client *gophercloud.ServiceClient) (*networks.Network, error) {
+func CreateExternalNetwork(t *testing.T, client *golangsdk.ServiceClient) (*networks.Network, error) {
 	networkName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create external network: %s", networkName)
@@ -44,7 +44,7 @@ func CreateExternalNetwork(t *testing.T, client *gophercloud.ServiceClient) (*ne
 
 // CreatePortWithSecurityGroup will create a port with a security group
 // attached. An error will be returned if the port could not be created.
-func CreatePortWithSecurityGroup(t *testing.T, client *gophercloud.ServiceClient, networkID, subnetID, secGroupID string) (*ports.Port, error) {
+func CreatePortWithSecurityGroup(t *testing.T, client *golangsdk.ServiceClient, networkID, subnetID, secGroupID string) (*ports.Port, error) {
 	portName := tools.RandomString("TESTACC-", 8)
 	iFalse := false
 
@@ -70,7 +70,7 @@ func CreatePortWithSecurityGroup(t *testing.T, client *gophercloud.ServiceClient
 
 // CreateSecurityGroup will create a security group with a random name.
 // An error will be returned if one was failed to be created.
-func CreateSecurityGroup(t *testing.T, client *gophercloud.ServiceClient) (*groups.SecGroup, error) {
+func CreateSecurityGroup(t *testing.T, client *golangsdk.ServiceClient) (*groups.SecGroup, error) {
 	secGroupName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create security group: %s", secGroupName)
@@ -92,7 +92,7 @@ func CreateSecurityGroup(t *testing.T, client *gophercloud.ServiceClient) (*grou
 // CreateSecurityGroupRule will create a security group rule with a random name
 // and random port between 80 and 99.
 // An error will be returned if one was failed to be created.
-func CreateSecurityGroupRule(t *testing.T, client *gophercloud.ServiceClient, secGroupID string) (*rules.SecGroupRule, error) {
+func CreateSecurityGroupRule(t *testing.T, client *golangsdk.ServiceClient, secGroupID string) (*rules.SecGroupRule, error) {
 	t.Logf("Attempting to create security group rule in group: %s", secGroupID)
 
 	fromPort := tools.RandomInt(80, 89)
@@ -120,7 +120,7 @@ func CreateSecurityGroupRule(t *testing.T, client *gophercloud.ServiceClient, se
 // DeleteSecurityGroup will delete a security group of a specified ID.
 // A fatal error will occur if the deletion failed. This works best as a
 // deferred function
-func DeleteSecurityGroup(t *testing.T, client *gophercloud.ServiceClient, secGroupID string) {
+func DeleteSecurityGroup(t *testing.T, client *golangsdk.ServiceClient, secGroupID string) {
 	t.Logf("Attempting to delete security group: %s", secGroupID)
 
 	err := groups.Delete(client, secGroupID).ExtractErr()
@@ -132,7 +132,7 @@ func DeleteSecurityGroup(t *testing.T, client *gophercloud.ServiceClient, secGro
 // DeleteSecurityGroupRule will delete a security group rule of a specified ID.
 // A fatal error will occur if the deletion failed. This works best as a
 // deferred function
-func DeleteSecurityGroupRule(t *testing.T, client *gophercloud.ServiceClient, ruleID string) {
+func DeleteSecurityGroupRule(t *testing.T, client *golangsdk.ServiceClient, ruleID string) {
 	t.Logf("Attempting to delete security group rule: %s", ruleID)
 
 	err := rules.Delete(client, ruleID).ExtractErr()

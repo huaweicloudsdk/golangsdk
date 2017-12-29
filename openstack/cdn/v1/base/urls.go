@@ -1,11 +1,11 @@
 package base
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func getURL(c *gophercloud.ServiceClient) string {
+func getURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL()
 }
 
-func pingURL(c *gophercloud.ServiceClient) string {
+func pingURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL("ping")
 }

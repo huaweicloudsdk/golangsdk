@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Container represents a container resource.
@@ -112,7 +112,7 @@ func (r *GetHeader) UnmarshalJSON(b []byte) error {
 		ObjectCount   string                  `json:"X-Container-Object-Count"`
 		Write         string                  `json:"X-Container-Write"`
 		Read          string                  `json:"X-Container-Read"`
-		Date          gophercloud.JSONRFC1123 `json:"Date"`
+		Date          golangsdk.JSONRFC1123 `json:"Date"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -161,7 +161,7 @@ func (r *GetHeader) UnmarshalJSON(b []byte) error {
 
 // GetResult represents the result of a get operation.
 type GetResult struct {
-	gophercloud.HeaderResult
+	golangsdk.HeaderResult
 }
 
 // Extract will return a struct of headers returned from a call to Get.
@@ -201,7 +201,7 @@ func (r *CreateHeader) UnmarshalJSON(b []byte) error {
 	var s struct {
 		tmp
 		ContentLength string                  `json:"Content-Length"`
-		Date          gophercloud.JSONRFC1123 `json:"Date"`
+		Date          golangsdk.JSONRFC1123 `json:"Date"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -228,7 +228,7 @@ func (r *CreateHeader) UnmarshalJSON(b []byte) error {
 // CreateResult represents the result of a create operation. To extract the
 // the headers from the HTTP response, call its Extract method.
 type CreateResult struct {
-	gophercloud.HeaderResult
+	golangsdk.HeaderResult
 }
 
 // Extract will return a struct of headers returned from a call to Create.
@@ -253,7 +253,7 @@ func (r *UpdateHeader) UnmarshalJSON(b []byte) error {
 	var s struct {
 		tmp
 		ContentLength string                  `json:"Content-Length"`
-		Date          gophercloud.JSONRFC1123 `json:"Date"`
+		Date          golangsdk.JSONRFC1123 `json:"Date"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -280,7 +280,7 @@ func (r *UpdateHeader) UnmarshalJSON(b []byte) error {
 // UpdateResult represents the result of an update operation. To extract the
 // the headers from the HTTP response, call its Extract method.
 type UpdateResult struct {
-	gophercloud.HeaderResult
+	golangsdk.HeaderResult
 }
 
 // Extract will return a struct of headers returned from a call to Update.
@@ -304,7 +304,7 @@ func (r *DeleteHeader) UnmarshalJSON(b []byte) error {
 	var s struct {
 		tmp
 		ContentLength string                  `json:"Content-Length"`
-		Date          gophercloud.JSONRFC1123 `json:"Date"`
+		Date          golangsdk.JSONRFC1123 `json:"Date"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -331,7 +331,7 @@ func (r *DeleteHeader) UnmarshalJSON(b []byte) error {
 // DeleteResult represents the result of a delete operation. To extract the
 // the headers from the HTTP response, call its Extract method.
 type DeleteResult struct {
-	gophercloud.HeaderResult
+	golangsdk.HeaderResult
 }
 
 // Extract will return a struct of headers returned from a call to Delete.

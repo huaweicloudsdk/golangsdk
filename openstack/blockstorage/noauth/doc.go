@@ -1,10 +1,10 @@
 /*
-Package noauth creates a "noauth" *gophercloud.ServiceClient for use in Cinder
+Package noauth creates a "noauth" *golangsdk.ServiceClient for use in Cinder
 environments configured with the noauth authentication middleware.
 
 Example of Creating a noauth Service Client
 
-	provider, err := noauth.NewClient(gophercloud.AuthOptions{
+	provider, err := noauth.NewClient(golangsdk.AuthOptions{
 		Username:   os.Getenv("OS_USERNAME"),
 		TenantName: os.Getenv("OS_TENANT_NAME"),
 	})

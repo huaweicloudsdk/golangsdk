@@ -1,7 +1,7 @@
 package hypervisors
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func hypervisorsListDetailURL(c *gophercloud.ServiceClient) string {
+func hypervisorsListDetailURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL("os-hypervisors", "detail")
 }

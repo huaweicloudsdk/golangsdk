@@ -1,7 +1,7 @@
 package buildinfo
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // Revision represents the API/Engine revision of a Heat deployment.
@@ -17,7 +17,7 @@ type BuildInfo struct {
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a BuildInfo object and is called after a

@@ -1,8 +1,8 @@
 package servergroups
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // A ServerGroup creates a policy for instance placement in the cloud.
@@ -55,7 +55,7 @@ func ExtractServerGroups(r pagination.Page) ([]ServerGroup, error) {
 }
 
 type ServerGroupResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any Server Group resource
@@ -83,5 +83,5 @@ type GetResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

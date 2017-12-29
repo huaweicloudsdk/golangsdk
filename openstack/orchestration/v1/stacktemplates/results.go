@@ -3,12 +3,12 @@ package stacktemplates
 import (
 	"encoding/json"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns the JSON template and is called after a Get operation.
@@ -32,7 +32,7 @@ type ValidatedTemplate struct {
 
 // ValidateResult represents the result of a Validate operation.
 type ValidateResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to a ValidatedTemplate object and is called after a

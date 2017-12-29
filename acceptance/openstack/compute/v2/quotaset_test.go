@@ -7,12 +7,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/quotasets"
-	"github.com/gophercloud/gophercloud/openstack/identity/v2/tenants"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/quotasets"
+	"github.com/huaweicloudsdk/golangsdk/openstack/identity/v2/tenants"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestQuotasetGet(t *testing.T) {
@@ -39,7 +39,7 @@ func TestQuotasetGet(t *testing.T) {
 	tools.PrintResource(t, quotaSet)
 }
 
-func getTenantID(t *testing.T, client *gophercloud.ServiceClient) (string, error) {
+func getTenantID(t *testing.T, client *golangsdk.ServiceClient) (string, error) {
 	allPages, err := tenants.List(client, nil).AllPages()
 	if err != nil {
 		t.Fatalf("Unable to get list of tenants: %v", err)
@@ -57,7 +57,7 @@ func getTenantID(t *testing.T, client *gophercloud.ServiceClient) (string, error
 	return "", fmt.Errorf("Unable to get tenant ID")
 }
 
-func getTenantIDByName(t *testing.T, client *gophercloud.ServiceClient, name string) (string, error) {
+func getTenantIDByName(t *testing.T, client *golangsdk.ServiceClient, name string) (string, error) {
 	allPages, err := tenants.List(client, nil).AllPages()
 	if err != nil {
 		t.Fatalf("Unable to get list of tenants: %v", err)
@@ -79,20 +79,20 @@ func getTenantIDByName(t *testing.T, client *gophercloud.ServiceClient, name str
 
 //What will be sent as desired Quotas to the Server
 var UpdatQuotaOpts = quotasets.UpdateOpts{
-	FixedIPs:                 gophercloud.IntToPointer(10),
-	FloatingIPs:              gophercloud.IntToPointer(10),
-	InjectedFileContentBytes: gophercloud.IntToPointer(10240),
-	InjectedFilePathBytes:    gophercloud.IntToPointer(255),
-	InjectedFiles:            gophercloud.IntToPointer(5),
-	KeyPairs:                 gophercloud.IntToPointer(10),
-	MetadataItems:            gophercloud.IntToPointer(128),
-	RAM:                      gophercloud.IntToPointer(20000),
-	SecurityGroupRules:       gophercloud.IntToPointer(20),
-	SecurityGroups:           gophercloud.IntToPointer(10),
-	Cores:                    gophercloud.IntToPointer(10),
-	Instances:                gophercloud.IntToPointer(4),
-	ServerGroups:             gophercloud.IntToPointer(2),
-	ServerGroupMembers:       gophercloud.IntToPointer(3),
+	FixedIPs:                 golangsdk.IntToPointer(10),
+	FloatingIPs:              golangsdk.IntToPointer(10),
+	InjectedFileContentBytes: golangsdk.IntToPointer(10240),
+	InjectedFilePathBytes:    golangsdk.IntToPointer(255),
+	InjectedFiles:            golangsdk.IntToPointer(5),
+	KeyPairs:                 golangsdk.IntToPointer(10),
+	MetadataItems:            golangsdk.IntToPointer(128),
+	RAM:                      golangsdk.IntToPointer(20000),
+	SecurityGroupRules:       golangsdk.IntToPointer(20),
+	SecurityGroups:           golangsdk.IntToPointer(10),
+	Cores:                    golangsdk.IntToPointer(10),
+	Instances:                golangsdk.IntToPointer(4),
+	ServerGroups:             golangsdk.IntToPointer(2),
+	ServerGroupMembers:       golangsdk.IntToPointer(3),
 }
 
 //What the Server hopefully returns as the new Quotas

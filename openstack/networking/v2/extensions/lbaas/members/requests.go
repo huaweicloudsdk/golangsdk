@@ -1,8 +1,8 @@
 package members
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOpts allows the filtering and sorting of paginated collections through
@@ -31,8 +31,8 @@ type ListOpts struct {
 //
 // Default policy settings return only those members that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func List(c *gophercloud.ServiceClient, opts ListOpts) pagination.Pager {
-	q, err := gophercloud.BuildQueryString(&opts)
+func List(c *golangsdk.ServiceClient, opts ListOpts) pagination.Pager {
+	q, err := golangsdk.BuildQueryString(&opts)
 	if err != nil {
 		return pagination.Pager{Err: err}
 	}
@@ -66,12 +66,12 @@ type CreateOpts struct {
 
 // ToLBMemberCreateMap builds a request body from CreateOpts.
 func (opts CreateOpts) ToLBMemberCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "member")
+	return golangsdk.BuildRequestBody(opts, "member")
 }
 
 // Create accepts a CreateOpts struct and uses the values to create a new
 // load balancer pool member.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToLBMemberCreateMap()
 	if err != nil {
 		r.Err = err
@@ -82,7 +82,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 }
 
 // Get retrieves a particular pool member based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
@@ -101,24 +101,24 @@ type UpdateOpts struct {
 
 // ToLBMemberUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToLBMemberUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "member")
+	return golangsdk.BuildRequestBody(opts, "member")
 }
 
 // Update allows members to be updated.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToLBMemberUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201, 202},
 	})
 	return
 }
 
 // Delete will permanently delete a particular member based on its unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }

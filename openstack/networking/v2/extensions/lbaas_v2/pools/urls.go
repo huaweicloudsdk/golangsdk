@@ -1,6 +1,6 @@
 package pools
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 const (
 	rootPath     = "lbaas"
@@ -8,18 +8,18 @@ const (
 	memberPath   = "members"
 )
 
-func rootURL(c *gophercloud.ServiceClient) string {
+func rootURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(rootPath, resourcePath)
 }
 
-func resourceURL(c *gophercloud.ServiceClient, id string) string {
+func resourceURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL(rootPath, resourcePath, id)
 }
 
-func memberRootURL(c *gophercloud.ServiceClient, poolId string) string {
+func memberRootURL(c *golangsdk.ServiceClient, poolId string) string {
 	return c.ServiceURL(rootPath, resourcePath, poolId, memberPath)
 }
 
-func memberResourceURL(c *gophercloud.ServiceClient, poolID string, memeberID string) string {
+func memberResourceURL(c *golangsdk.ServiceClient, poolID string, memeberID string) string {
 	return c.ServiceURL(rootPath, resourcePath, poolID, memberPath, memeberID)
 }

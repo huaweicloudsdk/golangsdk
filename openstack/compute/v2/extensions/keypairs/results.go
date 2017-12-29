@@ -1,8 +1,8 @@
 package keypairs
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // KeyPair is an SSH key known to the OpenStack Cloud that is available to be
@@ -59,7 +59,7 @@ func ExtractKeyPairs(r pagination.Page) ([]KeyPair, error) {
 }
 
 type keyPairResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any KeyPair resource response
@@ -87,5 +87,5 @@ type GetResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

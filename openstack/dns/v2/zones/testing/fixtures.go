@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/dns/v2/zones"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/dns/v2/zones"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // List Output is a sample response to a List call.
@@ -94,7 +94,7 @@ const GetOutput = `
 `
 
 // FirstZone is the first result in ListOutput
-var FirstZoneCreatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2014-07-07T18:25:31.275934")
+var FirstZoneCreatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2014-07-07T18:25:31.275934")
 var FirstZone = zones.Zone{
 	ID:          "a86dba58-0043-4cc6-a1bb-69d5e86f3ca3",
 	PoolID:      "572ba08c-d929-4c70-8e42-03824bb24ca2",
@@ -115,8 +115,8 @@ var FirstZone = zones.Zone{
 	},
 }
 
-var SecondZoneCreatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2014-07-07T18:25:31.275934")
-var SecondZoneUpdatedAt, _ = time.Parse(gophercloud.RFC3339MilliNoZ, "2015-02-25T20:23:01.234567")
+var SecondZoneCreatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2014-07-07T18:25:31.275934")
+var SecondZoneUpdatedAt, _ = time.Parse(golangsdk.RFC3339MilliNoZ, "2015-02-25T20:23:01.234567")
 var SecondZone = zones.Zone{
 	ID:          "34c4561c-9205-4386-9df5-167436f5a222",
 	PoolID:      "572ba08c-d929-4c70-8e42-03824bb24ca2",

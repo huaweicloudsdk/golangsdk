@@ -1,8 +1,8 @@
 package databases
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // CreateOptsBuilder builds create options
@@ -35,13 +35,13 @@ type CreateOpts struct {
 // into sub-maps.
 func (opts CreateOpts) ToMap() (map[string]interface{}, error) {
 	if len(opts.Name) > 64 {
-		err := gophercloud.ErrInvalidInput{}
+		err := golangsdk.ErrInvalidInput{}
 		err.Argument = "databases.CreateOpts.Name"
 		err.Value = opts.Name
 		err.Info = "Must be less than 64 chars long"
 		return nil, err
 	}
-	return gophercloud.BuildRequestBody(opts, "")
+	return golangsdk.BuildRequestBody(opts, "")
 }
 
 // BatchCreateOpts allows for multiple databases to created and modified.
@@ -62,7 +62,7 @@ func (opts BatchCreateOpts) ToDBCreateMap() (map[string]interface{}, error) {
 
 // Create will create a new database within the specified instance. If the
 // specified instance does not exist, a 404 error will be returned.
-func Create(client *gophercloud.ServiceClient, instanceID string, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, instanceID string, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToDBCreateMap()
 	if err != nil {
 		r.Err = err
@@ -75,7 +75,7 @@ func Create(client *gophercloud.ServiceClient, instanceID string, opts CreateOpt
 // List will list all of the databases for a specified instance. Note: this
 // operation will only return user-defined databases; it will exclude system
 // databases like "mysql", "information_schema", "lost+found" etc.
-func List(client *gophercloud.ServiceClient, instanceID string) pagination.Pager {
+func List(client *golangsdk.ServiceClient, instanceID string) pagination.Pager {
 	return pagination.NewPager(client, baseURL(client, instanceID), func(r pagination.PageResult) pagination.Page {
 		return DBPage{pagination.LinkedPageBase{PageResult: r}}
 	})
@@ -83,7 +83,7 @@ func List(client *gophercloud.ServiceClient, instanceID string) pagination.Pager
 
 // Delete will permanently delete the database within a specified instance.
 // All contained data inside the database will also be permanently deleted.
-func Delete(client *gophercloud.ServiceClient, instanceID, dbName string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, instanceID, dbName string) (r DeleteResult) {
 	_, r.Err = client.Delete(dbURL(client, instanceID, dbName), nil)
 	return
 }

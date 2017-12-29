@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Snapshot contains all the information associated with a Cinder Snapshot.
@@ -50,7 +50,7 @@ type GetResult struct {
 
 // DeleteResult contains the response body and error from a Delete request.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // SnapshotPage is a pagination.Pager that is returned from a call to the List function.
@@ -63,8 +63,8 @@ func (r *Snapshot) UnmarshalJSON(b []byte) error {
 	type tmp Snapshot
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -86,13 +86,13 @@ func (r SnapshotPage) IsEmpty() (bool, error) {
 
 func (page SnapshotPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"snapshots_links"`
+		Links []golangsdk.Link `json:"snapshots_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractSnapshots extracts and returns Snapshots. It is used while iterating over a snapshots.List call.
@@ -119,7 +119,7 @@ func (r UpdateMetadataResult) ExtractMetadata() (map[string]interface{}, error) 
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will get the Snapshot object out of the commonResult object.

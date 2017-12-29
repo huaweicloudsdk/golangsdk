@@ -6,17 +6,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/stackresources"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/stackresources"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // FindExpected represents the expected object from a Find request.
 var FindExpected = []stackresources.Resource{
 	{
 		Name: "hello_world",
-		Links: []gophercloud.Link{
+		Links: []golangsdk.Link{
 			{
 				Href: "http://166.78.160.107:8004/v1/98606384f58d4ad0b3db7d0d779549ac/stacks/postman_stack/5f57cff9-93fc-424e-9f78-df0515e7f48b/resources/hello_world",
 				Rel:  "self",
@@ -87,7 +87,7 @@ func HandleFindSuccessfully(t *testing.T, output string) {
 var ListExpected = []stackresources.Resource{
 	{
 		Name: "hello_world",
-		Links: []gophercloud.Link{
+		Links: []golangsdk.Link{
 			{
 				Href: "http://166.78.160.107:8004/v1/98606384f58d4ad0b3db7d0d779549ac/stacks/postman_stack/5f57cff9-93fc-424e-9f78-df0515e7f48b/resources/hello_world",
 				Rel:  "self",
@@ -164,7 +164,7 @@ func HandleListSuccessfully(t *testing.T, output string) {
 // GetExpected represents the expected object from a Get request.
 var GetExpected = &stackresources.Resource{
 	Name: "wordpress_instance",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{
 			Href: "http://166.78.160.107:8004/v1/98606384f58d4ad0b3db7d0d779549ac/stacks/teststack/0b1771bd-9336-4f2b-ae86-a80f971faf1e/resources/wordpress_instance",
 			Rel:  "self",

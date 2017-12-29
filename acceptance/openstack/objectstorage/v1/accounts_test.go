@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/objectstorage/v1/accounts"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/openstack/objectstorage/v1/accounts"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestAccounts(t *testing.T) {

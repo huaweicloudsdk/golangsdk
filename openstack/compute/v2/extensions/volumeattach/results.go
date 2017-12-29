@@ -1,8 +1,8 @@
 package volumeattach
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // VolumeAttachment contains attachment information between a volume
@@ -45,7 +45,7 @@ func ExtractVolumeAttachments(r pagination.Page) ([]VolumeAttachment, error) {
 
 // VolumeAttachmentResult is the result from a volume attachment operation.
 type VolumeAttachmentResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any VolumeAttachment resource
@@ -73,5 +73,5 @@ type GetResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

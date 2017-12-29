@@ -1,8 +1,8 @@
 package members
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Member represents the application running on a backend server.
@@ -45,13 +45,13 @@ type MemberPage struct {
 // to do this, it needs to construct the next page's URL.
 func (r MemberPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"members_links"`
+		Links []golangsdk.Link `json:"members_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // IsEmpty checks whether a MemberPage struct is empty.
@@ -72,7 +72,7 @@ func ExtractMembers(r pagination.Page) ([]Member, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts a member.
@@ -105,5 +105,5 @@ type UpdateResult struct {
 // DeleteResult represents the result of a delete operation. Call its
 // ExtractErr method to determine if the result succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

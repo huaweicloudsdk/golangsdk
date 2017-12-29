@@ -3,7 +3,7 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/testhelper/fixture"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/fixture"
 )
 
 var (

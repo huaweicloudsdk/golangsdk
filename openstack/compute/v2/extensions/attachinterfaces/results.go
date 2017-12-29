@@ -1,12 +1,12 @@
 package attachinterfaces
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type attachInterfaceResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract interprets any attachInterfaceResult as an Interface, if possible.
@@ -33,7 +33,7 @@ type CreateResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // FixedIP represents a Fixed IP Address.

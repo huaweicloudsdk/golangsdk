@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // EndpointOpts specifies a "noauth" Cinder Endpoint.
@@ -16,7 +16,7 @@ type EndpointOpts struct {
 }
 
 // NewClient prepares an unauthenticated ProviderClient instance.
-func NewClient(options gophercloud.AuthOptions) (*gophercloud.ProviderClient, error) {
+func NewClient(options golangsdk.AuthOptions) (*golangsdk.ProviderClient, error) {
 	if options.Username == "" {
 		options.Username = "admin"
 	}
@@ -24,15 +24,15 @@ func NewClient(options gophercloud.AuthOptions) (*gophercloud.ProviderClient, er
 		options.TenantName = "admin"
 	}
 
-	client := &gophercloud.ProviderClient{
+	client := &golangsdk.ProviderClient{
 		TokenID: fmt.Sprintf("%s:%s", options.Username, options.TenantName),
 	}
 
 	return client, nil
 }
 
-func initClientOpts(client *gophercloud.ProviderClient, eo EndpointOpts) (*gophercloud.ServiceClient, error) {
-	sc := new(gophercloud.ServiceClient)
+func initClientOpts(client *golangsdk.ProviderClient, eo EndpointOpts) (*golangsdk.ServiceClient, error) {
+	sc := new(golangsdk.ServiceClient)
 	if eo.CinderEndpoint == "" {
 		return nil, fmt.Errorf("CinderEndpoint is required")
 	}
@@ -42,14 +42,14 @@ func initClientOpts(client *gophercloud.ProviderClient, eo EndpointOpts) (*gophe
 		return nil, fmt.Errorf("Malformed noauth token")
 	}
 
-	endpoint := fmt.Sprintf("%s%s", gophercloud.NormalizeURL(eo.CinderEndpoint), token[1])
-	sc.Endpoint = gophercloud.NormalizeURL(endpoint)
+	endpoint := fmt.Sprintf("%s%s", golangsdk.NormalizeURL(eo.CinderEndpoint), token[1])
+	sc.Endpoint = golangsdk.NormalizeURL(endpoint)
 	sc.ProviderClient = client
 	return sc, nil
 }
 
 // NewBlockStorageNoAuth creates a ServiceClient that may be used to access a
 // "noauth" block storage service (V2 or V3 Cinder API).
-func NewBlockStorageNoAuth(client *gophercloud.ProviderClient, eo EndpointOpts) (*gophercloud.ServiceClient, error) {
+func NewBlockStorageNoAuth(client *golangsdk.ProviderClient, eo EndpointOpts) (*golangsdk.ServiceClient, error) {
 	return initClientOpts(client, eo)
 }

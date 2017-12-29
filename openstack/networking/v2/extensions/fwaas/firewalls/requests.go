@@ -1,8 +1,8 @@
 package firewalls
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -32,7 +32,7 @@ type ListOpts struct {
 
 // ToFirewallListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToFirewallListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
@@ -42,7 +42,7 @@ func (opts ListOpts) ToFirewallListQuery() (string, error) {
 //
 // Default policy settings return only those firewalls that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := rootURL(c)
 	if opts != nil {
 		query, err := opts.ToFirewallListQuery()
@@ -77,11 +77,11 @@ type CreateOpts struct {
 
 // ToFirewallCreateMap casts a CreateOpts struct to a map.
 func (opts CreateOpts) ToFirewallCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "firewall")
+	return golangsdk.BuildRequestBody(opts, "firewall")
 }
 
 // Create accepts a CreateOpts struct and uses the values to create a new firewall.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToFirewallCreateMap()
 	if err != nil {
 		r.Err = err
@@ -92,7 +92,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 }
 
 // Get retrieves a particular firewall based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
@@ -114,24 +114,24 @@ type UpdateOpts struct {
 
 // ToFirewallUpdateMap casts a CreateOpts struct to a map.
 func (opts UpdateOpts) ToFirewallUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "firewall")
+	return golangsdk.BuildRequestBody(opts, "firewall")
 }
 
 // Update allows firewalls to be updated.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToFirewallUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Delete will permanently delete a particular firewall based on its unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }

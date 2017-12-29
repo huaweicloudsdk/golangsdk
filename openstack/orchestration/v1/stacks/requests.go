@@ -3,8 +3,8 @@ package stacks
 import (
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // CreateOptsBuilder is the interface options structs have to satisfy in order
@@ -39,7 +39,7 @@ type CreateOpts struct {
 
 // ToStackCreateMap casts a CreateOpts struct to a map.
 func (opts CreateOpts) ToStackCreateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (opts CreateOpts) ToStackCreateMap() (map[string]interface{}, error) {
 
 // Create accepts a CreateOpts struct and creates a new stack using the values
 // provided.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToStackCreateMap()
 	if err != nil {
 		r.Err = err
@@ -132,7 +132,7 @@ type AdoptOpts struct {
 
 // ToStackAdoptMap casts a CreateOpts struct to a map.
 func (opts AdoptOpts) ToStackAdoptMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -175,7 +175,7 @@ func (opts AdoptOpts) ToStackAdoptMap() (map[string]interface{}, error) {
 
 // Adopt accepts an AdoptOpts struct and creates a new stack using the resources
 // from another stack.
-func Adopt(c *gophercloud.ServiceClient, opts AdoptOptsBuilder) (r AdoptResult) {
+func Adopt(c *golangsdk.ServiceClient, opts AdoptOptsBuilder) (r AdoptResult) {
 	b, err := opts.ToStackAdoptMap()
 	if err != nil {
 		r.Err = err
@@ -228,7 +228,7 @@ type ListOpts struct {
 
 // ToStackListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToStackListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	if err != nil {
 		return "", err
 	}
@@ -238,7 +238,7 @@ func (opts ListOpts) ToStackListQuery() (string, error) {
 // List returns a Pager which allows you to iterate over a collection of
 // stacks. It accepts a ListOpts struct, which allows you to filter and sort
 // the returned collection for greater efficiency.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
 	if opts != nil {
 		query, err := opts.ToStackListQuery()
@@ -254,7 +254,7 @@ func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 }
 
 // Get retreives a stack based on the stack name and stack ID.
-func Get(c *gophercloud.ServiceClient, stackName, stackID string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, stackName, stackID string) (r GetResult) {
 	_, r.Err = c.Get(getURL(c, stackName, stackID), &r.Body, nil)
 	return
 }
@@ -283,7 +283,7 @@ type UpdateOpts struct {
 
 // ToStackUpdateMap casts a CreateOpts struct to a map.
 func (opts UpdateOpts) ToStackUpdateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -330,7 +330,7 @@ func (opts UpdateOpts) ToStackUpdateMap() (map[string]interface{}, error) {
 
 // Update accepts an UpdateOpts struct and updates an existing stack using the values
 // provided.
-func Update(c *gophercloud.ServiceClient, stackName, stackID string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, stackName, stackID string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToStackUpdateMap()
 	if err != nil {
 		r.Err = err
@@ -341,7 +341,7 @@ func Update(c *gophercloud.ServiceClient, stackName, stackID string, opts Update
 }
 
 // Delete deletes a stack based on the stack name and stack ID.
-func Delete(c *gophercloud.ServiceClient, stackName, stackID string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, stackName, stackID string) (r DeleteResult) {
 	_, r.Err = c.Delete(deleteURL(c, stackName, stackID), nil)
 	return
 }
@@ -374,7 +374,7 @@ type PreviewOpts struct {
 
 // ToStackPreviewMap casts a PreviewOpts struct to a map.
 func (opts PreviewOpts) ToStackPreviewMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -417,13 +417,13 @@ func (opts PreviewOpts) ToStackPreviewMap() (map[string]interface{}, error) {
 
 // Preview accepts a PreviewOptsBuilder interface and creates a preview of a stack using the values
 // provided.
-func Preview(c *gophercloud.ServiceClient, opts PreviewOptsBuilder) (r PreviewResult) {
+func Preview(c *golangsdk.ServiceClient, opts PreviewOptsBuilder) (r PreviewResult) {
 	b, err := opts.ToStackPreviewMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Post(previewURL(c), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Post(previewURL(c), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -431,8 +431,8 @@ func Preview(c *gophercloud.ServiceClient, opts PreviewOptsBuilder) (r PreviewRe
 
 // Abandon deletes the stack with the provided stackName and stackID, but leaves its
 // resources intact, and returns data describing the stack and its resources.
-func Abandon(c *gophercloud.ServiceClient, stackName, stackID string) (r AbandonResult) {
-	_, r.Err = c.Delete(abandonURL(c, stackName, stackID), &gophercloud.RequestOpts{
+func Abandon(c *golangsdk.ServiceClient, stackName, stackID string) (r AbandonResult) {
+	_, r.Err = c.Delete(abandonURL(c, stackName, stackID), &golangsdk.RequestOpts{
 		JSONResponse: &r.Body,
 		OkCodes:      []int{200},
 	})

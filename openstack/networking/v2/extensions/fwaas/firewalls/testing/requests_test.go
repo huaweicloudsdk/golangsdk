@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	fake "github.com/gophercloud/gophercloud/openstack/networking/v2/common"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/firewalls"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/routerinsertion"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	fake "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/common"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/firewalls"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/routerinsertion"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestList(t *testing.T) {
@@ -187,7 +187,7 @@ func TestCreate(t *testing.T) {
 		TenantID:     "b4eedccc6fb74fa8a7ad6b08382b852b",
 		Name:         "fw",
 		Description:  "OpenStack firewall",
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 		PolicyID:     "19ab8c87-4a32-4e6a-a74e-b77fffb89a0c",
 	}
 	_, err := firewalls.Create(fake.ServiceClient(), options).Extract()
@@ -318,7 +318,7 @@ func TestUpdate(t *testing.T) {
 	options := firewalls.UpdateOpts{
 		Name:         "fw",
 		Description:  "updated fw",
-		AdminStateUp: gophercloud.Disabled,
+		AdminStateUp: golangsdk.Disabled,
 		PolicyID:     "19ab8c87-4a32-4e6a-a74e-b77fffb89a0c",
 	}
 

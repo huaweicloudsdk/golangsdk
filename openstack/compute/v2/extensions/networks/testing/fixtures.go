@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/networks"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/networks"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // ListOutput is a sample response to a List call.
@@ -119,9 +119,9 @@ var FirstNetwork = networks.Network{
 	Broadcast:         "10.0.0.7",
 	CIDR:              "10.0.0.0/29",
 	CIDRv6:            "",
-	CreatedAt:         gophercloud.JSONRFC3339MilliNoZ(time.Date(2011, 8, 15, 6, 19, 19, 387525000, time.UTC)),
+	CreatedAt:         golangsdk.JSONRFC3339MilliNoZ(time.Date(2011, 8, 15, 6, 19, 19, 387525000, time.UTC)),
 	Deleted:           false,
-	DeletedAt:         gophercloud.JSONRFC3339MilliNoZ(nilTime),
+	DeletedAt:         golangsdk.JSONRFC3339MilliNoZ(nilTime),
 	DHCPStart:         "10.0.0.3",
 	DNS1:              "",
 	DNS2:              "",
@@ -137,7 +137,7 @@ var FirstNetwork = networks.Network{
 	Priority:          0,
 	ProjectID:         "1234",
 	RXTXBase:          0,
-	UpdatedAt:         gophercloud.JSONRFC3339MilliNoZ(time.Date(2011, 8, 16, 9, 26, 13, 48257000, time.UTC)),
+	UpdatedAt:         golangsdk.JSONRFC3339MilliNoZ(time.Date(2011, 8, 16, 9, 26, 13, 48257000, time.UTC)),
 	VLAN:              100,
 	VPNPrivateAddress: "10.0.0.2",
 	VPNPublicAddress:  "127.0.0.1",
@@ -151,9 +151,9 @@ var SecondNetwork = networks.Network{
 	Broadcast:         "10.0.0.15",
 	CIDR:              "10.0.0.10/29",
 	CIDRv6:            "",
-	CreatedAt:         gophercloud.JSONRFC3339MilliNoZ(time.Date(2011, 8, 15, 6, 19, 19, 387525000, time.UTC)),
+	CreatedAt:         golangsdk.JSONRFC3339MilliNoZ(time.Date(2011, 8, 15, 6, 19, 19, 387525000, time.UTC)),
 	Deleted:           false,
-	DeletedAt:         gophercloud.JSONRFC3339MilliNoZ(nilTime),
+	DeletedAt:         golangsdk.JSONRFC3339MilliNoZ(nilTime),
 	DHCPStart:         "10.0.0.11",
 	DNS1:              "",
 	DNS2:              "",
@@ -169,7 +169,7 @@ var SecondNetwork = networks.Network{
 	Priority:          0,
 	ProjectID:         "",
 	RXTXBase:          0,
-	UpdatedAt:         gophercloud.JSONRFC3339MilliNoZ(nilTime),
+	UpdatedAt:         golangsdk.JSONRFC3339MilliNoZ(nilTime),
 	VLAN:              101,
 	VPNPrivateAddress: "10.0.0.10",
 	VPNPublicAddress:  "",

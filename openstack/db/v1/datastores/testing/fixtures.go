@@ -3,8 +3,8 @@ package testing
 import (
 	"fmt"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/datastores"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/datastores"
 )
 
 const version1JSON = `
@@ -71,7 +71,7 @@ var (
 
 var ExampleVersion1 = datastores.Version{
 	ID: "b00000b0-00b0-0b00-00b0-000b000000bb",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{Rel: "self", Href: "https://10.240.28.38:8779/v1.0/1234/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb"},
 		{Rel: "bookmark", Href: "https://10.240.28.38:8779/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb"},
 	},
@@ -80,7 +80,7 @@ var ExampleVersion1 = datastores.Version{
 
 var exampleVersion2 = datastores.Version{
 	ID: "c00000b0-00c0-0c00-00c0-000b000000cc",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{Rel: "self", Href: "https://10.240.28.38:8779/v1.0/1234/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc"},
 		{Rel: "bookmark", Href: "https://10.240.28.38:8779/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc"},
 	},
@@ -92,7 +92,7 @@ var ExampleVersions = []datastores.Version{ExampleVersion1, exampleVersion2}
 var ExampleDatastore = datastores.Datastore{
 	DefaultVersion: "c00000b0-00c0-0c00-00c0-000b000000cc",
 	ID:             "10000000-0000-0000-0000-000000000001",
-	Links: []gophercloud.Link{
+	Links: []golangsdk.Link{
 		{Rel: "self", Href: "https://10.240.28.38:8779/v1.0/1234/datastores/10000000-0000-0000-0000-000000000001"},
 		{Rel: "bookmark", Href: "https://10.240.28.38:8779/datastores/10000000-0000-0000-0000-000000000001"},
 	},

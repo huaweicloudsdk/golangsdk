@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 // Share contains all information associated with an OpenStack Share
@@ -70,7 +70,7 @@ func (r *Share) UnmarshalJSON(b []byte) error {
 	type tmp Share
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -84,7 +84,7 @@ func (r *Share) UnmarshalJSON(b []byte) error {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will get the Share object from the commonResult
@@ -103,7 +103,7 @@ type CreateResult struct {
 
 // DeleteResult contains the response body and error from a Delete request.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // GetResult contains the response body and error from a Get request.
@@ -114,7 +114,7 @@ type GetResult struct {
 // GetExportLocationsResult contains the result body and error from an
 // GetExportLocations request.
 type GetExportLocationsResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // ExportLocation contains all information associated with a share export location
@@ -175,5 +175,5 @@ func (r GrantAccessResult) Extract() (*AccessRight, error) {
 
 // GrantAccessResult contains the result body and error from an GrantAccess request.
 type GrantAccessResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }

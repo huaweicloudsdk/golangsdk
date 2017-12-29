@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOpts allows the filtering and sorting of paginated collections through
@@ -29,8 +29,8 @@ type ListOpts struct {
 //
 // Default policy settings return only those routers that are owned by the
 // tenant who submits the request, unless an admin user submits the request.
-func List(c *gophercloud.ServiceClient, opts ListOpts) pagination.Pager {
-	q, err := gophercloud.BuildQueryString(&opts)
+func List(c *golangsdk.ServiceClient, opts ListOpts) pagination.Pager {
+	q, err := golangsdk.BuildQueryString(&opts)
 	if err != nil {
 		return pagination.Pager{Err: err}
 	}
@@ -59,7 +59,7 @@ type CreateOpts struct {
 
 // ToRouterCreateMap builds a create request body from CreateOpts.
 func (opts CreateOpts) ToRouterCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "router")
+	return golangsdk.BuildRequestBody(opts, "router")
 }
 
 // Create accepts a CreateOpts struct and uses the values to create a new
@@ -70,7 +70,7 @@ func (opts CreateOpts) ToRouterCreateMap() (map[string]interface{}, error) {
 // GatewayInfo struct. The external gateway for the router must be plugged into
 // an external network (it is external if its `router:external' field is set to
 // true).
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToRouterCreateMap()
 	if err != nil {
 		r.Err = err
@@ -81,7 +81,7 @@ func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResul
 }
 
 // Get retrieves a particular router based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(resourceURL(c, id), &r.Body, nil)
 	return
 }
@@ -103,7 +103,7 @@ type UpdateOpts struct {
 
 // ToRouterUpdateMap builds an update body based on UpdateOpts.
 func (opts UpdateOpts) ToRouterUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "router")
+	return golangsdk.BuildRequestBody(opts, "router")
 }
 
 // Update allows routers to be updated. You can update the name, administrative
@@ -111,20 +111,20 @@ func (opts UpdateOpts) ToRouterUpdateMap() (map[string]interface{}, error) {
 // external gateway for a router, see Create. This operation does not enable
 // the update of router interfaces. To do this, use the AddInterface and
 // RemoveInterface functions.
-func Update(c *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToRouterUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(resourceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Delete will permanently delete a particular router based on its unique ID.
-func Delete(c *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = c.Delete(resourceURL(c, id), nil)
 	return
 }
@@ -143,7 +143,7 @@ type AddInterfaceOpts struct {
 
 // ToRouterAddInterfaceMap builds a request body from AddInterfaceOpts.
 func (opts AddInterfaceOpts) ToRouterAddInterfaceMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "")
+	return golangsdk.BuildRequestBody(opts, "")
 }
 
 // AddInterface attaches a subnet to an internal router interface. You must
@@ -167,13 +167,13 @@ func (opts AddInterfaceOpts) ToRouterAddInterfaceMap() (map[string]interface{}, 
 // identifier of a new port created by this operation. After the operation
 // completes, the device ID of the port is set to the router ID, and the
 // device owner attribute is set to `network:router_interface'.
-func AddInterface(c *gophercloud.ServiceClient, id string, opts AddInterfaceOptsBuilder) (r InterfaceResult) {
+func AddInterface(c *golangsdk.ServiceClient, id string, opts AddInterfaceOptsBuilder) (r InterfaceResult) {
 	b, err := opts.ToRouterAddInterfaceMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(addInterfaceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(addInterfaceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -195,7 +195,7 @@ type RemoveInterfaceOpts struct {
 // ToRouterRemoveInterfaceMap builds a request body based on
 // RemoveInterfaceOpts.
 func (opts RemoveInterfaceOpts) ToRouterRemoveInterfaceMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "")
+	return golangsdk.BuildRequestBody(opts, "")
 }
 
 // RemoveInterface removes an internal router interface, which detaches a
@@ -211,13 +211,13 @@ func (opts RemoveInterfaceOpts) ToRouterRemoveInterfaceMap() (map[string]interfa
 // visible to you, the operation will fail and a 404 Not Found error will be
 // returned. After this operation completes, the port connecting the router
 // with the subnet is removed from the subnet for the network.
-func RemoveInterface(c *gophercloud.ServiceClient, id string, opts RemoveInterfaceOptsBuilder) (r InterfaceResult) {
+func RemoveInterface(c *golangsdk.ServiceClient, id string, opts RemoveInterfaceOptsBuilder) (r InterfaceResult) {
 	b, err := opts.ToRouterRemoveInterfaceMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(removeInterfaceURL(c, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(removeInterfaceURL(c, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return

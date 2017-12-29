@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud/openstack/objectstorage/v1/accounts"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk/openstack/objectstorage/v1/accounts"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 var (
@@ -18,7 +18,7 @@ func TestUpdateAccount(t *testing.T) {
 	defer th.TeardownHTTP()
 	HandleUpdateAccountSuccessfully(t)
 
-	options := &accounts.UpdateOpts{Metadata: map[string]string{"gophercloud-test": "accounts"}}
+	options := &accounts.UpdateOpts{Metadata: map[string]string{"golangsdk-test": "accounts"}}
 	res := accounts.Update(fake.ServiceClient(), options)
 	th.AssertNoErr(t, res.Err)
 

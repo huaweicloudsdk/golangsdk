@@ -1,8 +1,8 @@
 package zones
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add parameters to the List request.
@@ -34,12 +34,12 @@ type ListOpts struct {
 
 // ToZoneListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToZoneListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List implements a zone List request.
-func List(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(client *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := baseURL(client)
 	if opts != nil {
 		query, err := opts.ToZoneListQuery()
@@ -54,7 +54,7 @@ func List(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pa
 }
 
 // Get returns information about a zone, given its ID.
-func Get(client *gophercloud.ServiceClient, zoneID string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, zoneID string) (r GetResult) {
 	_, r.Err = client.Get(zoneURL(client, zoneID), &r.Body, nil)
 	return
 }
@@ -91,7 +91,7 @@ type CreateOpts struct {
 
 // ToZoneCreateMap formats an CreateOpts structure into a request body.
 func (opts CreateOpts) ToZoneCreateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -104,13 +104,13 @@ func (opts CreateOpts) ToZoneCreateMap() (map[string]interface{}, error) {
 }
 
 // Create implements a zone create request.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToZoneCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(baseURL(client), &b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(baseURL(client), &b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{201, 202},
 	})
 	return
@@ -139,7 +139,7 @@ type UpdateOpts struct {
 
 // ToZoneUpdateMap formats an UpdateOpts structure into a request body.
 func (opts UpdateOpts) ToZoneUpdateMap() (map[string]interface{}, error) {
-	b, err := gophercloud.BuildRequestBody(opts, "")
+	b, err := golangsdk.BuildRequestBody(opts, "")
 	if err != nil {
 		return nil, err
 	}
@@ -152,21 +152,21 @@ func (opts UpdateOpts) ToZoneUpdateMap() (map[string]interface{}, error) {
 }
 
 // Update implements a zone update request.
-func Update(client *gophercloud.ServiceClient, zoneID string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(client *golangsdk.ServiceClient, zoneID string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToZoneUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Patch(zoneURL(client, zoneID), &b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Patch(zoneURL(client, zoneID), &b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 202},
 	})
 	return
 }
 
 // Delete implements a zone delete request.
-func Delete(client *gophercloud.ServiceClient, zoneID string) (r DeleteResult) {
-	_, r.Err = client.Delete(zoneURL(client, zoneID), &gophercloud.RequestOpts{
+func Delete(client *golangsdk.ServiceClient, zoneID string) (r DeleteResult) {
+	_, r.Err = client.Delete(zoneURL(client, zoneID), &golangsdk.RequestOpts{
 		OkCodes:      []int{202},
 		JSONResponse: &r.Body,
 	})

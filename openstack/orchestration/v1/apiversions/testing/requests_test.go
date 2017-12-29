@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/orchestration/v1/apiversions"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/orchestration/v1/apiversions"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 func TestListVersions(t *testing.T) {
@@ -54,8 +54,8 @@ func TestListVersions(t *testing.T) {
 			{
 				Status: "CURRENT",
 				ID:     "v1.0",
-				Links: []gophercloud.Link{
-					gophercloud.Link{
+				Links: []golangsdk.Link{
+					golangsdk.Link{
 						Href: "http://23.253.228.211:8000/v1",
 						Rel:  "self",
 					},

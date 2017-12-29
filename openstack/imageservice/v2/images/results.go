@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/internal"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/internal"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Image represents an image found in the OpenStack Image service.
@@ -126,7 +126,7 @@ func (r *Image) UnmarshalJSON(b []byte) error {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract interprets any commonResult as an Image.
@@ -157,7 +157,7 @@ type GetResult struct {
 // DeleteResult represents the result of a Delete operation. Call its
 // ExtractErr method to interpret it as an Image.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // ImagePage represents the results of a List request.

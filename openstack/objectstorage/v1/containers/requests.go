@@ -1,8 +1,8 @@
 package containers
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the List
@@ -25,14 +25,14 @@ type ListOpts struct {
 // ToContainerListParams formats a ListOpts into a query string and boolean
 // representing whether to list complete information for each container.
 func (opts ListOpts) ToContainerListParams() (bool, string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return opts.Full, q.String(), err
 }
 
 // List is a function that retrieves containers associated with the account as
 // well as account metadata. It returns a pager which can be iterated with the
 // EachPage function.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	headers := map[string]string{"Accept": "text/plain", "Content-Type": "text/plain"}
 
 	url := listURL(c)
@@ -78,7 +78,7 @@ type CreateOpts struct {
 
 // ToContainerCreateMap formats a CreateOpts into a map of headers.
 func (opts CreateOpts) ToContainerCreateMap() (map[string]string, error) {
-	h, err := gophercloud.BuildHeaders(opts)
+	h, err := golangsdk.BuildHeaders(opts)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (opts CreateOpts) ToContainerCreateMap() (map[string]string, error) {
 }
 
 // Create is a function that creates a new container.
-func Create(c *gophercloud.ServiceClient, containerName string, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, containerName string, opts CreateOptsBuilder) (r CreateResult) {
 	h := make(map[string]string)
 	if opts != nil {
 		headers, err := opts.ToContainerCreateMap()
@@ -101,7 +101,7 @@ func Create(c *gophercloud.ServiceClient, containerName string, opts CreateOptsB
 			h[k] = v
 		}
 	}
-	resp, err := c.Request("PUT", createURL(c, containerName), &gophercloud.RequestOpts{
+	resp, err := c.Request("PUT", createURL(c, containerName), &golangsdk.RequestOpts{
 		MoreHeaders: h,
 		OkCodes:     []int{201, 202, 204},
 	})
@@ -113,7 +113,7 @@ func Create(c *gophercloud.ServiceClient, containerName string, opts CreateOptsB
 }
 
 // Delete is a function that deletes a container.
-func Delete(c *gophercloud.ServiceClient, containerName string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, containerName string) (r DeleteResult) {
 	_, r.Err = c.Delete(deleteURL(c, containerName), nil)
 	return
 }
@@ -140,7 +140,7 @@ type UpdateOpts struct {
 
 // ToContainerUpdateMap formats a UpdateOpts into a map of headers.
 func (opts UpdateOpts) ToContainerUpdateMap() (map[string]string, error) {
-	h, err := gophercloud.BuildHeaders(opts)
+	h, err := golangsdk.BuildHeaders(opts)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (opts UpdateOpts) ToContainerUpdateMap() (map[string]string, error) {
 
 // Update is a function that creates, updates, or deletes a container's
 // metadata.
-func Update(c *gophercloud.ServiceClient, containerName string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, containerName string, opts UpdateOptsBuilder) (r UpdateResult) {
 	h := make(map[string]string)
 	if opts != nil {
 		headers, err := opts.ToContainerUpdateMap()
@@ -165,7 +165,7 @@ func Update(c *gophercloud.ServiceClient, containerName string, opts UpdateOptsB
 			h[k] = v
 		}
 	}
-	resp, err := c.Request("POST", updateURL(c, containerName), &gophercloud.RequestOpts{
+	resp, err := c.Request("POST", updateURL(c, containerName), &golangsdk.RequestOpts{
 		MoreHeaders: h,
 		OkCodes:     []int{201, 202, 204},
 	})
@@ -179,8 +179,8 @@ func Update(c *gophercloud.ServiceClient, containerName string, opts UpdateOptsB
 // Get is a function that retrieves the metadata of a container. To extract just
 // the custom metadata, pass the GetResult response to the ExtractMetadata
 // function.
-func Get(c *gophercloud.ServiceClient, containerName string) (r GetResult) {
-	resp, err := c.Request("HEAD", getURL(c, containerName), &gophercloud.RequestOpts{
+func Get(c *golangsdk.ServiceClient, containerName string) (r GetResult) {
+	resp, err := c.Request("HEAD", getURL(c, containerName), &golangsdk.RequestOpts{
 		OkCodes: []int{200, 204},
 	})
 	if resp != nil {

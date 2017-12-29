@@ -1,20 +1,20 @@
 package images
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // GetResult is the response from a Get operation. Call its Extract method to
 // interpret it as an Image.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // DeleteResult is the result from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // Extract interprets a GetResult as an Image.
@@ -75,13 +75,13 @@ func (page ImagePage) IsEmpty() (bool, error) {
 // next page of results.
 func (page ImagePage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"images_links"`
+		Links []golangsdk.Link `json:"images_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractImages converts a page of List results into a slice of usable Image

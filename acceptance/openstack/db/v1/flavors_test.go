@@ -5,9 +5,9 @@ package v1
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/flavors"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/flavors"
 )
 
 func TestFlavorsList(t *testing.T) {

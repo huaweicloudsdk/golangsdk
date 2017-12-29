@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/servers"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // ServerListBody contains the canned body of a servers.List response.
@@ -570,7 +570,7 @@ type CreateOptsWithCustomField struct {
 }
 
 func (opts CreateOptsWithCustomField) ToServerCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "server")
+	return golangsdk.BuildRequestBody(opts, "server")
 }
 
 // HandleServerCreationSuccessfully sets up the test server to respond to a server creation request

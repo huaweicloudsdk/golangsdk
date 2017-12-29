@@ -1,8 +1,8 @@
 package flavors
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -67,14 +67,14 @@ type ListOpts struct {
 
 // ToFlavorListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToFlavorListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // ListDetail instructs OpenStack to provide a list of flavors.
 // You may provide criteria by which List curtails its results for easier
 // processing.
-func ListDetail(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func ListDetail(client *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(client)
 	if opts != nil {
 		query, err := opts.ToFlavorListQuery()
@@ -124,17 +124,17 @@ type CreateOpts struct {
 
 // ToFlavorCreateMap constructs a request body from CreateOpts.
 func (opts CreateOpts) ToFlavorCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "flavor")
+	return golangsdk.BuildRequestBody(opts, "flavor")
 }
 
 // Create requests the creation of a new flavor.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToFlavorCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201},
 	})
 	return
@@ -142,19 +142,19 @@ func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r Create
 
 // Get retrieves details of a single flavor. Use ExtractFlavor to convert its
 // result into a Flavor.
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, id), &r.Body, nil)
 	return
 }
 
 // Delete deletes the specified flavor ID.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteURL(client, id), nil)
 	return
 }
 
 // ListAccesses retrieves the tenants which have access to a flavor.
-func ListAccesses(client *gophercloud.ServiceClient, id string) pagination.Pager {
+func ListAccesses(client *golangsdk.ServiceClient, id string) pagination.Pager {
 	url := accessURL(client, id)
 
 	return pagination.NewPager(client, url, func(r pagination.PageResult) pagination.Page {
@@ -176,29 +176,29 @@ type AddAccessOpts struct {
 
 // ToAddAccessMap constructs a request body from AddAccessOpts.
 func (opts AddAccessOpts) ToAddAccessMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "addTenantAccess")
+	return golangsdk.BuildRequestBody(opts, "addTenantAccess")
 }
 
 // AddAccess grants a tenant/project access to a flavor.
-func AddAccess(client *gophercloud.ServiceClient, id string, opts AddAccessOptsBuilder) (r AddAccessResult) {
+func AddAccess(client *golangsdk.ServiceClient, id string, opts AddAccessOptsBuilder) (r AddAccessResult) {
 	b, err := opts.ToAddAccessMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(accessActionURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(accessActionURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // ExtraSpecs requests all the extra-specs for the given flavor ID.
-func ListExtraSpecs(client *gophercloud.ServiceClient, flavorID string) (r ListExtraSpecsResult) {
+func ListExtraSpecs(client *golangsdk.ServiceClient, flavorID string) (r ListExtraSpecsResult) {
 	_, r.Err = client.Get(extraSpecsListURL(client, flavorID), &r.Body, nil)
 	return
 }
 
-func GetExtraSpec(client *gophercloud.ServiceClient, flavorID string, key string) (r GetExtraSpecResult) {
+func GetExtraSpec(client *golangsdk.ServiceClient, flavorID string, key string) (r GetExtraSpecResult) {
 	_, r.Err = client.Get(extraSpecsGetURL(client, flavorID, key), &r.Body, nil)
 	return
 }
@@ -219,13 +219,13 @@ func (opts ExtraSpecsOpts) ToExtraSpecsCreateMap() (map[string]interface{}, erro
 }
 
 // CreateExtraSpecs will create or update the extra-specs key-value pairs for the specified Flavor
-func CreateExtraSpecs(client *gophercloud.ServiceClient, flavorID string, opts CreateExtraSpecsOptsBuilder) (r CreateExtraSpecsResult) {
+func CreateExtraSpecs(client *golangsdk.ServiceClient, flavorID string, opts CreateExtraSpecsOptsBuilder) (r CreateExtraSpecsResult) {
 	b, err := opts.ToExtraSpecsCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(extraSpecsCreateURL(client, flavorID), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(extraSpecsCreateURL(client, flavorID), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -233,7 +233,7 @@ func CreateExtraSpecs(client *gophercloud.ServiceClient, flavorID string, opts C
 
 // IDFromName is a convienience function that returns a flavor's ID given its
 // name.
-func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
+func IDFromName(client *golangsdk.ServiceClient, name string) (string, error) {
 	count := 0
 	id := ""
 	allPages, err := ListDetail(client, nil).AllPages()
@@ -255,14 +255,14 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		err := &gophercloud.ErrResourceNotFound{}
+		err := &golangsdk.ErrResourceNotFound{}
 		err.ResourceType = "flavor"
 		err.Name = name
 		return "", err
 	case 1:
 		return id, nil
 	default:
-		err := &gophercloud.ErrMultipleResourcesFound{}
+		err := &golangsdk.ErrMultipleResourcesFound{}
 		err.ResourceType = "flavor"
 		err.Name = name
 		err.Count = count

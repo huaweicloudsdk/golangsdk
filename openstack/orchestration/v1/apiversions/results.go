@@ -1,8 +1,8 @@
 package apiversions
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // APIVersion represents an API version for Neutron. It contains the status of
@@ -10,7 +10,7 @@ import (
 type APIVersion struct {
 	Status string             `json:"status"`
 	ID     string             `json:"id"`
-	Links  []gophercloud.Link `json:"links"`
+	Links  []golangsdk.Link `json:"links"`
 }
 
 // APIVersionPage is the page returned by a pager when traversing over a

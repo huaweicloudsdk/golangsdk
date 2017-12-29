@@ -1,7 +1,7 @@
 package apiversions
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func apiVersionsURL(c *gophercloud.ServiceClient) string {
+func apiVersionsURL(c *golangsdk.ServiceClient) string {
 	return c.Endpoint
 }

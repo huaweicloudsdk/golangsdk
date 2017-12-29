@@ -1,25 +1,25 @@
 package quotasets
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 const resourcePath = "os-quota-sets"
 
-func resourceURL(c *gophercloud.ServiceClient) string {
+func resourceURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(resourcePath)
 }
 
-func getURL(c *gophercloud.ServiceClient, tenantID string) string {
+func getURL(c *golangsdk.ServiceClient, tenantID string) string {
 	return c.ServiceURL(resourcePath, tenantID)
 }
 
-func getDetailURL(c *gophercloud.ServiceClient, tenantID string) string {
+func getDetailURL(c *golangsdk.ServiceClient, tenantID string) string {
 	return c.ServiceURL(resourcePath, tenantID, "detail")
 }
 
-func updateURL(c *gophercloud.ServiceClient, tenantID string) string {
+func updateURL(c *golangsdk.ServiceClient, tenantID string) string {
 	return getURL(c, tenantID)
 }
 
-func deleteURL(c *gophercloud.ServiceClient, tenantID string) string {
+func deleteURL(c *golangsdk.ServiceClient, tenantID string) string {
 	return getURL(c, tenantID)
 }

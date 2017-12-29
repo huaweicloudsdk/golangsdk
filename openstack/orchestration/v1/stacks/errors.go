@@ -3,11 +3,11 @@ package stacks
 import (
 	"fmt"
 
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 type ErrInvalidEnvironment struct {
-	gophercloud.BaseError
+	golangsdk.BaseError
 	Section string
 }
 
@@ -16,7 +16,7 @@ func (e ErrInvalidEnvironment) Error() string {
 }
 
 type ErrInvalidDataFormat struct {
-	gophercloud.BaseError
+	golangsdk.BaseError
 }
 
 func (e ErrInvalidDataFormat) Error() string {
@@ -24,7 +24,7 @@ func (e ErrInvalidDataFormat) Error() string {
 }
 
 type ErrInvalidTemplateFormatVersion struct {
-	gophercloud.BaseError
+	golangsdk.BaseError
 	Version string
 }
 

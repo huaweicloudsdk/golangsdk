@@ -5,8 +5,8 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/migrate"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/migrate"
 )
 
 func TestMigrate(t *testing.T) {

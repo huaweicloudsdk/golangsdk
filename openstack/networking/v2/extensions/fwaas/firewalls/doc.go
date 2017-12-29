@@ -28,7 +28,7 @@ Example to Create a Firewall
 		Name:        "firewall_1",
 		Description: "A firewall",
 		PolicyID:    "19ab8c87-4a32-4e6a-a74e-b77fffb89a0c",
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 	}
 
 	firewall, err := firewalls.Create(networkClient, createOpts).Extract()
@@ -41,7 +41,7 @@ Example to Update a Firewall
 	firewallID := "a6917946-38ab-4ffd-a55a-26c0980ce5ee"
 
 	updateOpts := firewalls.UpdateOpts{
-		AdminStateUp: gophercloud.Disabled,
+		AdminStateUp: golangsdk.Disabled,
 	}
 
 	firewall, err := firewalls.Update(networkClient, firewallID, updateOpts).Extract()

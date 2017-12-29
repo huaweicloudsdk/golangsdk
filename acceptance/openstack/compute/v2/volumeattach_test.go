@@ -5,10 +5,10 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/v1/volumes"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v1/volumes"
 )
 
 func TestVolumeAttachAttachment(t *testing.T) {
@@ -52,7 +52,7 @@ func TestVolumeAttachAttachment(t *testing.T) {
 
 }
 
-func createVolume(t *testing.T, blockClient *gophercloud.ServiceClient) (*volumes.Volume, error) {
+func createVolume(t *testing.T, blockClient *golangsdk.ServiceClient) (*volumes.Volume, error) {
 	volumeName := tools.RandomString("ACPTTEST", 16)
 	createOpts := volumes.CreateOpts{
 		Size: 1,
@@ -68,7 +68,7 @@ func createVolume(t *testing.T, blockClient *gophercloud.ServiceClient) (*volume
 	return volume, nil
 }
 
-func deleteVolume(t *testing.T, blockClient *gophercloud.ServiceClient, volume *volumes.Volume) {
+func deleteVolume(t *testing.T, blockClient *golangsdk.ServiceClient, volume *volumes.Volume) {
 	err := volumes.Delete(blockClient, volume.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete volume: %v", err)

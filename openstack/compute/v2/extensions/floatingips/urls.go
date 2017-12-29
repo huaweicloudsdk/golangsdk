@@ -1,37 +1,37 @@
 package floatingips
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 const resourcePath = "os-floating-ips"
 
-func resourceURL(c *gophercloud.ServiceClient) string {
+func resourceURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(resourcePath)
 }
 
-func listURL(c *gophercloud.ServiceClient) string {
+func listURL(c *golangsdk.ServiceClient) string {
 	return resourceURL(c)
 }
 
-func createURL(c *gophercloud.ServiceClient) string {
+func createURL(c *golangsdk.ServiceClient) string {
 	return resourceURL(c)
 }
 
-func getURL(c *gophercloud.ServiceClient, id string) string {
+func getURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL(resourcePath, id)
 }
 
-func deleteURL(c *gophercloud.ServiceClient, id string) string {
+func deleteURL(c *golangsdk.ServiceClient, id string) string {
 	return getURL(c, id)
 }
 
-func serverURL(c *gophercloud.ServiceClient, serverID string) string {
+func serverURL(c *golangsdk.ServiceClient, serverID string) string {
 	return c.ServiceURL("servers/" + serverID + "/action")
 }
 
-func associateURL(c *gophercloud.ServiceClient, serverID string) string {
+func associateURL(c *golangsdk.ServiceClient, serverID string) string {
 	return serverURL(c, serverID)
 }
 
-func disassociateURL(c *gophercloud.ServiceClient, serverID string) string {
+func disassociateURL(c *golangsdk.ServiceClient, serverID string) string {
 	return serverURL(c, serverID)
 }

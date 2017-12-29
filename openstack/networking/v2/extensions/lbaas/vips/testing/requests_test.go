@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	fake "github.com/gophercloud/gophercloud/openstack/networking/v2/common"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/vips"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	fake "github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/common"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/lbaas/vips"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestList(t *testing.T) {
@@ -166,7 +166,7 @@ func TestCreate(t *testing.T) {
 	opts := vips.CreateOpts{
 		Protocol:     "HTTP",
 		Name:         "NewVip",
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 		SubnetID:     "8032909d-47a1-4715-90af-5153ffe39861",
 		PoolID:       "61b1f87a-7a21-4ad3-9dda-7f81d249944f",
 		ProtocolPort: 80,

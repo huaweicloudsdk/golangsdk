@@ -1,6 +1,6 @@
 package shares
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
 // CreateOptsBuilder allows extensions to add additional parameters to the
 // Create request.
@@ -48,39 +48,39 @@ type CreateOpts struct {
 // ToShareCreateMap assembles a request body based on the contents of a
 // CreateOpts.
 func (opts CreateOpts) ToShareCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "share")
+	return golangsdk.BuildRequestBody(opts, "share")
 }
 
 // Create will create a new Share based on the values in CreateOpts. To extract
 // the Share object from the response, call the Extract method on the
 // CreateResult.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToShareCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201},
 	})
 	return
 }
 
 // Delete will delete an existing Share with the given UUID.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteURL(client, id), nil)
 	return
 }
 
 // Get will get a single share with given UUID
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, id), &r.Body, nil)
 	return
 }
 
 // GetExportLocations will get shareID's export locations.
 // Client must have Microversion set; minimum supported microversion for GetExportLocations is 2.14.
-func GetExportLocations(client *gophercloud.ServiceClient, id string) (r GetExportLocationsResult) {
+func GetExportLocations(client *golangsdk.ServiceClient, id string) (r GetExportLocationsResult) {
 	_, r.Err = client.Get(getExportLocationsURL(client, id), &r.Body, nil)
 	return
 }
@@ -106,19 +106,19 @@ type GrantAccessOpts struct {
 // ToGrantAccessMap assembles a request body based on the contents of a
 // GrantAccessOpts.
 func (opts GrantAccessOpts) ToGrantAccessMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "allow_access")
+	return golangsdk.BuildRequestBody(opts, "allow_access")
 }
 
 // GrantAccess will grant access to a Share based on the values in GrantAccessOpts. To extract
 // the GrantAccess object from the response, call the Extract method on the GrantAccessResult.
 // Client must have Microversion set; minimum supported microversion for GrantAccess is 2.7.
-func GrantAccess(client *gophercloud.ServiceClient, id string, opts GrantAccessOptsBuilder) (r GrantAccessResult) {
+func GrantAccess(client *golangsdk.ServiceClient, id string, opts GrantAccessOptsBuilder) (r GrantAccessResult) {
 	b, err := opts.ToGrantAccessMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(grantAccessURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(grantAccessURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return

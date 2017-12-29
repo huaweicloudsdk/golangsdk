@@ -1,8 +1,8 @@
 package snapshots
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // CreateOptsBuilder allows extensions to add additional parameters to the
@@ -25,33 +25,33 @@ type CreateOpts struct {
 // ToSnapshotCreateMap assembles a request body based on the contents of a
 // CreateOpts.
 func (opts CreateOpts) ToSnapshotCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "snapshot")
+	return golangsdk.BuildRequestBody(opts, "snapshot")
 }
 
 // Create will create a new Snapshot based on the values in CreateOpts. To
 // extract the Snapshot object from the response, call the Extract method on the
 // CreateResult.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToSnapshotCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{202},
 	})
 	return
 }
 
 // Delete will delete the existing Snapshot with the provided ID.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteURL(client, id), nil)
 	return
 }
 
 // Get retrieves the Snapshot with the provided ID. To extract the Snapshot
 // object from the response, call the Extract method on the GetResult.
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, id), &r.Body, nil)
 	return
 }
@@ -84,13 +84,13 @@ type ListOpts struct {
 
 // ToSnapshotListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToSnapshotListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List returns Snapshots optionally limited by the conditions provided in
 // ListOpts.
-func List(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(client *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(client)
 	if opts != nil {
 		query, err := opts.ToSnapshotListQuery()
@@ -120,26 +120,26 @@ type UpdateMetadataOpts struct {
 // ToSnapshotUpdateMetadataMap assembles a request body based on the contents of
 // an UpdateMetadataOpts.
 func (opts UpdateMetadataOpts) ToSnapshotUpdateMetadataMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "")
+	return golangsdk.BuildRequestBody(opts, "")
 }
 
 // UpdateMetadata will update the Snapshot with provided information. To
 // extract the updated Snapshot from the response, call the ExtractMetadata
 // method on the UpdateMetadataResult.
-func UpdateMetadata(client *gophercloud.ServiceClient, id string, opts UpdateMetadataOptsBuilder) (r UpdateMetadataResult) {
+func UpdateMetadata(client *golangsdk.ServiceClient, id string, opts UpdateMetadataOptsBuilder) (r UpdateMetadataResult) {
 	b, err := opts.ToSnapshotUpdateMetadataMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Put(updateMetadataURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Put(updateMetadataURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // IDFromName is a convienience function that returns a snapshot's ID given its name.
-func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
+func IDFromName(client *golangsdk.ServiceClient, name string) (string, error) {
 	count := 0
 	id := ""
 	pages, err := List(client, nil).AllPages()
@@ -161,10 +161,10 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "snapshot"}
+		return "", golangsdk.ErrResourceNotFound{Name: name, ResourceType: "snapshot"}
 	case 1:
 		return id, nil
 	default:
-		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "snapshot"}
+		return "", golangsdk.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "snapshot"}
 	}
 }

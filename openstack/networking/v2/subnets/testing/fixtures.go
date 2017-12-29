@@ -1,7 +1,7 @@
 package testing
 
 import (
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/subnets"
 )
 
 const SubnetListResult = `

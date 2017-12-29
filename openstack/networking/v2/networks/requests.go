@@ -1,8 +1,8 @@
 package networks
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // ListOptsBuilder allows extensions to add additional parameters to the
@@ -31,14 +31,14 @@ type ListOpts struct {
 
 // ToNetworkListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToNetworkListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List returns a Pager which allows you to iterate over a collection of
 // networks. It accepts a ListOpts struct, which allows you to filter and sort
 // the returned collection for greater efficiency.
-func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(c *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(c)
 	if opts != nil {
 		query, err := opts.ToNetworkListQuery()
@@ -53,7 +53,7 @@ func List(c *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 }
 
 // Get retrieves a specific network based on its unique ID.
-func Get(c *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(c *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = c.Get(getURL(c, id), &r.Body, nil)
 	return
 }
@@ -75,7 +75,7 @@ type CreateOpts struct {
 
 // ToNetworkCreateMap builds a request body from CreateOpts.
 func (opts CreateOpts) ToNetworkCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "network")
+	return golangsdk.BuildRequestBody(opts, "network")
 }
 
 // Create accepts a CreateOpts struct and creates a new network using the values
@@ -85,7 +85,7 @@ func (opts CreateOpts) ToNetworkCreateMap() (map[string]interface{}, error) {
 // The tenant ID that is contained in the URI is the tenant that creates the
 // network. An admin user, however, has the option of specifying another tenant
 // ID in the CreateOpts struct.
-func Create(c *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(c *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToNetworkCreateMap()
 	if err != nil {
 		r.Err = err
@@ -110,32 +110,32 @@ type UpdateOpts struct {
 
 // ToNetworkUpdateMap builds a request body from UpdateOpts.
 func (opts UpdateOpts) ToNetworkUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "network")
+	return golangsdk.BuildRequestBody(opts, "network")
 }
 
 // Update accepts a UpdateOpts struct and updates an existing network using the
 // values provided. For more information, see the Create function.
-func Update(c *gophercloud.ServiceClient, networkID string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(c *golangsdk.ServiceClient, networkID string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToNetworkUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = c.Put(updateURL(c, networkID), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = c.Put(updateURL(c, networkID), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 201},
 	})
 	return
 }
 
 // Delete accepts a unique ID and deletes the network associated with it.
-func Delete(c *gophercloud.ServiceClient, networkID string) (r DeleteResult) {
+func Delete(c *golangsdk.ServiceClient, networkID string) (r DeleteResult) {
 	_, r.Err = c.Delete(deleteURL(c, networkID), nil)
 	return
 }
 
 // IDFromName is a convenience function that returns a network's ID, given
 // its name.
-func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) {
+func IDFromName(client *golangsdk.ServiceClient, name string) (string, error) {
 	count := 0
 	id := ""
 	pages, err := List(client, nil).AllPages()
@@ -157,10 +157,10 @@ func IDFromName(client *gophercloud.ServiceClient, name string) (string, error) 
 
 	switch count {
 	case 0:
-		return "", gophercloud.ErrResourceNotFound{Name: name, ResourceType: "network"}
+		return "", golangsdk.ErrResourceNotFound{Name: name, ResourceType: "network"}
 	case 1:
 		return id, nil
 	default:
-		return "", gophercloud.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "network"}
+		return "", golangsdk.ErrMultipleResourcesFound{Name: name, Count: count, ResourceType: "network"}
 	}
 }

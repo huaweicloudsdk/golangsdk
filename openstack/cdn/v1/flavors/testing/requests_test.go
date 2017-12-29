@@ -3,11 +3,11 @@ package testing
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/cdn/v1/flavors"
-	"github.com/gophercloud/gophercloud/pagination"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	fake "github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/cdn/v1/flavors"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	fake "github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 func TestList(t *testing.T) {
@@ -32,16 +32,16 @@ func TestList(t *testing.T) {
 				Providers: []flavors.Provider{
 					{
 						Provider: "Fastly",
-						Links: []gophercloud.Link{
-							gophercloud.Link{
+						Links: []golangsdk.Link{
+							golangsdk.Link{
 								Href: "http://www.fastly.com",
 								Rel:  "provider_url",
 							},
 						},
 					},
 				},
-				Links: []gophercloud.Link{
-					gophercloud.Link{
+				Links: []golangsdk.Link{
+					golangsdk.Link{
 						Href: "https://www.poppycdn.io/v1.0/flavors/europe",
 						Rel:  "self",
 					},
@@ -68,16 +68,16 @@ func TestGet(t *testing.T) {
 		Providers: []flavors.Provider{
 			{
 				Provider: "ChinaCache",
-				Links: []gophercloud.Link{
-					gophercloud.Link{
+				Links: []golangsdk.Link{
+					golangsdk.Link{
 						Href: "http://www.chinacache.com",
 						Rel:  "provider_url",
 					},
 				},
 			},
 		},
-		Links: []gophercloud.Link{
-			gophercloud.Link{
+		Links: []golangsdk.Link{
+			golangsdk.Link{
 				Href: "https://www.poppycdn.io/v1.0/flavors/asia",
 				Rel:  "self",
 			},

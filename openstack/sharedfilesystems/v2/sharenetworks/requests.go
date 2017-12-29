@@ -1,8 +1,8 @@
 package sharenetworks
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // CreateOptsBuilder allows extensions to add additional parameters to the
@@ -30,26 +30,26 @@ type CreateOpts struct {
 // ToShareNetworkCreateMap assembles a request body based on the contents of a
 // CreateOpts.
 func (opts CreateOpts) ToShareNetworkCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "share_network")
+	return golangsdk.BuildRequestBody(opts, "share_network")
 }
 
 // Create will create a new ShareNetwork based on the values in CreateOpts. To
 // extract the ShareNetwork object from the response, call the Extract method
 // on the CreateResult.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToShareNetworkCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200, 202},
 	})
 	return
 }
 
 // Delete will delete the existing ShareNetwork with the provided ID.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteURL(client, id), nil)
 	return
 }
@@ -80,7 +80,7 @@ type ListOpts struct {
 	// The Share Network description
 	Description string `q:"description"`
 	// The Share Network IP version
-	IPVersion gophercloud.IPVersion `q:"ip_version"`
+	IPVersion golangsdk.IPVersion `q:"ip_version"`
 	// The Share Network segmentation ID
 	SegmentationID int `q:"segmentation_id"`
 	// List all share networks created after the given date
@@ -95,12 +95,12 @@ type ListOpts struct {
 
 // ToShareNetworkListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToShareNetworkListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // ListDetail returns ShareNetworks optionally limited by the conditions provided in ListOpts.
-func ListDetail(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func ListDetail(client *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listDetailURL(client)
 	if opts != nil {
 		query, err := opts.ToShareNetworkListQuery()
@@ -119,7 +119,7 @@ func ListDetail(client *gophercloud.ServiceClient, opts ListOptsBuilder) paginat
 
 // Get retrieves the ShareNetwork with the provided ID. To extract the ShareNetwork
 // object from the response, call the Extract method on the GetResult.
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, id), &r.Body, nil)
 	return
 }
@@ -149,18 +149,18 @@ type UpdateOpts struct {
 // ToShareNetworkUpdateMap assembles a request body based on the contents of an
 // UpdateOpts.
 func (opts UpdateOpts) ToShareNetworkUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "share_network")
+	return golangsdk.BuildRequestBody(opts, "share_network")
 }
 
 // Update will update the ShareNetwork with provided information. To extract the updated
 // ShareNetwork from the response, call the Extract method on the UpdateResult.
-func Update(client *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(client *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToShareNetworkUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Put(updateURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Put(updateURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -182,18 +182,18 @@ type AddSecurityServiceOpts struct {
 // ToShareNetworkAddSecurityServiceMap assembles a request body based on the contents of an
 // AddSecurityServiceOpts.
 func (opts AddSecurityServiceOpts) ToShareNetworkAddSecurityServiceMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "add_security_service")
+	return golangsdk.BuildRequestBody(opts, "add_security_service")
 }
 
 // AddSecurityService will add the security service to a ShareNetwork. To extract the updated
 // ShareNetwork from the response, call the Extract method on the UpdateResult.
-func AddSecurityService(client *gophercloud.ServiceClient, id string, opts AddSecurityServiceOptsBuilder) (r UpdateResult) {
+func AddSecurityService(client *golangsdk.ServiceClient, id string, opts AddSecurityServiceOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToShareNetworkAddSecurityServiceMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(addSecurityServiceURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(addSecurityServiceURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -215,18 +215,18 @@ type RemoveSecurityServiceOpts struct {
 // ToShareNetworkRemoveSecurityServiceMap assembles a request body based on the contents of an
 // RemoveSecurityServiceOpts.
 func (opts RemoveSecurityServiceOpts) ToShareNetworkRemoveSecurityServiceMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "remove_security_service")
+	return golangsdk.BuildRequestBody(opts, "remove_security_service")
 }
 
 // RemoveSecurityService will remove the security service from a ShareNetwork. To extract the updated
 // ShareNetwork from the response, call the Extract method on the UpdateResult.
-func RemoveSecurityService(client *gophercloud.ServiceClient, id string, opts RemoveSecurityServiceOptsBuilder) (r UpdateResult) {
+func RemoveSecurityService(client *golangsdk.ServiceClient, id string, opts RemoveSecurityServiceOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToShareNetworkRemoveSecurityServiceMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(removeSecurityServiceURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(removeSecurityServiceURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return

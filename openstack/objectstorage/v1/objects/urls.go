@@ -1,33 +1,33 @@
 package objects
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
-func listURL(c *gophercloud.ServiceClient, container string) string {
+func listURL(c *golangsdk.ServiceClient, container string) string {
 	return c.ServiceURL(container)
 }
 
-func copyURL(c *gophercloud.ServiceClient, container, object string) string {
+func copyURL(c *golangsdk.ServiceClient, container, object string) string {
 	return c.ServiceURL(container, object)
 }
 
-func createURL(c *gophercloud.ServiceClient, container, object string) string {
+func createURL(c *golangsdk.ServiceClient, container, object string) string {
 	return copyURL(c, container, object)
 }
 
-func getURL(c *gophercloud.ServiceClient, container, object string) string {
+func getURL(c *golangsdk.ServiceClient, container, object string) string {
 	return copyURL(c, container, object)
 }
 
-func deleteURL(c *gophercloud.ServiceClient, container, object string) string {
+func deleteURL(c *golangsdk.ServiceClient, container, object string) string {
 	return copyURL(c, container, object)
 }
 
-func downloadURL(c *gophercloud.ServiceClient, container, object string) string {
+func downloadURL(c *golangsdk.ServiceClient, container, object string) string {
 	return copyURL(c, container, object)
 }
 
-func updateURL(c *gophercloud.ServiceClient, container, object string) string {
+func updateURL(c *golangsdk.ServiceClient, container, object string) string {
 	return copyURL(c, container, object)
 }

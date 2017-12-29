@@ -6,17 +6,17 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/attachinterfaces"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/availabilityzones"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/extendedstatus"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/lockunlock"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/pauseunpause"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/suspendresume"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
-	th "github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/attachinterfaces"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/availabilityzones"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/extendedstatus"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/lockunlock"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/pauseunpause"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/suspendresume"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/servers"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestServersList(t *testing.T) {
@@ -146,7 +146,7 @@ func TestServersWithoutImageRef(t *testing.T) {
 
 	server, err := CreateServerWithoutImageRef(t, client)
 	if err != nil {
-		if err400, ok := err.(*gophercloud.ErrUnexpectedResponseCode); ok {
+		if err400, ok := err.(*golangsdk.ErrUnexpectedResponseCode); ok {
 			if !strings.Contains("Missing imageRef attribute", string(err400.Body)) {
 				defer DeleteServer(t, client, server)
 			}

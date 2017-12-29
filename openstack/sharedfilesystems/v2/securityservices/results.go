@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // SecurityService contains all the information associated with an OpenStack
@@ -43,8 +43,8 @@ func (r *SecurityService) UnmarshalJSON(b []byte) error {
 	type tmp SecurityService
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -59,7 +59,7 @@ func (r *SecurityService) UnmarshalJSON(b []byte) error {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // SecurityServicePage is a pagination.pager that is returned from a call to the List function.
@@ -99,7 +99,7 @@ type CreateResult struct {
 
 // DeleteResult contains the response body and error from a Delete request.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // GetResult contains the response body and error from a Get request.

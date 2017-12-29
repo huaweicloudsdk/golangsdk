@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gophercloud/gophercloud/pagination"
-	"github.com/gophercloud/gophercloud/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
+	"github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 // MarkerPager sample and test cases.

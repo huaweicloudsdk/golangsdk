@@ -5,17 +5,17 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/firewalls"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/policies"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/routerinsertion"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/rules"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/firewalls"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/policies"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/routerinsertion"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/extensions/fwaas/rules"
 )
 
 // CreateFirewall will create a Firewaill with a random name and a specified
 // policy ID. An error will be returned if the firewall could not be created.
-func CreateFirewall(t *testing.T, client *gophercloud.ServiceClient, policyID string) (*firewalls.Firewall, error) {
+func CreateFirewall(t *testing.T, client *golangsdk.ServiceClient, policyID string) (*firewalls.Firewall, error) {
 	firewallName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create firewall %s", firewallName)
@@ -45,7 +45,7 @@ func CreateFirewall(t *testing.T, client *gophercloud.ServiceClient, policyID st
 // CreateFirewallOnRouter will create a Firewall with a random name and a
 // specified policy ID attached to a specified Router. An error will be
 // returned if the firewall could not be created.
-func CreateFirewallOnRouter(t *testing.T, client *gophercloud.ServiceClient, policyID string, routerID string) (*firewalls.Firewall, error) {
+func CreateFirewallOnRouter(t *testing.T, client *golangsdk.ServiceClient, policyID string, routerID string) (*firewalls.Firewall, error) {
 	firewallName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create firewall %s", firewallName)
@@ -77,7 +77,7 @@ func CreateFirewallOnRouter(t *testing.T, client *gophercloud.ServiceClient, pol
 
 // CreatePolicy will create a Firewall Policy with a random name and given
 // rule. An error will be returned if the rule could not be created.
-func CreatePolicy(t *testing.T, client *gophercloud.ServiceClient, ruleID string) (*policies.Policy, error) {
+func CreatePolicy(t *testing.T, client *golangsdk.ServiceClient, ruleID string) (*policies.Policy, error) {
 	policyName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create policy %s", policyName)
@@ -102,7 +102,7 @@ func CreatePolicy(t *testing.T, client *gophercloud.ServiceClient, ruleID string
 // CreateRule will create a Firewall Rule with a random source address and
 //source port, destination address and port. An error will be returned if
 // the rule could not be created.
-func CreateRule(t *testing.T, client *gophercloud.ServiceClient) (*rules.Rule, error) {
+func CreateRule(t *testing.T, client *golangsdk.ServiceClient) (*rules.Rule, error) {
 	ruleName := tools.RandomString("TESTACC-", 8)
 	sourceAddress := fmt.Sprintf("192.168.1.%d", tools.RandomInt(1, 100))
 	sourcePort := strconv.Itoa(tools.RandomInt(1, 100))
@@ -135,7 +135,7 @@ func CreateRule(t *testing.T, client *gophercloud.ServiceClient) (*rules.Rule, e
 // DeleteFirewall will delete a firewall with a specified ID. A fatal error
 // will occur if the delete was not successful. This works best when used as
 // a deferred function.
-func DeleteFirewall(t *testing.T, client *gophercloud.ServiceClient, firewallID string) {
+func DeleteFirewall(t *testing.T, client *golangsdk.ServiceClient, firewallID string) {
 	t.Logf("Attempting to delete firewall: %s", firewallID)
 
 	err := firewalls.Delete(client, firewallID).ExtractErr()
@@ -154,7 +154,7 @@ func DeleteFirewall(t *testing.T, client *gophercloud.ServiceClient, firewallID 
 // DeletePolicy will delete a policy with a specified ID. A fatal error will
 // occur if the delete was not successful. This works best when used as a
 // deferred function.
-func DeletePolicy(t *testing.T, client *gophercloud.ServiceClient, policyID string) {
+func DeletePolicy(t *testing.T, client *golangsdk.ServiceClient, policyID string) {
 	t.Logf("Attempting to delete policy: %s", policyID)
 
 	err := policies.Delete(client, policyID).ExtractErr()
@@ -168,7 +168,7 @@ func DeletePolicy(t *testing.T, client *gophercloud.ServiceClient, policyID stri
 // DeleteRule will delete a rule with a specified ID. A fatal error will occur
 // if the delete was not successful. This works best when used as a deferred
 // function.
-func DeleteRule(t *testing.T, client *gophercloud.ServiceClient, ruleID string) {
+func DeleteRule(t *testing.T, client *golangsdk.ServiceClient, ruleID string) {
 	t.Logf("Attempting to delete rule: %s", ruleID)
 
 	err := rules.Delete(client, ruleID).ExtractErr()
@@ -180,11 +180,11 @@ func DeleteRule(t *testing.T, client *gophercloud.ServiceClient, ruleID string) 
 }
 
 // WaitForFirewallState will wait until a firewall reaches a given state.
-func WaitForFirewallState(client *gophercloud.ServiceClient, firewallID, status string, secs int) error {
-	return gophercloud.WaitFor(secs, func() (bool, error) {
+func WaitForFirewallState(client *golangsdk.ServiceClient, firewallID, status string, secs int) error {
+	return golangsdk.WaitFor(secs, func() (bool, error) {
 		current, err := firewalls.Get(client, firewallID).Extract()
 		if err != nil {
-			if httpStatus, ok := err.(gophercloud.ErrDefault404); ok {
+			if httpStatus, ok := err.(golangsdk.ErrDefault404); ok {
 				if httpStatus.Actual == 404 {
 					if status == "DELETED" {
 						return true, nil

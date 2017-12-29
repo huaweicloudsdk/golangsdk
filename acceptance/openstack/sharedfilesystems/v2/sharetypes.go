@@ -3,14 +3,14 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/sharetypes"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/sharedfilesystems/v2/sharetypes"
 )
 
 // CreateShareType will create a share type with a random name. An
 // error will be returned if the share type was unable to be created.
-func CreateShareType(t *testing.T, client *gophercloud.ServiceClient) (*sharetypes.ShareType, error) {
+func CreateShareType(t *testing.T, client *golangsdk.ServiceClient) (*sharetypes.ShareType, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires share type creation in short mode.")
 	}
@@ -38,7 +38,7 @@ func CreateShareType(t *testing.T, client *gophercloud.ServiceClient) (*sharetyp
 
 // DeleteShareType will delete a share type. An error will occur if
 // the share type was unable to be deleted.
-func DeleteShareType(t *testing.T, client *gophercloud.ServiceClient, shareType *sharetypes.ShareType) {
+func DeleteShareType(t *testing.T, client *golangsdk.ServiceClient, shareType *sharetypes.ShareType) {
 	err := sharetypes.Delete(client, shareType.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Failed to delete share type %s: %v", shareType.ID, err)

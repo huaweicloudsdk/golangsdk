@@ -5,9 +5,9 @@ package v3
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/v3/volumetypes"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v3/volumetypes"
 )
 
 func TestVolumeTypesList(t *testing.T) {
@@ -52,10 +52,10 @@ func TestVolumeTypesCreateDestroy(t *testing.T) {
 	}
 
 	createOpts := volumetypes.CreateOpts{
-		Name:         "create_from_gophercloud",
+		Name:         "create_from_golangsdk",
 		PublicAccess: true,
 		ExtraSpecs:   map[string]string{"volume_backend_name": "fake_backend_name"},
-		Description:  "create_from_gophercloud",
+		Description:  "create_from_golangsdk",
 	}
 
 	vt, err := volumetypes.Create(client, createOpts).Extract()

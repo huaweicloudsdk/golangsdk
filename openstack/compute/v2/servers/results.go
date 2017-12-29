@@ -9,12 +9,12 @@ import (
 	"path"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type serverResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract interprets any serverResult as a Server, if possible.
@@ -53,7 +53,7 @@ type UpdateResult struct {
 // DeleteResult is the response from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // RebuildResult is the response from a Rebuild operation. Call its Extract
@@ -65,7 +65,7 @@ type RebuildResult struct {
 // ActionResult represents the result of server action operations, like reboot.
 // Call its ExtractErr method to determine if the action succeeded or failed.
 type ActionResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // RescueResult is the response from a Rescue operation. Call its ExtractErr
@@ -77,13 +77,13 @@ type RescueResult struct {
 // CreateImageResult is the response from a CreateImage operation. Call its
 // ExtractImageID method to retrieve the ID of the newly created image.
 type CreateImageResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // GetPasswordResult represent the result of a get os-server-password operation.
 // Call its ExtractPassword method to retrieve the password.
 type GetPasswordResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // ExtractPassword gets the encrypted password.
@@ -267,13 +267,13 @@ func (r ServerPage) IsEmpty() (bool, error) {
 // next page of results.
 func (r ServerPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"servers_links"`
+		Links []golangsdk.Link `json:"servers_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractServers interprets the results of a single page from a List() call,
@@ -288,7 +288,7 @@ func ExtractServers(r pagination.Page) ([]Server, error) {
 // key-value pairs. Call its Extract method to interpret it as a
 // map[string]interface.
 type MetadataResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // GetMetadataResult contains the result of a Get operation. Call its Extract
@@ -312,7 +312,7 @@ type UpdateMetadataResult struct {
 // MetadatumResult contains the result of a call for individual a single
 // key-value pair.
 type MetadatumResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // GetMetadatumResult contains the result of a Get operation. Call its Extract
@@ -330,7 +330,7 @@ type CreateMetadatumResult struct {
 // DeleteMetadatumResult contains the result of a Delete operation. Call its
 // ExtractErr method to determine if the call succeeded or failed.
 type DeleteMetadatumResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // Extract interprets any MetadataResult as a Metadata, if possible.

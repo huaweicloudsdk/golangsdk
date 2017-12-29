@@ -1,12 +1,12 @@
 package networks
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a function that accepts a result and extracts a network resource.
@@ -41,7 +41,7 @@ type UpdateResult struct {
 // DeleteResult represents the result of a delete operation. Call its
 // ExtractErr method to determine if the request succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // Network represents, well, a network.
@@ -86,13 +86,13 @@ type NetworkPage struct {
 // to do this, it needs to construct the next page's URL.
 func (r NetworkPage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"networks_links"`
+		Links []golangsdk.Link `json:"networks_links"`
 	}
 	err := r.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // IsEmpty checks whether a NetworkPage struct is empty.

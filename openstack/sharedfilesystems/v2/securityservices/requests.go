@@ -1,8 +1,8 @@
 package securityservices
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type SecurityServiceType string
@@ -45,26 +45,26 @@ type CreateOpts struct {
 // ToSecurityServicesCreateMap assembles a request body based on the contents of a
 // CreateOpts.
 func (opts CreateOpts) ToSecurityServiceCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "security_service")
+	return golangsdk.BuildRequestBody(opts, "security_service")
 }
 
 // Create will create a new SecurityService based on the values in CreateOpts. To
 // extract the SecurityService object from the response, call the Extract method
 // on the CreateResult.
-func Create(client *gophercloud.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToSecurityServiceCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createURL(client), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createURL(client), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
 }
 
 // Delete will delete the existing SecurityService with the provided ID.
-func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteURL(client, id), nil)
 	return
 }
@@ -100,12 +100,12 @@ type ListOpts struct {
 
 // ToSecurityServiceListQuery formats a ListOpts into a query string.
 func (opts ListOpts) ToSecurityServiceListQuery() (string, error) {
-	q, err := gophercloud.BuildQueryString(opts)
+	q, err := golangsdk.BuildQueryString(opts)
 	return q.String(), err
 }
 
 // List returns SecurityServices optionally limited by the conditions provided in ListOpts.
-func List(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pager {
+func List(client *golangsdk.ServiceClient, opts ListOptsBuilder) pagination.Pager {
 	url := listURL(client)
 	if opts != nil {
 		query, err := opts.ToSecurityServiceListQuery()
@@ -122,7 +122,7 @@ func List(client *gophercloud.ServiceClient, opts ListOptsBuilder) pagination.Pa
 
 // Get retrieves the SecurityService with the provided ID. To extract the SecurityService
 // object from the response, call the Extract method on the GetResult.
-func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
+func Get(client *golangsdk.ServiceClient, id string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, id), &r.Body, nil)
 	return
 }
@@ -158,18 +158,18 @@ type UpdateOpts struct {
 // ToSecurityServiceUpdateMap assembles a request body based on the contents of an
 // UpdateOpts.
 func (opts UpdateOpts) ToSecurityServiceUpdateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "security_service")
+	return golangsdk.BuildRequestBody(opts, "security_service")
 }
 
 // Update will update the SecurityService with provided information. To extract the updated
 // SecurityService from the response, call the Extract method on the UpdateResult.
-func Update(client *gophercloud.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
+func Update(client *golangsdk.ServiceClient, id string, opts UpdateOptsBuilder) (r UpdateResult) {
 	b, err := opts.ToSecurityServiceUpdateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Put(updateURL(client, id), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Put(updateURL(client, id), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return

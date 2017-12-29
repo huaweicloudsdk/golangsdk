@@ -1,7 +1,7 @@
 package external
 
 import (
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/networks"
 )
 
 // CreateOptsExt is the structure used when creating new external network

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/configurations"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/configurations"
 )
 
 var (
 	timestamp  = "2015-11-12T14:22:42"
-	timeVal, _ = time.Parse(gophercloud.RFC3339NoZ, timestamp)
+	timeVal, _ = time.Parse(golangsdk.RFC3339NoZ, timestamp)
 )
 
 var singleConfigJSON = `

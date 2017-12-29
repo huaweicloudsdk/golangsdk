@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract interprets a GetResult, CreateResult or UpdateResult as a RecordSet.
@@ -46,7 +46,7 @@ type UpdateResult struct {
 // DeleteResult is result of a Delete operation. Call its ExtractErr method to
 // determine if the operation succeeded or failed.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // IsEmpty returns true if the page contains no results.
@@ -111,15 +111,15 @@ type RecordSet struct {
 	// Links includes HTTP references to the itself,
 	// useful for passing along to other APIs that might want a recordset
 	// reference.
-	Links []gophercloud.Link `json:"-"`
+	Links []golangsdk.Link `json:"-"`
 }
 
 func (r *RecordSet) UnmarshalJSON(b []byte) error {
 	type tmp RecordSet
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
 		Links     map[string]interface{}          `json:"links"`
 	}
 	err := json.Unmarshal(b, &s)
@@ -134,7 +134,7 @@ func (r *RecordSet) UnmarshalJSON(b []byte) error {
 	if s.Links != nil {
 		for rel, href := range s.Links {
 			if v, ok := href.(string); ok {
-				link := gophercloud.Link{
+				link := golangsdk.Link{
 					Rel:  rel,
 					Href: v,
 				}

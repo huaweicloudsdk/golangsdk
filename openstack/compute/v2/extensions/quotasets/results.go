@@ -1,8 +1,8 @@
 package quotasets
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // QuotaSet is a set of operational limits that allow for control of compute
@@ -142,7 +142,7 @@ func ExtractQuotaSets(r pagination.Page) ([]QuotaSet, error) {
 }
 
 type quotaResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is a method that attempts to interpret any QuotaSet resource response
@@ -174,7 +174,7 @@ type DeleteResult struct {
 }
 
 type quotaDetailResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // GetDetailResult is the response from a Get operation. Call its Extract

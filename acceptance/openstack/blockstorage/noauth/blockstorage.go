@@ -6,16 +6,16 @@ package noauth
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/v2/snapshots"
-	"github.com/gophercloud/gophercloud/openstack/blockstorage/v2/volumes"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v2/snapshots"
+	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v2/volumes"
 )
 
 // CreateVolume will create a volume with a random name and size of 1GB. An
 // error will be returned if the volume was unable to be created.
-func CreateVolume(t *testing.T, client *gophercloud.ServiceClient) (*volumes.Volume, error) {
+func CreateVolume(t *testing.T, client *golangsdk.ServiceClient) (*volumes.Volume, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume creation in short mode.")
 	}
@@ -43,7 +43,7 @@ func CreateVolume(t *testing.T, client *gophercloud.ServiceClient) (*volumes.Vol
 
 // CreateVolumeFromImage will create a volume from with a random name and size of
 // 1GB. An error will be returned if the volume was unable to be created.
-func CreateVolumeFromImage(t *testing.T, client *gophercloud.ServiceClient) (*volumes.Volume, error) {
+func CreateVolumeFromImage(t *testing.T, client *golangsdk.ServiceClient) (*volumes.Volume, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires volume creation in short mode.")
 	}
@@ -77,7 +77,7 @@ func CreateVolumeFromImage(t *testing.T, client *gophercloud.ServiceClient) (*vo
 
 // DeleteVolume will delete a volume. A fatal error will occur if the volume
 // failed to be deleted. This works best when used as a deferred function.
-func DeleteVolume(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) {
+func DeleteVolume(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) {
 	err := volumes.Delete(client, volume.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete volume %s: %v", volume.ID, err)
@@ -88,7 +88,7 @@ func DeleteVolume(t *testing.T, client *gophercloud.ServiceClient, volume *volum
 
 // CreateSnapshot will create a snapshot of the specified volume.
 // Snapshot will be assigned a random name and description.
-func CreateSnapshot(t *testing.T, client *gophercloud.ServiceClient, volume *volumes.Volume) (*snapshots.Snapshot, error) {
+func CreateSnapshot(t *testing.T, client *golangsdk.ServiceClient, volume *volumes.Volume) (*snapshots.Snapshot, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requires snapshot creation in short mode.")
 	}
@@ -118,7 +118,7 @@ func CreateSnapshot(t *testing.T, client *gophercloud.ServiceClient, volume *vol
 
 // DeleteSnapshot will delete a snapshot. A fatal error will occur if the
 // snapshot failed to be deleted.
-func DeleteSnapshot(t *testing.T, client *gophercloud.ServiceClient, snapshot *snapshots.Snapshot) {
+func DeleteSnapshot(t *testing.T, client *golangsdk.ServiceClient, snapshot *snapshots.Snapshot) {
 	err := snapshots.Delete(client, snapshot.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete snapshot %s: %+v", snapshot.ID, err)
@@ -126,7 +126,7 @@ func DeleteSnapshot(t *testing.T, client *gophercloud.ServiceClient, snapshot *s
 
 	// Volumes can't be deleted until their snapshots have been,
 	// so block up to 120 seconds for the snapshot to delete.
-	err = gophercloud.WaitFor(120, func() (bool, error) {
+	err = golangsdk.WaitFor(120, func() (bool, error) {
 		_, err := snapshots.Get(client, snapshot.ID).Extract()
 		if err != nil {
 			return true, nil

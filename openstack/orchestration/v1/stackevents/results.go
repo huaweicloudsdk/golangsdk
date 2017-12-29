@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Event represents a stack event.
@@ -15,7 +15,7 @@ type Event struct {
 	// The time the event occurred.
 	Time time.Time `json:"-"`
 	// The URLs to the event.
-	Links []gophercloud.Link `json:"links"`
+	Links []golangsdk.Link `json:"links"`
 	// The logical ID of the stack resource.
 	LogicalResourceID string `json:"logical_resource_id"`
 	// The reason of the status of the event.
@@ -34,7 +34,7 @@ func (r *Event) UnmarshalJSON(b []byte) error {
 	type tmp Event
 	var s struct {
 		tmp
-		Time gophercloud.JSONRFC3339NoZ `json:"event_time"`
+		Time golangsdk.JSONRFC3339NoZ `json:"event_time"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -50,7 +50,7 @@ func (r *Event) UnmarshalJSON(b []byte) error {
 
 // FindResult represents the result of a Find operation.
 type FindResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a slice of Event objects and is called after a
@@ -105,7 +105,7 @@ func ExtractResourceEvents(page pagination.Page) ([]Event, error) {
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract returns a pointer to an Event object and is called after a

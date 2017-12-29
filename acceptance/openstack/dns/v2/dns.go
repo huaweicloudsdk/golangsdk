@@ -3,15 +3,15 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/dns/v2/recordsets"
-	"github.com/gophercloud/gophercloud/openstack/dns/v2/zones"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/dns/v2/recordsets"
+	"github.com/huaweicloudsdk/golangsdk/openstack/dns/v2/zones"
 )
 
 // CreateRecordSet will create a RecordSet with a random name. An error will
 // be returned if the zone was unable to be created.
-func CreateRecordSet(t *testing.T, client *gophercloud.ServiceClient, zone *zones.Zone) (*recordsets.RecordSet, error) {
+func CreateRecordSet(t *testing.T, client *golangsdk.ServiceClient, zone *zones.Zone) (*recordsets.RecordSet, error) {
 	t.Logf("Attempting to create recordset: %s", zone.Name)
 
 	createOpts := recordsets.CreateOpts{
@@ -43,7 +43,7 @@ func CreateRecordSet(t *testing.T, client *gophercloud.ServiceClient, zone *zone
 
 // CreateZone will create a Zone with a random name. An error will
 // be returned if the zone was unable to be created.
-func CreateZone(t *testing.T, client *gophercloud.ServiceClient) (*zones.Zone, error) {
+func CreateZone(t *testing.T, client *golangsdk.ServiceClient) (*zones.Zone, error) {
 	zoneName := tools.RandomString("ACPTTEST", 8) + ".com."
 
 	t.Logf("Attempting to create zone: %s", zoneName)
@@ -77,7 +77,7 @@ func CreateZone(t *testing.T, client *gophercloud.ServiceClient) (*zones.Zone, e
 // be returned if the zone was unable to be created.
 //
 // This is only for example purposes as it will try to do a zone transfer.
-func CreateSecondaryZone(t *testing.T, client *gophercloud.ServiceClient) (*zones.Zone, error) {
+func CreateSecondaryZone(t *testing.T, client *golangsdk.ServiceClient) (*zones.Zone, error) {
 	zoneName := tools.RandomString("ACPTTEST", 8) + ".com."
 
 	t.Logf("Attempting to create zone: %s", zoneName)
@@ -108,7 +108,7 @@ func CreateSecondaryZone(t *testing.T, client *gophercloud.ServiceClient) (*zone
 // DeleteRecordSet will delete a specified record set. A fatal error will occur if
 // the record set failed to be deleted. This works best when used as a deferred
 // function.
-func DeleteRecordSet(t *testing.T, client *gophercloud.ServiceClient, rs *recordsets.RecordSet) {
+func DeleteRecordSet(t *testing.T, client *golangsdk.ServiceClient, rs *recordsets.RecordSet) {
 	err := recordsets.Delete(client, rs.ZoneID, rs.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete record set %s: %v", rs.ID, err)
@@ -120,7 +120,7 @@ func DeleteRecordSet(t *testing.T, client *gophercloud.ServiceClient, rs *record
 // DeleteZone will delete a specified zone. A fatal error will occur if
 // the zone failed to be deleted. This works best when used as a deferred
 // function.
-func DeleteZone(t *testing.T, client *gophercloud.ServiceClient, zone *zones.Zone) {
+func DeleteZone(t *testing.T, client *golangsdk.ServiceClient, zone *zones.Zone) {
 	_, err := zones.Delete(client, zone.ID).Extract()
 	if err != nil {
 		t.Fatalf("Unable to delete zone %s: %v", zone.ID, err)
@@ -131,8 +131,8 @@ func DeleteZone(t *testing.T, client *gophercloud.ServiceClient, zone *zones.Zon
 
 // WaitForRecordSetStatus will poll a record set's status until it either matches
 // the specified status or the status becomes ERROR.
-func WaitForRecordSetStatus(client *gophercloud.ServiceClient, rs *recordsets.RecordSet, status string) error {
-	return gophercloud.WaitFor(60, func() (bool, error) {
+func WaitForRecordSetStatus(client *golangsdk.ServiceClient, rs *recordsets.RecordSet, status string) error {
+	return golangsdk.WaitFor(60, func() (bool, error) {
 		current, err := recordsets.Get(client, rs.ZoneID, rs.ID).Extract()
 		if err != nil {
 			return false, err
@@ -148,8 +148,8 @@ func WaitForRecordSetStatus(client *gophercloud.ServiceClient, rs *recordsets.Re
 
 // WaitForZoneStatus will poll a zone's status until it either matches
 // the specified status or the status becomes ERROR.
-func WaitForZoneStatus(client *gophercloud.ServiceClient, zone *zones.Zone, status string) error {
-	return gophercloud.WaitFor(60, func() (bool, error) {
+func WaitForZoneStatus(client *golangsdk.ServiceClient, zone *zones.Zone, status string) error {
+	return golangsdk.WaitFor(60, func() (bool, error) {
 		current, err := zones.Get(client, zone.ID).Extract()
 		if err != nil {
 			return false, err

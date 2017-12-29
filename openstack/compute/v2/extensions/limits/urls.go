@@ -1,11 +1,11 @@
 package limits
 
 import (
-	"github.com/gophercloud/gophercloud"
+	"github.com/huaweicloudsdk/golangsdk"
 )
 
 const resourcePath = "limits"
 
-func getURL(c *gophercloud.ServiceClient) string {
+func getURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL(resourcePath)
 }

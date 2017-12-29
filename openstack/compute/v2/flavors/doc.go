@@ -31,7 +31,7 @@ Example to Create a Flavor
 	createOpts := flavors.CreateOpts{
 		ID:         "1",
 		Name:       "m1.tiny",
-		Disk:       gophercloud.IntToPointer(1),
+		Disk:       golangsdk.IntToPointer(1),
 		RAM:        512,
 		VCPUs:      1,
 		RxTxFactor: 1.0,

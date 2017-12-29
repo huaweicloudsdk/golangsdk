@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/shares"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
+	"github.com/huaweicloudsdk/golangsdk/openstack/sharedfilesystems/v2/shares"
 )
 
 // CreateShare will create a share with a name, and a size of 1Gb. An
 // error will be returned if the share could not be created
-func CreateShare(t *testing.T, client *gophercloud.ServiceClient) (*shares.Share, error) {
+func CreateShare(t *testing.T, client *golangsdk.ServiceClient) (*shares.Share, error) {
 	if testing.Short() {
 		t.Skip("Skipping test that requres share creation in short mode.")
 	}
@@ -45,7 +45,7 @@ func CreateShare(t *testing.T, client *gophercloud.ServiceClient) (*shares.Share
 
 // DeleteShare will delete a share. A fatal error will occur if the share
 // failed to be deleted. This works best when used as a deferred function.
-func DeleteShare(t *testing.T, client *gophercloud.ServiceClient, share *shares.Share) {
+func DeleteShare(t *testing.T, client *golangsdk.ServiceClient, share *shares.Share) {
 	err := shares.Delete(client, share.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete share %s: %v", share.ID, err)
@@ -64,8 +64,8 @@ func PrintShare(t *testing.T, share *shares.Share) {
 	t.Logf("Share %s", string(asJSON))
 }
 
-func waitForStatus(c *gophercloud.ServiceClient, id, status string, secs int) error {
-	return gophercloud.WaitFor(secs, func() (bool, error) {
+func waitForStatus(c *golangsdk.ServiceClient, id, status string, secs int) error {
+	return golangsdk.WaitFor(secs, func() (bool, error) {
 		current, err := shares.Get(c, id).Extract()
 		if err != nil {
 			return false, err

@@ -1,11 +1,11 @@
 package accounts
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func getURL(c *gophercloud.ServiceClient) string {
+func getURL(c *golangsdk.ServiceClient) string {
 	return c.Endpoint
 }
 
-func updateURL(c *gophercloud.ServiceClient) string {
+func updateURL(c *golangsdk.ServiceClient) string {
 	return getURL(c)
 }

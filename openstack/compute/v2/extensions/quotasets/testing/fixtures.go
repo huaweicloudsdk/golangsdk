@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/quotasets"
-	th "github.com/gophercloud/gophercloud/testhelper"
-	"github.com/gophercloud/gophercloud/testhelper/client"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/compute/v2/extensions/quotasets"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
+	"github.com/huaweicloudsdk/golangsdk/testhelper/client"
 )
 
 // GetOutput is a sample response to a Get call.
@@ -144,20 +144,20 @@ const PartialUpdateBody = `{"quota_set":{"cores":200, "force":true}}`
 
 //Result of Quota-update
 var UpdatedQuotaSet = quotasets.UpdateOpts{
-	FixedIPs:                 gophercloud.IntToPointer(0),
-	FloatingIPs:              gophercloud.IntToPointer(0),
-	InjectedFileContentBytes: gophercloud.IntToPointer(10240),
-	InjectedFilePathBytes:    gophercloud.IntToPointer(255),
-	InjectedFiles:            gophercloud.IntToPointer(5),
-	KeyPairs:                 gophercloud.IntToPointer(10),
-	MetadataItems:            gophercloud.IntToPointer(128),
-	RAM:                      gophercloud.IntToPointer(200000),
-	SecurityGroupRules:       gophercloud.IntToPointer(20),
-	SecurityGroups:           gophercloud.IntToPointer(10),
-	Cores:                    gophercloud.IntToPointer(200),
-	Instances:                gophercloud.IntToPointer(25),
-	ServerGroups:             gophercloud.IntToPointer(2),
-	ServerGroupMembers:       gophercloud.IntToPointer(3),
+	FixedIPs:                 golangsdk.IntToPointer(0),
+	FloatingIPs:              golangsdk.IntToPointer(0),
+	InjectedFileContentBytes: golangsdk.IntToPointer(10240),
+	InjectedFilePathBytes:    golangsdk.IntToPointer(255),
+	InjectedFiles:            golangsdk.IntToPointer(5),
+	KeyPairs:                 golangsdk.IntToPointer(10),
+	MetadataItems:            golangsdk.IntToPointer(128),
+	RAM:                      golangsdk.IntToPointer(200000),
+	SecurityGroupRules:       golangsdk.IntToPointer(20),
+	SecurityGroups:           golangsdk.IntToPointer(10),
+	Cores:                    golangsdk.IntToPointer(200),
+	Instances:                golangsdk.IntToPointer(25),
+	ServerGroups:             golangsdk.IntToPointer(2),
+	ServerGroupMembers:       golangsdk.IntToPointer(3),
 }
 
 // HandleGetSuccessfully configures the test server to respond to a Get request for sample tenant

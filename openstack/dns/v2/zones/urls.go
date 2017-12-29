@@ -1,11 +1,11 @@
 package zones
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func baseURL(c *gophercloud.ServiceClient) string {
+func baseURL(c *golangsdk.ServiceClient) string {
 	return c.ServiceURL("zones")
 }
 
-func zoneURL(c *gophercloud.ServiceClient, zoneID string) string {
+func zoneURL(c *golangsdk.ServiceClient, zoneID string) string {
 	return c.ServiceURL("zones", zoneID)
 }

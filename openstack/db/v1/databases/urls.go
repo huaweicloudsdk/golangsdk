@@ -1,11 +1,11 @@
 package databases
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func baseURL(c *gophercloud.ServiceClient, instanceID string) string {
+func baseURL(c *golangsdk.ServiceClient, instanceID string) string {
 	return c.ServiceURL("instances", instanceID, "databases")
 }
 
-func dbURL(c *gophercloud.ServiceClient, instanceID, dbName string) string {
+func dbURL(c *golangsdk.ServiceClient, instanceID, dbName string) string {
 	return c.ServiceURL("instances", instanceID, "databases", dbName)
 }

@@ -1,20 +1,20 @@
 package attachinterfaces
 
 import (
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // List makes a request against the nova API to list the server's interfaces.
-func List(client *gophercloud.ServiceClient, serverID string) pagination.Pager {
+func List(client *golangsdk.ServiceClient, serverID string) pagination.Pager {
 	return pagination.NewPager(client, listInterfaceURL(client, serverID), func(r pagination.PageResult) pagination.Page {
 		return InterfacePage{pagination.SinglePageBase(r)}
 	})
 }
 
 // Get requests details on a single interface attachment by the server and port IDs.
-func Get(client *gophercloud.ServiceClient, serverID, portID string) (r GetResult) {
-	_, r.Err = client.Get(getInterfaceURL(client, serverID, portID), &r.Body, &gophercloud.RequestOpts{
+func Get(client *golangsdk.ServiceClient, serverID, portID string) (r GetResult) {
+	_, r.Err = client.Get(getInterfaceURL(client, serverID, portID), &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -48,17 +48,17 @@ type CreateOpts struct {
 
 // ToAttachInterfacesCreateMap constructs a request body from CreateOpts.
 func (opts CreateOpts) ToAttachInterfacesCreateMap() (map[string]interface{}, error) {
-	return gophercloud.BuildRequestBody(opts, "interfaceAttachment")
+	return golangsdk.BuildRequestBody(opts, "interfaceAttachment")
 }
 
 // Create requests the creation of a new interface attachment on the server.
-func Create(client *gophercloud.ServiceClient, serverID string, opts CreateOptsBuilder) (r CreateResult) {
+func Create(client *golangsdk.ServiceClient, serverID string, opts CreateOptsBuilder) (r CreateResult) {
 	b, err := opts.ToAttachInterfacesCreateMap()
 	if err != nil {
 		r.Err = err
 		return
 	}
-	_, r.Err = client.Post(createInterfaceURL(client, serverID), b, &r.Body, &gophercloud.RequestOpts{
+	_, r.Err = client.Post(createInterfaceURL(client, serverID), b, &r.Body, &golangsdk.RequestOpts{
 		OkCodes: []int{200},
 	})
 	return
@@ -66,7 +66,7 @@ func Create(client *gophercloud.ServiceClient, serverID string, opts CreateOptsB
 
 // Delete makes a request against the nova API to detach a single interface from the server.
 // It needs server and port IDs to make a such request.
-func Delete(client *gophercloud.ServiceClient, serverID, portID string) (r DeleteResult) {
+func Delete(client *golangsdk.ServiceClient, serverID, portID string) (r DeleteResult) {
 	_, r.Err = client.Delete(deleteInterfaceURL(client, serverID, portID), nil)
 	return
 }

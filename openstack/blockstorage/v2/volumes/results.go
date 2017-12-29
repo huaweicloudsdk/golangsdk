@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 type Attachment struct {
@@ -22,7 +22,7 @@ func (r *Attachment) UnmarshalJSON(b []byte) error {
 	type tmp Attachment
 	var s struct {
 		tmp
-		AttachedAt gophercloud.JSONRFC3339MilliNoZ `json:"attached_at"`
+		AttachedAt golangsdk.JSONRFC3339MilliNoZ `json:"attached_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -81,8 +81,8 @@ func (r *Volume) UnmarshalJSON(b []byte) error {
 	type tmp Volume
 	var s struct {
 		tmp
-		CreatedAt gophercloud.JSONRFC3339MilliNoZ `json:"created_at"`
-		UpdatedAt gophercloud.JSONRFC3339MilliNoZ `json:"updated_at"`
+		CreatedAt golangsdk.JSONRFC3339MilliNoZ `json:"created_at"`
+		UpdatedAt golangsdk.JSONRFC3339MilliNoZ `json:"updated_at"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -115,7 +115,7 @@ func ExtractVolumes(r pagination.Page) ([]Volume, error) {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will get the Volume object out of the commonResult object.
@@ -150,5 +150,5 @@ type UpdateResult struct {
 
 // DeleteResult contains the response body and error from a Delete request.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }

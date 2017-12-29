@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/ports"
-	"github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/networks"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/ports"
+	"github.com/huaweicloudsdk/golangsdk/openstack/networking/v2/subnets"
 )
 
 // CreateNetwork will create basic network. An error will be returned if the
 // network could not be created.
-func CreateNetwork(t *testing.T, client *gophercloud.ServiceClient) (*networks.Network, error) {
+func CreateNetwork(t *testing.T, client *golangsdk.ServiceClient) (*networks.Network, error) {
 	networkName := tools.RandomString("TESTACC-", 8)
 	createOpts := networks.CreateOpts{
 		Name:         networkName,
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 	}
 
 	t.Logf("Attempting to create network: %s", networkName)
@@ -33,7 +33,7 @@ func CreateNetwork(t *testing.T, client *gophercloud.ServiceClient) (*networks.N
 
 // CreatePort will create a port on the specified subnet. An error will be
 // returned if the port could not be created.
-func CreatePort(t *testing.T, client *gophercloud.ServiceClient, networkID, subnetID string) (*ports.Port, error) {
+func CreatePort(t *testing.T, client *golangsdk.ServiceClient, networkID, subnetID string) (*ports.Port, error) {
 	portName := tools.RandomString("TESTACC-", 8)
 
 	t.Logf("Attempting to create port: %s", portName)
@@ -41,7 +41,7 @@ func CreatePort(t *testing.T, client *gophercloud.ServiceClient, networkID, subn
 	createOpts := ports.CreateOpts{
 		NetworkID:    networkID,
 		Name:         portName,
-		AdminStateUp: gophercloud.Enabled,
+		AdminStateUp: golangsdk.Enabled,
 		FixedIPs:     []ports.IP{ports.IP{SubnetID: subnetID}},
 	}
 
@@ -66,7 +66,7 @@ func CreatePort(t *testing.T, client *gophercloud.ServiceClient, networkID, subn
 
 // CreatePortWithNoSecurityGroup will create a port with no security group
 // attached. An error will be returned if the port could not be created.
-func CreatePortWithNoSecurityGroup(t *testing.T, client *gophercloud.ServiceClient, networkID, subnetID string) (*ports.Port, error) {
+func CreatePortWithNoSecurityGroup(t *testing.T, client *golangsdk.ServiceClient, networkID, subnetID string) (*ports.Port, error) {
 	portName := tools.RandomString("TESTACC-", 8)
 	iFalse := false
 
@@ -101,7 +101,7 @@ func CreatePortWithNoSecurityGroup(t *testing.T, client *gophercloud.ServiceClie
 
 // CreateSubnet will create a subnet on the specified Network ID. An error
 // will be returned if the subnet could not be created.
-func CreateSubnet(t *testing.T, client *gophercloud.ServiceClient, networkID string) (*subnets.Subnet, error) {
+func CreateSubnet(t *testing.T, client *golangsdk.ServiceClient, networkID string) (*subnets.Subnet, error) {
 	subnetName := tools.RandomString("TESTACC-", 8)
 	subnetOctet := tools.RandomInt(1, 250)
 	subnetCIDR := fmt.Sprintf("192.168.%d.0/24", subnetOctet)
@@ -111,7 +111,7 @@ func CreateSubnet(t *testing.T, client *gophercloud.ServiceClient, networkID str
 		CIDR:       subnetCIDR,
 		IPVersion:  4,
 		Name:       subnetName,
-		EnableDHCP: gophercloud.Disabled,
+		EnableDHCP: golangsdk.Disabled,
 		GatewayIP:  &subnetGateway,
 	}
 
@@ -129,7 +129,7 @@ func CreateSubnet(t *testing.T, client *gophercloud.ServiceClient, networkID str
 // CreateSubnetWithDefaultGateway will create a subnet on the specified Network
 // ID and have Neutron set the gateway by default An error will be returned if
 // the subnet could not be created.
-func CreateSubnetWithDefaultGateway(t *testing.T, client *gophercloud.ServiceClient, networkID string) (*subnets.Subnet, error) {
+func CreateSubnetWithDefaultGateway(t *testing.T, client *golangsdk.ServiceClient, networkID string) (*subnets.Subnet, error) {
 	subnetName := tools.RandomString("TESTACC-", 8)
 	subnetOctet := tools.RandomInt(1, 250)
 	subnetCIDR := fmt.Sprintf("192.168.%d.0/24", subnetOctet)
@@ -138,7 +138,7 @@ func CreateSubnetWithDefaultGateway(t *testing.T, client *gophercloud.ServiceCli
 		CIDR:       subnetCIDR,
 		IPVersion:  4,
 		Name:       subnetName,
-		EnableDHCP: gophercloud.Disabled,
+		EnableDHCP: golangsdk.Disabled,
 	}
 
 	t.Logf("Attempting to create subnet: %s", subnetName)
@@ -155,7 +155,7 @@ func CreateSubnetWithDefaultGateway(t *testing.T, client *gophercloud.ServiceCli
 // CreateSubnetWithNoGateway will create a subnet with no gateway on the
 // specified Network ID.  An error will be returned if the subnet could not be
 // created.
-func CreateSubnetWithNoGateway(t *testing.T, client *gophercloud.ServiceClient, networkID string) (*subnets.Subnet, error) {
+func CreateSubnetWithNoGateway(t *testing.T, client *golangsdk.ServiceClient, networkID string) (*subnets.Subnet, error) {
 	var noGateway = ""
 	subnetName := tools.RandomString("TESTACC-", 8)
 	subnetOctet := tools.RandomInt(1, 250)
@@ -167,7 +167,7 @@ func CreateSubnetWithNoGateway(t *testing.T, client *gophercloud.ServiceClient, 
 		CIDR:       subnetCIDR,
 		IPVersion:  4,
 		Name:       subnetName,
-		EnableDHCP: gophercloud.Disabled,
+		EnableDHCP: golangsdk.Disabled,
 		GatewayIP:  &noGateway,
 		AllocationPools: []subnets.AllocationPool{
 			{
@@ -191,7 +191,7 @@ func CreateSubnetWithNoGateway(t *testing.T, client *gophercloud.ServiceClient, 
 // DeleteNetwork will delete a network with a specified ID. A fatal error will
 // occur if the delete was not successful. This works best when used as a
 // deferred function.
-func DeleteNetwork(t *testing.T, client *gophercloud.ServiceClient, networkID string) {
+func DeleteNetwork(t *testing.T, client *golangsdk.ServiceClient, networkID string) {
 	t.Logf("Attempting to delete network: %s", networkID)
 
 	err := networks.Delete(client, networkID).ExtractErr()
@@ -205,7 +205,7 @@ func DeleteNetwork(t *testing.T, client *gophercloud.ServiceClient, networkID st
 // DeletePort will delete a port with a specified ID. A fatal error will
 // occur if the delete was not successful. This works best when used as a
 // deferred function.
-func DeletePort(t *testing.T, client *gophercloud.ServiceClient, portID string) {
+func DeletePort(t *testing.T, client *golangsdk.ServiceClient, portID string) {
 	t.Logf("Attempting to delete port: %s", portID)
 
 	err := ports.Delete(client, portID).ExtractErr()
@@ -219,7 +219,7 @@ func DeletePort(t *testing.T, client *gophercloud.ServiceClient, portID string) 
 // DeleteSubnet will delete a subnet with a specified ID. A fatal error will
 // occur if the delete was not successful. This works best when used as a
 // deferred function.
-func DeleteSubnet(t *testing.T, client *gophercloud.ServiceClient, subnetID string) {
+func DeleteSubnet(t *testing.T, client *golangsdk.ServiceClient, subnetID string) {
 	t.Logf("Attempting to delete subnet: %s", subnetID)
 
 	err := subnets.Delete(client, subnetID).ExtractErr()
@@ -230,8 +230,8 @@ func DeleteSubnet(t *testing.T, client *gophercloud.ServiceClient, subnetID stri
 	t.Logf("Deleted subnet: %s", subnetID)
 }
 
-func WaitForPortToCreate(client *gophercloud.ServiceClient, portID string, secs int) error {
-	return gophercloud.WaitFor(secs, func() (bool, error) {
+func WaitForPortToCreate(client *golangsdk.ServiceClient, portID string, secs int) error {
+	return golangsdk.WaitFor(secs, func() (bool, error) {
 		p, err := ports.Get(client, portID).Extract()
 		if err != nil {
 			return false, err

@@ -1,11 +1,11 @@
 package users
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func baseURL(c *gophercloud.ServiceClient, instanceID string) string {
+func baseURL(c *golangsdk.ServiceClient, instanceID string) string {
 	return c.ServiceURL("instances", instanceID, "users")
 }
 
-func userURL(c *gophercloud.ServiceClient, instanceID, userName string) string {
+func userURL(c *golangsdk.ServiceClient, instanceID, userName string) string {
 	return c.ServiceURL("instances", instanceID, "users", userName)
 }

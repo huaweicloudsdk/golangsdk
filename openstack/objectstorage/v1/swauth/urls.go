@@ -1,7 +1,7 @@
 package swauth
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func getURL(c *gophercloud.ProviderClient) string {
+func getURL(c *golangsdk.ProviderClient) string {
 	return c.IdentityBase + "auth/v1.0"
 }

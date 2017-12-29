@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/datastores"
-	"github.com/gophercloud/gophercloud/openstack/db/v1/users"
-	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/datastores"
+	"github.com/huaweicloudsdk/golangsdk/openstack/db/v1/users"
+	"github.com/huaweicloudsdk/golangsdk/pagination"
 )
 
 // Volume represents information about an attached volume for a database instance.
@@ -23,7 +23,7 @@ type Flavor struct {
 	// The flavor's unique identifier.
 	ID string
 	// Links to access the flavor.
-	Links []gophercloud.Link
+	Links []golangsdk.Link
 }
 
 // Instance represents a remote MySQL instance.
@@ -53,7 +53,7 @@ type Instance struct {
 	ID string
 
 	// Exposes various links that reference the instance resource.
-	Links []gophercloud.Link
+	Links []golangsdk.Link
 
 	// The human-readable name of the instance.
 	Name string
@@ -72,8 +72,8 @@ func (r *Instance) UnmarshalJSON(b []byte) error {
 	type tmp Instance
 	var s struct {
 		tmp
-		Created gophercloud.JSONRFC3339NoZ `json:"created"`
-		Updated gophercloud.JSONRFC3339NoZ `json:"updated"`
+		Created golangsdk.JSONRFC3339NoZ `json:"created"`
+		Updated golangsdk.JSONRFC3339NoZ `json:"updated"`
 	}
 	err := json.Unmarshal(b, &s)
 	if err != nil {
@@ -88,7 +88,7 @@ func (r *Instance) UnmarshalJSON(b []byte) error {
 }
 
 type commonResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // CreateResult represents the result of a Create operation.
@@ -103,12 +103,12 @@ type GetResult struct {
 
 // DeleteResult represents the result of a Delete operation.
 type DeleteResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // ConfigurationResult represents the result of a AttachConfigurationGroup/DetachConfigurationGroup operation.
 type ConfigurationResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // Extract will extract an Instance from various result structs.
@@ -134,13 +134,13 @@ func (page InstancePage) IsEmpty() (bool, error) {
 // NextPageURL will retrieve the next page URL.
 func (page InstancePage) NextPageURL() (string, error) {
 	var s struct {
-		Links []gophercloud.Link `json:"instances_links"`
+		Links []golangsdk.Link `json:"instances_links"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
 		return "", err
 	}
-	return gophercloud.ExtractNextURL(s.Links)
+	return golangsdk.ExtractNextURL(s.Links)
 }
 
 // ExtractInstances will convert a generic pagination struct into a more
@@ -155,7 +155,7 @@ func ExtractInstances(r pagination.Page) ([]Instance, error) {
 
 // EnableRootUserResult represents the result of an operation to enable the root user.
 type EnableRootUserResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract will extract root user information from a UserRootResult.
@@ -171,13 +171,13 @@ func (r EnableRootUserResult) Extract() (*users.User, error) {
 // an instance service, resizing its memory allocation, and resizing its
 // attached volume size.
 type ActionResult struct {
-	gophercloud.ErrResult
+	golangsdk.ErrResult
 }
 
 // IsRootEnabledResult is the result of a call to IsRootEnabled. To see if
 // root is enabled, call the type's Extract method.
 type IsRootEnabledResult struct {
-	gophercloud.Result
+	golangsdk.Result
 }
 
 // Extract is used to extract the data from a IsRootEnabledResult.

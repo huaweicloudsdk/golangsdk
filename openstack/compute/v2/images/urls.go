@@ -1,15 +1,15 @@
 package images
 
-import "github.com/gophercloud/gophercloud"
+import "github.com/huaweicloudsdk/golangsdk"
 
-func listDetailURL(client *gophercloud.ServiceClient) string {
+func listDetailURL(client *golangsdk.ServiceClient) string {
 	return client.ServiceURL("images", "detail")
 }
 
-func getURL(client *gophercloud.ServiceClient, id string) string {
+func getURL(client *golangsdk.ServiceClient, id string) string {
 	return client.ServiceURL("images", id)
 }
 
-func deleteURL(client *gophercloud.ServiceClient, id string) string {
+func deleteURL(client *golangsdk.ServiceClient, id string) string {
 	return client.ServiceURL("images", id)
 }

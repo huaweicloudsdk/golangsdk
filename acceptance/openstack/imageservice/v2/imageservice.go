@@ -5,14 +5,14 @@ package v2
 import (
 	"testing"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
-	"github.com/gophercloud/gophercloud/openstack/imageservice/v2/images"
+	"github.com/huaweicloudsdk/golangsdk"
+	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
+	"github.com/huaweicloudsdk/golangsdk/openstack/imageservice/v2/images"
 )
 
 // CreateEmptyImage will create an image, but with no actual image data.
 // An error will be returned if an image was unable to be created.
-func CreateEmptyImage(t *testing.T, client *gophercloud.ServiceClient) (*images.Image, error) {
+func CreateEmptyImage(t *testing.T, client *golangsdk.ServiceClient) (*images.Image, error) {
 	var image *images.Image
 
 	name := tools.RandomString("ACPTTEST", 16)
@@ -45,7 +45,7 @@ func CreateEmptyImage(t *testing.T, client *gophercloud.ServiceClient) (*images.
 // DeleteImage deletes an image.
 // A fatal error will occur if the image failed to delete. This works best when
 // used as a deferred function.
-func DeleteImage(t *testing.T, client *gophercloud.ServiceClient, image *images.Image) {
+func DeleteImage(t *testing.T, client *golangsdk.ServiceClient, image *images.Image) {
 	err := images.Delete(client, image.ID).ExtractErr()
 	if err != nil {
 		t.Fatalf("Unable to delete image %s: %v", image.ID, err)
