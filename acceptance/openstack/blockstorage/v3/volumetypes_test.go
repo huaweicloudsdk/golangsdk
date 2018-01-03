@@ -8,6 +8,7 @@ import (
 	"github.com/huaweicloudsdk/golangsdk/acceptance/clients"
 	"github.com/huaweicloudsdk/golangsdk/acceptance/tools"
 	"github.com/huaweicloudsdk/golangsdk/openstack/blockstorage/v3/volumetypes"
+	th "github.com/huaweicloudsdk/golangsdk/testhelper"
 )
 
 func TestVolumeTypesList(t *testing.T) {
@@ -45,7 +46,7 @@ func TestVolumeTypesList(t *testing.T) {
 	}
 }
 
-func TestVolumeTypesCreateDestroy(t *testing.T) {
+func TestVolumeTypesCRUD(t *testing.T) {
 	client, err := clients.NewBlockStorageV3Client()
 	if err != nil {
 		t.Fatalf("Unable to create a blockstorage client: %v", err)
@@ -63,7 +64,21 @@ func TestVolumeTypesCreateDestroy(t *testing.T) {
 		t.Fatalf("Unable to create volumetype: %v", err)
 	}
 
+	th.AssertEquals(t, true, vt.IsPublic)
+
 	tools.PrintResource(t, vt)
 
 	defer volumetypes.Delete(client, vt.ID)
+
+	var isPublic = false
+
+	newVT, err := volumetypes.Update(client, vt.ID, volumetypes.UpdateOpts{
+		Name:     "updated_volume_type",
+		IsPublic: &isPublic,
+	}).Extract()
+
+	th.AssertEquals(t, "updated_volume_type", newVT.Name)
+	th.AssertEquals(t, false, newVT.IsPublic)
+
+	tools.PrintResource(t, newVT)
 }

@@ -17,3 +17,7 @@ func createURL(c *golangsdk.ServiceClient) string {
 func deleteURL(c *golangsdk.ServiceClient, id string) string {
 	return c.ServiceURL("types", id)
 }
+
+func updateURL(c *gophercloud.ServiceClient, id string) string {
+	return c.ServiceURL("types", id)
+}
