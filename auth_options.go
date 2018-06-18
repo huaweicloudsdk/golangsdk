@@ -83,6 +83,11 @@ type AuthOptions struct {
 	TokenID string `json:"-"`
 }
 
+// Implements the method of AuthOptionsProvider
+func (opts AuthOptions) GetIdentityEndpoint() string {
+	return opts.IdentityEndpoint
+}
+
 // ToTokenV2CreateMap allows AuthOptions to satisfy the AuthOptionsBuilder
 // interface in the v2 tokens package
 func (opts AuthOptions) ToTokenV2CreateMap() (map[string]interface{}, error) {
