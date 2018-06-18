@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+
+	"github.com/gophercloud/gophercloud/akskSigner"
 )
 
 // DefaultUserAgent is the default User-Agent string set in the request header.
@@ -56,6 +58,9 @@ type ProviderClient struct {
 	// To safely read or write this value, call `Token` or `SetToken`, respectively
 	TokenID string
 
+	// ProjectID is the ID of project to which User is authorized.
+	ProjectID string
+
 	// EndpointLocator describes how this provider discovers the endpoints for
 	// its constituent services.
 	EndpointLocator EndpointLocator
@@ -70,6 +75,10 @@ type ProviderClient struct {
 	// fails with a 401 HTTP response code. This a needed because there may be multiple
 	// authentication functions for different Identity service versions.
 	ReauthFunc func() error
+
+	// AKSKAuthOptions provides the value for AK/SK authentication, it should be nil if you use token authentication,
+	// Otherwise, it must have a value
+	AKSKAuthOptions AKSKAuthOptions
 
 	mut *sync.RWMutex
 
@@ -213,6 +222,10 @@ func (client *ProviderClient) Request(method, url string, options *RequestOpts) 
 	req.Close = true
 
 	prereqtok := req.Header.Get("X-Auth-Token")
+
+	if client.AKSKAuthOptions.AccessKey != "" {
+		signer.Sign(req, client.AKSKAuthOptions.SignOptions)
+	}
 
 	// Issue the request.
 	resp, err := client.HTTPClient.Do(req)

@@ -7,10 +7,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
 	tokens2 "github.com/gophercloud/gophercloud/openstack/identity/v2/tokens"
 	tokens3 "github.com/gophercloud/gophercloud/openstack/identity/v3/tokens"
 	"github.com/gophercloud/gophercloud/openstack/utils"
+	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/openstack/identity/v3/services"
+	"github.com/gophercloud/gophercloud/pagination"
+	"github.com/gophercloud/gophercloud/openstack/identity/v3/endpoints"
 )
 
 const (
@@ -84,8 +87,8 @@ Example:
 		Region: os.Getenv("OS_REGION_NAME"),
 	})
 */
-func AuthenticatedClient(options gophercloud.AuthOptions) (*gophercloud.ProviderClient, error) {
-	client, err := NewClient(options.IdentityEndpoint)
+func AuthenticatedClient(options gophercloud.AuthOptionsProvider) (*gophercloud.ProviderClient, error) {
+	client, err := NewClient(options.GetIdentityEndpoint())
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +102,7 @@ func AuthenticatedClient(options gophercloud.AuthOptions) (*gophercloud.Provider
 
 // Authenticate or re-authenticate against the most recent identity service
 // supported at the provided endpoint.
-func Authenticate(client *gophercloud.ProviderClient, options gophercloud.AuthOptions) error {
+func Authenticate(client *gophercloud.ProviderClient, options gophercloud.AuthOptionsProvider) error {
 	versions := []*utils.Version{
 		{ID: v2, Priority: 20, Suffix: "/v2.0/"},
 		{ID: v3, Priority: 30, Suffix: "/v3/"},
@@ -110,16 +113,107 @@ func Authenticate(client *gophercloud.ProviderClient, options gophercloud.AuthOp
 		return err
 	}
 
-	switch chosen.ID {
-	case v2:
-		return v2auth(client, endpoint, options, gophercloud.EndpointOpts{})
-	case v3:
-		return v3auth(client, endpoint, &options, gophercloud.EndpointOpts{})
-	default:
-		// The switch statement must be out of date from the versions list.
-		return fmt.Errorf("Unrecognized identity version: %s", chosen.ID)
+	authOptions, isTokenAuthOptions := options.(gophercloud.AuthOptions)
+
+	if isTokenAuthOptions {
+		switch chosen.ID {
+		case v2:
+			return v2auth(client, endpoint, authOptions, gophercloud.EndpointOpts{})
+		case v3:
+			return v3auth(client, endpoint, &authOptions, gophercloud.EndpointOpts{})
+		default:
+			// The switch statement must be out of date from the versions list.
+			return fmt.Errorf("Unrecognized identity version: %s", chosen.ID)
+		}
+	} else {
+		akskAuthOptions, isAkSkOptions := options.(gophercloud.AKSKAuthOptions)
+
+		if isAkSkOptions {
+			return v3AKSKAuth(client, endpoint, akskAuthOptions, gophercloud.EndpointOpts{})
+		} else {
+			return fmt.Errorf("Unrecognized auth options provider: %s", reflect.TypeOf(options))
+		}
 	}
 }
+
+
+func getEntryByServiceId(entries []tokens3.CatalogEntry, serviceId string) *tokens3.CatalogEntry {
+	if entries == nil {
+		return nil
+	}
+
+	for idx, _ := range entries {
+		if entries[idx].ID == serviceId {
+			return &entries[idx]
+		}
+	}
+
+	return nil
+}
+
+func v3AKSKAuth(client *gophercloud.ProviderClient, endpoint string, options gophercloud.AKSKAuthOptions, eo gophercloud.EndpointOpts) error {
+	v3Client, err := NewIdentityV3(client, eo)
+	if err != nil {
+		return err
+	}
+
+	if endpoint != "" {
+		v3Client.Endpoint = endpoint
+	}
+
+	v3Client.AKSKAuthOptions = options
+	v3Client.ProjectID = options.ProjectId
+
+	var entries = make([]tokens3.CatalogEntry, 0, 1)
+	services.List(v3Client, services.ListOpts{}).EachPage(func(page pagination.Page) (bool, error) {
+		serviceLst, err := services.ExtractServices(page)
+		if err != nil {
+			return false, err
+		}
+
+		for _, svc := range serviceLst {
+			entry := tokens3.CatalogEntry{
+				Type: svc.Type,
+				Name: svc.Name,
+				ID:   svc.ID,
+			}
+			entries = append(entries, entry)
+		}
+
+		return true, nil
+	})
+
+	endpoints.List(v3Client, endpoints.ListOpts{}).EachPage(func(page pagination.Page) (bool, error) {
+		endpoints, err := endpoints.ExtractEndpoints(page)
+		if err != nil {
+			return false, err
+		}
+
+		for _, endpoint := range endpoints {
+			entry := getEntryByServiceId(entries, endpoint.ServiceID)
+
+			if entry != nil {
+				entry.Endpoints = append(entry.Endpoints, tokens3.Endpoint{
+					URL:       strings.Replace(endpoint.URL, "$(tenant_id)s", options.ProjectId, -1),
+					Region:    endpoint.Region,
+					Interface: string(endpoint.Availability),
+					ID:        endpoint.ID,
+				})
+			}
+		}
+
+		client.EndpointLocator = func(opts gophercloud.EndpointOpts) (string, error) {
+			return V3EndpointURL(&tokens3.ServiceCatalog{
+				Entries: entries,
+			}, opts)
+		}
+
+		return true, nil
+	})
+
+	return nil
+}
+
 
 // AuthenticateV2 explicitly authenticates against the identity v2 endpoint.
 func AuthenticateV2(client *gophercloud.ProviderClient, options gophercloud.AuthOptions, eo gophercloud.EndpointOpts) error {
