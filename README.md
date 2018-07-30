@@ -1,11 +1,12 @@
- It is Go SDK for HUAWEI CLOUD.
+Copyright 2018 Huawei Technologies Co.,Ltd.
 
-Copyright 2017 Huawei
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License.  You may obtain a copy of the
+License at
 
-Copyright 2012-2013 Rackspace, Inc.
-2. Grant of Copyright License. Subject to the terms and conditions of
-copyright license to reproduce, prepare Derivative Works of,
-publicly display, publicly perform, sublicense, and distribute the
-(c) You must retain, in the Source form of any Derivative Works
-You may add Your own copyright statement to Your modifications and
-may provide additional or different license terms and conditions
+  http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations under the License.
